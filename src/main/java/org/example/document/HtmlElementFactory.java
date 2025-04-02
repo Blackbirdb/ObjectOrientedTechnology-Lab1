@@ -7,13 +7,13 @@ public class HtmlElementFactory {
         this.document = document;
     }
 
-    public HtmlElement createElement(String tagName, String id, String textContent) {
+    public HtmlElement createElement(String tagName, String id, String textContent, HtmlElement parent) {
 
         if (document.getElementById(id) != null) {
             throw new IllegalArgumentException("Element with ID " + id + " already exists");
         }
 
-        HtmlElement element = new HtmlElement(tagName, id, textContent, null);
+        HtmlElement element = new HtmlElement(tagName, id, textContent, null, parent);
 
         document.registerElement(element);
 

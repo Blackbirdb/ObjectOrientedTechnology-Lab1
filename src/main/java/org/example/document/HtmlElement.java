@@ -9,12 +9,14 @@ public class HtmlElement extends HtmlNode {
     private final String id;
     private final String textContent;
     private final List<HtmlNode> children;
+    private final HtmlElement parent;
 
-    public HtmlElement(String tagName, String id, String textContent, List<HtmlNode> children) {
+    public HtmlElement(String tagName, String id, String textContent, List<HtmlNode> children, HtmlElement parent) {
         this.tagName = tagName;
         this.id = id;
         this.textContent = textContent;
         this.children = children;
+        this.parent = parent;
     }
 
     @Override
@@ -44,5 +46,9 @@ public class HtmlElement extends HtmlNode {
 
     public String getTagName() {
         return tagName;
+    }
+
+    public HtmlElement getParent() {
+        return parent;
     }
 }

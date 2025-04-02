@@ -5,11 +5,15 @@ import java.util.Map;
 public class HtmlDocument {
     private HtmlElement root;
     private Map<String, HtmlElement> idToElementMap;
+    private HtmlElementFactory factory;
 
-    public HtmlDocument() {}
+    public HtmlDocument() {
+        this.factory = new HtmlElementFactory(this);
+    }
 
     public HtmlDocument(HtmlElement root) {
         this.root = root;
+        this.factory = new HtmlElementFactory(this);
     }
 
     public HtmlElement getElementById(String id) {
@@ -29,5 +33,9 @@ public class HtmlDocument {
 
     public HtmlElement getRoot() {
         return this.root;
+    }
+
+    public HtmlElementFactory getFactory() {
+        return this.factory;
     }
 }

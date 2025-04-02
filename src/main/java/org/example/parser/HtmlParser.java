@@ -6,10 +6,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 public class HtmlParser {
-    private final HtmlElementFactory elementFactory;
+    private final HtmlDocument htmlDocument;
+    private final HtmlElementFactory factory;
 
-    public HtmlParser(HtmlElementFactory factory) {
-        this.elementFactory = factory;
+    public HtmlParser(HtmlDocument document) {
+        this.htmlDocument = document;
+        this.factory = document.getFactory();
     }
 
     /**
@@ -19,14 +21,13 @@ public class HtmlParser {
      */
     public HtmlDocument parse(String html) {
         Document jsoupDoc = Jsoup.parse(html);
-        HtmlDocument htmlDocument = new HtmlDocument();
 
         validateDocumentStructure(jsoupDoc);
 
         Element jsoupRootElement = jsoupDoc.select("html").first();
         assert jsoupRootElement != null;
-        HtmlElement htmlRootElement = parseElement(jsoupRootElement);
-        htmlDocument.setRoot(htmlRootElement);
+        HtmlElement htmlRootElement = parseElement(jsoupRootElement, null);
+        this.htmlDocument.setRoot(htmlRootElement);
 
         return htmlDocument;
     }
@@ -37,7 +38,7 @@ public class HtmlParser {
      * @param jsoupElement
      * @return HtmlElement
      */
-    private HtmlElement parseElement(Element jsoupElement) {
+    private HtmlElement parseElement(Element jsoupElement, HtmlElement parent) {
         // 获取标签名和ID
         String tagName = jsoupElement.tagName();
         String id = jsoupElement.id();
@@ -49,7 +50,7 @@ public class HtmlParser {
             id = tagName;
         }
 
-        HtmlElement element = elementFactory.createElement(tagName, id, jsoupElement.ownText());
+        HtmlElement element = this.factory.createElement(tagName, id, jsoupElement.ownText(), parent);
 
         // 递归处理子元素
         for (Element child : jsoupElement.children()) {
@@ -57,7 +58,7 @@ public class HtmlParser {
             if (child.tagName().equals("#text")) {
                 childNode = new HtmlTextNode(child.text());
             } else {
-                childNode = parseElement(child);
+                childNode = parseElement(child, element);
             }
             element.addChild(childNode);
         }
