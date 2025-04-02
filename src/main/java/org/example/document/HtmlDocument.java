@@ -27,6 +27,10 @@ public class HtmlDocument {
         idToElementMap.put(element.getId(), element);
     }
 
+    public void unregisterElement(HtmlElement element) {
+        idToElementMap.remove(element.getId());
+    }
+
     public void setRoot(HtmlElement root) {
         this.root = root;
     }

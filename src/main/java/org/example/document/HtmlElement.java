@@ -48,7 +48,21 @@ public class HtmlElement extends HtmlNode {
         return tagName;
     }
 
+    @Override
     public HtmlElement getParent() {
         return parent;
+    }
+
+    public void insertBefore(HtmlNode newChild, HtmlNode refChild) {
+        if (refChild.getParent() != this) {
+            throw new IllegalArgumentException("Reference child is not a child of this element");
+        }
+
+        int index = children.indexOf(refChild);
+        children.add(index, newChild);
+    }
+
+    public void removeChild(HtmlNode child) {
+        children.remove(child);
     }
 }

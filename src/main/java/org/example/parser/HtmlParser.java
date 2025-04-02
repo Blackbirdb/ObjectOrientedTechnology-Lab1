@@ -56,7 +56,7 @@ public class HtmlParser {
         for (Element child : jsoupElement.children()) {
             HtmlNode childNode;
             if (child.tagName().equals("#text")) {
-                childNode = new HtmlTextNode(child.text());
+                childNode = new HtmlTextNode(child.text(), element);
             } else {
                 childNode = parseElement(child, element);
             }
