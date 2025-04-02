@@ -1,9 +1,8 @@
-package org.example.HtmlDocument;
+package org.example.document;
 
 import org.example.visitor.NodeVisitor;
 
 import java.util.List;
-import java.util.Map;
 
 public class HtmlElement extends HtmlNode {
     private final String tagName;
@@ -29,5 +28,9 @@ public class HtmlElement extends HtmlNode {
 
     public String getId() {
         return id;
+    }
+
+    public void addChild(HtmlNode childNode) {
+        this.children.add(childNode);
     }
 }

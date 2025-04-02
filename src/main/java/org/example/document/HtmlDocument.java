@@ -1,10 +1,16 @@
-package org.example.HtmlDocument;
+package org.example.document;
 
 import java.util.Map;
 
 public class HtmlDocument {
     private HtmlElement root;
     private Map<String, HtmlElement> idToElementMap;
+
+    public HtmlDocument() {}
+
+    public HtmlDocument(HtmlElement root) {
+        this.root = root;
+    }
 
     public HtmlElement getElementById(String id) {
         return idToElementMap.get(id);
@@ -15,5 +21,9 @@ public class HtmlDocument {
             throw new IllegalArgumentException("Element with ID " + element.getId() + " already exists");
         }
         idToElementMap.put(element.getId(), element);
+    }
+
+    public void setRoot(HtmlElement root) {
+        this.root = root;
     }
 }

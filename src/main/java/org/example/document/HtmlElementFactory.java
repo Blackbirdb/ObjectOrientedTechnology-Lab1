@@ -1,4 +1,4 @@
-package org.example.HtmlDocument;
+package org.example.document;
 
 public class HtmlElementFactory {
     private final HtmlDocument document;

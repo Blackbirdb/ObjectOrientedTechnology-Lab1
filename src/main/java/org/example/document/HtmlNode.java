@@ -1,4 +1,4 @@
-package org.example.HtmlDocument;
+package org.example.document;
 
 import org.example.visitor.NodeVisitor;
 
