@@ -26,4 +26,8 @@ public class HtmlDocument {
     public void setRoot(HtmlElement root) {
         this.root = root;
     }
+
+    public HtmlElement getRoot() {
+        return this.root;
+    }
 }

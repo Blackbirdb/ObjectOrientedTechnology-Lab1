@@ -30,7 +30,19 @@ public class HtmlElement extends HtmlNode {
         return id;
     }
 
+    public List<HtmlNode> getChildren() {
+        return children;
+    }
+
     public void addChild(HtmlNode childNode) {
         this.children.add(childNode);
+    }
+
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public String getTagName() {
+        return tagName;
     }
 }
