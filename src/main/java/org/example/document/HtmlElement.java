@@ -48,6 +48,10 @@ public class HtmlElement extends HtmlNode {
         return textContent;
     }
 
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
+
     public String getTagName() {
         return tagName;
     }
@@ -57,18 +61,39 @@ public class HtmlElement extends HtmlNode {
         return parent;
     }
 
-    public void insertBefore(HtmlNode newChild, HtmlNode refChild) {
+    /**
+     * Insert a new child before the specified reference child.
+     * @param newChild
+     * @param refChild
+     */
+    public void insertBefore(HtmlElement newChild, HtmlElement refChild) {
         assert refChild.getParent() == this;
 
         int index = children.indexOf(refChild);
         children.add(index, newChild);
+        newChild.setParent(this);
     }
 
     public void insertAtLast(HtmlNode newChild) {
         children.add(newChild);
     }
 
+    public void insertAtIndex(int index, HtmlNode newChild) {
+        if (index < 0 || index > children.size()) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + children.size());
+        }
+        children.add(index, newChild);
+    }
+
     public void removeChild(HtmlNode child) {
         children.remove(child);
+    }
+
+    public void setParent(HtmlElement parent) {
+        this.parent = parent;
+    }
+
+    public int getChildIndex(HtmlNode child) {
+        return children.indexOf(child);
     }
 }

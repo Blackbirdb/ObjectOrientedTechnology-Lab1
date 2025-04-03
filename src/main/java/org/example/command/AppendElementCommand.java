@@ -21,7 +21,7 @@ public class AppendElementCommand implements Command {
     @Override
     public void execute() {
         HtmlElement parent = document.getElementById(parentElement);
-        HtmlElement element = new HtmlElement(tagName, idValue, textContent, null, parent);
+        HtmlElement element = document.getFactory().createElement(tagName, idValue, textContent, parent);
         parent.insertAtLast(element);
     }
     @Override
