@@ -1,34 +1,18 @@
 package org.example.service;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.example.document.HtmlDocument;
+import org.example.visitor.SpellCheckVisitor;
 
 public class SpellChecker {
-    private final JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));;
+    private final SpellCheckVisitor visitor = new SpellCheckVisitor();
+    private final HtmlDocument document;
 
-    public boolean hasErrors(String text) {
-        if (text == null || text.trim().isEmpty()) {
-            return false;
-        }
-        try {
-            return !langTool.check(text).isEmpty();
-        } catch (IOException e) {
-            throw new RuntimeException("Spell check failed", e);
-        }
+    public SpellChecker(HtmlDocument document) {
+        this.document = document;
     }
 
-    public List<String> getSuggestions(String text) {
-        try {
-            return langTool.check(text).stream()
-                    .flatMap(match -> match.getSuggestedReplacements().stream())
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            return Collections.emptyList();
-        }
+    public boolean hasErrors() {
+        document.accept(visitor);
+        return visitor.hasErrors();
     }
 }

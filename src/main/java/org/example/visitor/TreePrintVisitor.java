@@ -3,7 +3,6 @@ package org.example.visitor;
 import org.example.document.HtmlElement;
 import org.example.document.HtmlNode;
 import org.example.document.HtmlTextNode;
-import org.example.service.SpellChecker;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -11,7 +10,7 @@ import java.util.List;
 
 public class TreePrintVisitor implements HtmlVisitor {
     private final StringBuilder output = new StringBuilder();
-    private final SpellChecker spellChecker = new SpellChecker();
+    private final SpellCheckUtils spellCheckUtils = new SpellCheckUtils();
     private int currentIndent = 0;
     private final Deque<Boolean> isLastStack = new ArrayDeque<>();
 

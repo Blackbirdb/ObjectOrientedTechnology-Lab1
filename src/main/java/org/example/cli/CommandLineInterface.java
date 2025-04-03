@@ -1,10 +1,10 @@
 package org.example.cli;
 
-import org.example.command.*;
 import org.example.command.HtmlEditor;
 import org.example.service.HtmlFileReader;
 import org.example.service.SpellChecker;
 import org.example.service.TreePrinter;
+import org.example.visitor.SpellCheckVisitor;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -17,7 +17,8 @@ public class CommandLineInterface {
     private final Map<String, String> usageMap = new HashMap<>();
     private final HtmlFileReader reader = new HtmlFileReader();
     private final TreePrinter treePrinter = new TreePrinter(editor.getDocument());
-    private final SpellChecker spellChecker = new SpellChecker();
+    private final SpellChecker spellChecker = new SpellChecker(editor.getDocument());
+
 
     public CommandLineInterface() {
         initializeUsageMap();
@@ -48,80 +49,72 @@ public class CommandLineInterface {
     private void processCommand(String command) throws IOException {
         String[] parts = command.split(" ");
 
-        if (parts[0].equals("insert")) {
-            if (parts.length < 4) {
-                printWrongUsage("insert");
+        switch (parts[0]) {
+            case "insert" -> {
+                if (parts.length < 4) {
+                    printWrongUsage("insert");
+                    return;
+                }
+                String tagName = parts[1];
+                String idValue = parts[2];
+                String insertLocation = parts[3];
+                String textContent = parts.length > 4 ? command.substring(command.indexOf(insertLocation) + insertLocation.length()).trim() : null;
+                editor.insertElement(tagName, idValue, insertLocation, textContent);
+            }
+            case "append" -> {
+                if (parts.length < 4) {
+                    printWrongUsage("append");
+                    return;
+                }
+                String tagName = parts[1];
+                String idValue = parts[2];
+                String parentElement = parts[3];
+                String textContent = parts.length > 4 ? command.substring(command.indexOf(parentElement) + parentElement.length()).trim() : null;
+                editor.appendElement(tagName, idValue, parentElement, textContent);
+            }
+            case "edit-id" -> {
+                if (parts.length != 3) {
+                    printWrongUsage("edit-id");
+                    return;
+                }
+                String oldId = parts[1];
+                String newId = parts[2];
+                editor.editId(oldId, newId);
+            }
+            case "edit-text" -> {
+                if (parts.length < 2) {
+                    printWrongUsage("edit-text");
+                    return;
+                }
+                String element = parts[1];
+                String newTextContent = parts.length > 2 ? command.substring(command.indexOf(element) + element.length()).trim() : null;
+                editor.editText(element, newTextContent);
+            }
+            case "delete" -> {
+                if (parts.length != 2) {
+                    printWrongUsage("delete");
+                    return;
+                }
+                String elementId = parts[1];
+                editor.deleteElement(elementId);
+            }
+            case "undo" -> editor.undo();
+            case "redo" -> editor.redo();
+            case "read" -> {
+                if (parts.length != 2) {
+                    printWrongUsage("read");
+                    return;
+                }
+                String filePath = parts[1];
+                editor.setDocument(reader.readHtmlFromFile(filePath));
+            }
+            case "init" -> editor.setDocument(reader.readHtmlFromFile("src/main/resources/default.html"));
+            case "print-tree" -> treePrinter.print();
+            case "spell-check" -> System.out.println(spellChecker.hasErrors());
+            default -> {
+                System.out.println("Unknown Command. Please try again.");
                 return;
             }
-            String tagName = parts[1];
-            String idValue = parts[2];
-            String insertLocation = parts[3];
-            String textContent = parts.length > 4 ? command.substring(command.indexOf(insertLocation) + insertLocation.length()).trim() : null;
-            editor.insertElement(tagName, idValue, insertLocation, textContent);
-        }
-        else if (parts[0].equals("append")) {
-            if (parts.length < 4) {
-                printWrongUsage("append");
-                return;
-            }
-            String tagName = parts[1];
-            String idValue = parts[2];
-            String parentElement = parts[3];
-            String textContent = parts.length > 4 ? command.substring(command.indexOf(parentElement) + parentElement.length()).trim() : null;
-            editor.appendElement(tagName, idValue, parentElement, textContent);
-        }
-        else if (parts[0].equals("edit-id")) {
-            if (parts.length != 3) {
-                printWrongUsage("edit-id");
-                return;
-            }
-            String oldId = parts[1];
-            String newId = parts[2];
-            editor.editId(oldId, newId);
-        }
-        else if (parts[0].equals("edit-text")) {
-            if (parts.length < 2) {
-                printWrongUsage("edit-text");
-                return;
-            }
-            String element = parts[1];
-            String newTextContent = parts.length > 2 ? command.substring(command.indexOf(element) + element.length()).trim() : null;
-            editor.editText(element, newTextContent);
-        }
-        else if (parts[0].equals("delete")) {
-            if (parts.length != 2) {
-                printWrongUsage("delete");
-                return;
-            }
-            String elementId = parts[1];
-            editor.deleteElement(elementId);
-        }
-        else if (parts[0].equals("undo")) {
-            editor.undo();
-        }
-        else if (parts[0].equals("redo")) {
-            editor.redo();
-        }
-        else if (parts[0].equals("read")) {
-            if (parts.length != 2) {
-                printWrongUsage("read");
-                return;
-            }
-            String filePath = parts[1];
-            editor.setDocument(reader.readHtmlFromFile(filePath));
-        }
-        else if (parts[0].equals("init")) {
-            editor.setDocument(reader.readHtmlFromFile("src/main/resources/default.html"));
-        }
-        else if (parts[0].equals("print-tree")){
-            treePrinter.print();
-        }
-        else if (parts[0].equals("spell-check")){
-            spellChecker.hasErrors(editor.getDocument());
-        }
-        else {
-            System.out.println("Unknown Command. Please try again.");
-            return;
         }
         printSuccess(parts[0]);
     }
