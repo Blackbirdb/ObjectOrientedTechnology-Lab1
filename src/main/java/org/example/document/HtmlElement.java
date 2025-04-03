@@ -20,10 +20,6 @@ public class HtmlElement extends HtmlNode {
     @Override
     public void accept(HtmlVisitor visitor) {
         visitor.visit(this);
-
-        for (HtmlNode child : children) {
-            child.accept(visitor);
-        }
     }
 
     public String getId() {
@@ -53,7 +49,6 @@ public class HtmlElement extends HtmlNode {
         }
         return "";
     }
-
 
     /**
      * Set the text content of the first child node if it is a text node.
