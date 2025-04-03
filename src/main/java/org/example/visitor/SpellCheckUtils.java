@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SpellCheckUtils {
-    private final JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));;
+    private final JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
 
     public boolean hasErrors(String text) {
         if (text == null || text.trim().isEmpty()) {
