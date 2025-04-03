@@ -17,18 +17,26 @@ public class EditIdCommand implements Command {
     @Override
     public void execute() {
         HtmlElement element = document.getElementById(oldId);
+
         if (document.getElementById(newId) != null) {
             throw new IllegalArgumentException("Element with ID " + newId + " already exists");
         }
+
+        document.unregisterElement(element);
         element.setId(newId);
+        document.registerElement(element);
     }
 
     @Override
     public void undo() {
         HtmlElement element = document.getElementById(newId);
+
         if (document.getElementById(oldId) != null) {
             throw new IllegalArgumentException("Element with ID " + oldId + " already exists, undo failed.");
         }
+
+        document.unregisterElement(element);
         element.setId(oldId);
+        document.registerElement(element);
     }
 }
