@@ -1,6 +1,6 @@
 package org.example.document;
 
-import org.example.visitor.NodeVisitor;
+import org.example.visitor.HtmlVisitor;
 
 public class HtmlTextNode extends HtmlNode {
     private String text;
@@ -12,7 +12,7 @@ public class HtmlTextNode extends HtmlNode {
     }
 
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(HtmlVisitor visitor) {
         visitor.visit(this);
     }
 

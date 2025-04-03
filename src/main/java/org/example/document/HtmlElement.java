@@ -1,6 +1,6 @@
 package org.example.document;
 
-import org.example.visitor.NodeVisitor;
+import org.example.visitor.HtmlVisitor;
 
 import java.util.List;
 
