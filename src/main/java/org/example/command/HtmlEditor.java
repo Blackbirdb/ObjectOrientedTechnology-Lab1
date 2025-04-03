@@ -2,9 +2,7 @@ package org.example.command;
 
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
-import org.example.document.HtmlElementFactory;
 
-import java.util.Stack;
 
 public class HtmlEditor {
     private final HtmlDocument document;
