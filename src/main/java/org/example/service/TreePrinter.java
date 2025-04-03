@@ -11,7 +11,12 @@ public class TreePrinter {
         this.document = document;
     }
 
-    public String print() {
+    public void print() {
+        document.accept(visitor);
+        System.out.println(visitor.getTreeOutput());
+    }
+
+    public String getTreeOutput() {
         document.accept(visitor);
         return visitor.getTreeOutput();
     }

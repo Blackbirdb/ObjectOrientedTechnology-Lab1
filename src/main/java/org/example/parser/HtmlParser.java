@@ -93,8 +93,9 @@ public class HtmlParser {
     private static Element rebuildElement(HtmlElement myElement) {
         Element jsoupElement = new Element(myElement.getTagName());
 
-        assert myElement.getId() != null;
-        jsoupElement.attr("id", myElement.getId());
+        if (!myElement.getId().isEmpty()) {
+            jsoupElement.attr("id", myElement.getId());
+        }
 
         if (myElement.getTextContent() != null) {
             jsoupElement.text(myElement.getTextContent());

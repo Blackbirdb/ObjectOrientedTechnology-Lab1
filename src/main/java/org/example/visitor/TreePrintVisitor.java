@@ -7,12 +7,13 @@ import org.example.document.HtmlTextNode;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
+import java.util.Stack;
 
 public class TreePrintVisitor implements HtmlVisitor {
     private final StringBuilder output = new StringBuilder();
     private final SpellCheckUtils spellCheckUtils = new SpellCheckUtils();
     private int currentIndent = 0;
-    private final Deque<Boolean> isLastStack = new ArrayDeque<>();
+    private final Stack<Boolean> isLastStack = new Stack<>();
 
     public String getTreeOutput() {
         return output.toString();
@@ -20,29 +21,28 @@ public class TreePrintVisitor implements HtmlVisitor {
 
     @Override
     public void visit(HtmlElement element) {
-        // 生成缩进
+        boolean isLast = element.isLastChild();
         String indent = getIndentString();
-        boolean isLast = Boolean.TRUE.equals(isLastStack.peek()); // 简化判断
         String connector = currentIndent == 0 ? "" : getConnectorString(isLast);
 
-        // 打印当前元素
         output.append(indent).append(connector).append(element.getTagName());
 
-        // 处理 ID 选择器 (例如 h1#title)
         if (element.getId() != null && !element.getId().isEmpty()) {
             output.append("#").append(element.getId());
         }
         output.append("\n");
 
-        // 处理子元素
         List<HtmlNode> children = element.getChildren();
+
         currentIndent++;
 
-        for (int i = 0; i < children.size(); i++) {
-            isLastStack.push(i == children.size() - 1); // 判断当前子节点是否是最后一个
-            children.get(i).accept(this);
-            isLastStack.pop(); // 处理完当前子节点，恢复上一级状态
+        isLastStack.push(isLast);
+
+        for (HtmlNode child : children) {
+            child.accept(this);
         }
+
+        isLastStack.pop();
 
         currentIndent--;
     }
@@ -51,7 +51,7 @@ public class TreePrintVisitor implements HtmlVisitor {
     public void visit(HtmlTextNode textNode) {
         // 处理文本节点
         String indent = getIndentString();
-        boolean isLast = Boolean.TRUE.equals(isLastStack.peek());
+        boolean isLast = textNode.isLastChild();
         String connector = getConnectorString(isLast);
 
         output.append(indent).append(connector).append(textNode.getText()).append("\n");
@@ -60,11 +60,11 @@ public class TreePrintVisitor implements HtmlVisitor {
     private String getIndentString() {
         StringBuilder sb = new StringBuilder();
         int level = 0;
-        for (boolean isLast : isLastStack) {  // 遍历整个栈，决定每层的缩进
-            if (level < currentIndent - 1) {
-//                sb.append(isLast ? "    " : "│   ");
-                sb.append(isLast && level == isLastStack.size() - 1 ? "    " : "│   ");
-            }
+
+        while (level <= currentIndent - 1) {
+            boolean isLast = isLastStack.get(level);
+            String appendString = isLast ? "    " : "│   ";
+            sb.append(appendString);
             level++;
         }
         return sb.toString();

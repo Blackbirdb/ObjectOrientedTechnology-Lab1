@@ -32,8 +32,11 @@ public class HtmlFileReader {
 
     public void saveHtmlDocumentToFile(HtmlDocument document, String filePath) throws IOException {
         Document jsoupDoc = parser.rebuild(document);
+        Document.OutputSettings settings = new Document.OutputSettings();
+        settings.indentAmount(4);  // 设置缩进值为4
+        settings.prettyPrint(true);  // 启用格式化输出
+        jsoupDoc.outputSettings(settings);
         String htmlContent = jsoupDoc.html();
         Files.writeString(Paths.get(filePath), htmlContent);
     }
-
 }

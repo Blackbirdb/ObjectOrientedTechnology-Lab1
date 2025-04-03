@@ -27,7 +27,7 @@ public class HtmlElement extends HtmlNode {
         }
         sb.append(">\n");
         for (HtmlNode child : children) {
-            sb.append(child.toString());
+            sb.append("Child").append("\n");
         }
         sb.append("</").append(tagName).append(">\n");
         return sb.toString();
