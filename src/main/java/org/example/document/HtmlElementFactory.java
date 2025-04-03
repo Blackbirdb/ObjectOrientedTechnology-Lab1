@@ -18,18 +18,30 @@ public class HtmlElementFactory {
      */
     public HtmlElement createElement(String tagName, String id, String textContent, HtmlElement parent) {
 
-        if (document.getElementById(id) != null) {
-            throw new IllegalArgumentException("Element with ID " + id + " already exists");
-        }
-
-        HtmlElement element = new HtmlElement(tagName, id, parent);
+        HtmlElement element = createElement(tagName, id, parent);
 
         if (textContent != null) {
             element.setTextContent(textContent);
         }
 
+        return element;
+    }
+
+    public HtmlElement createElement(String tagName, String id, HtmlElement parent) {
+
+        if (!isSpecialTag(tagName) && document.getElementById(id) != null) {
+            throw new IllegalArgumentException("Element with ID " + id + " already exists");
+        }
+
+        HtmlElement element = new HtmlElement(tagName, id, parent);
+
         document.registerElement(element);
 
         return element;
+    }
+
+    private boolean isSpecialTag(String tagName) {
+        return tagName.equals("html") || tagName.equals("head")
+                || tagName.equals("title") || tagName.equals("body");
     }
 }

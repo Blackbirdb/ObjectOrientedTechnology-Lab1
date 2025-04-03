@@ -19,6 +19,21 @@ public class HtmlElement extends HtmlNode {
     }
 
     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<").append(tagName);
+        if (id != null) {
+            sb.append(" id=\"").append(id).append("\"");
+        }
+        sb.append(">\n");
+        for (HtmlNode child : children) {
+            sb.append(child.toString());
+        }
+        sb.append("</").append(tagName).append(">\n");
+        return sb.toString();
+    }
+
+    @Override
     public void accept(HtmlVisitor visitor) {
         visitor.visit(this);
     }

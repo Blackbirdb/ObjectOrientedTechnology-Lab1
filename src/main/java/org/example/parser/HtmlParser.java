@@ -29,6 +29,8 @@ public class HtmlParser {
         HtmlElement htmlRootElement = parseElement(jsoupRootElement, null);
         this.htmlDocument.setRoot(htmlRootElement);
 
+//        System.out.println(htmlRootElement.toString());
+
         return htmlDocument;
     }
 
@@ -43,14 +45,17 @@ public class HtmlParser {
         String tagName = jsoupElement.tagName();
         String id = jsoupElement.id();
 
-        if (id.isEmpty()) {
-            if (!isSpecialTag(tagName)) {
-                throw new IllegalArgumentException("Tag <" + tagName + "> is not a special tag, and no id is given.");
-            }
-            id = tagName;
+        if (id.isEmpty() && !isSpecialTag(tagName)) {
+            throw new IllegalArgumentException("Tag <" + tagName + "> is not a special tag, and no id is given.");
         }
 
-        HtmlElement element = this.factory.createElement(tagName, id, jsoupElement.ownText(), parent);
+        HtmlElement element;
+        if (!jsoupElement.ownText().isEmpty()) {
+            element = this.factory.createElement(tagName, id, jsoupElement.ownText(), parent);
+        }
+        else {
+            element = this.factory.createElement(tagName, id, parent);
+        }
 
         // 递归处理子元素
         for (Element child : jsoupElement.children()) {

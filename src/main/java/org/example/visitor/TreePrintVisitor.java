@@ -23,7 +23,7 @@ public class TreePrintVisitor implements HtmlVisitor {
         // 生成缩进
         String indent = getIndentString();
         boolean isLast = Boolean.TRUE.equals(isLastStack.peek()); // 简化判断
-        String connector = getConnectorString(isLast);
+        String connector = currentIndent == 0 ? "" : getConnectorString(isLast);
 
         // 打印当前元素
         output.append(indent).append(connector).append(element.getTagName());
@@ -33,15 +33,6 @@ public class TreePrintVisitor implements HtmlVisitor {
             output.append("#").append(element.getId());
         }
         output.append("\n");
-
-        // 打印文本内容（如果有）
-        if (!element.getTextContent().isEmpty()) {
-            output.append(indent)
-                    .append(isLast ? "    " : "│   ") // 保持正确的缩进
-                    .append("└── ") // 额外缩进
-                    .append(element.getTextContent())
-                    .append("\n");
-        }
 
         // 处理子元素
         List<HtmlNode> children = element.getChildren();
@@ -71,7 +62,8 @@ public class TreePrintVisitor implements HtmlVisitor {
         int level = 0;
         for (boolean isLast : isLastStack) {  // 遍历整个栈，决定每层的缩进
             if (level < currentIndent - 1) {
-                sb.append(isLast ? "    " : "│   ");
+//                sb.append(isLast ? "    " : "│   ");
+                sb.append(isLast && level == isLastStack.size() - 1 ? "    " : "│   ");
             }
             level++;
         }
