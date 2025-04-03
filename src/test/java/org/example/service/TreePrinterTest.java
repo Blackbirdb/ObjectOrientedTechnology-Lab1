@@ -1,8 +1,6 @@
-package org.example.visitor;
+package org.example.service;
 
 import org.example.document.HtmlDocument;
-import org.example.service.HtmlFileReader;
-import org.example.service.TreePrinter;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -22,10 +20,10 @@ public class TreePrinterTest {
         String result = testTreePrint("default.html");
 
         String expected = """
-                html
-                ├── head
-                │   └── title
-                └── body
+                html#html
+                ├── head#head
+                │   └── title#title
+                └── body#body
                 """;
 
         assertEquals(expected, result);

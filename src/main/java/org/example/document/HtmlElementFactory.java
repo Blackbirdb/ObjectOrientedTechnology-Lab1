@@ -29,16 +29,18 @@ public class HtmlElementFactory {
 
     public HtmlElement createElement(String tagName, String id, HtmlElement parent) {
 
-        if (isSpecialTag(tagName)) {
-            HtmlElement element = new HtmlElement(tagName, id, parent);
-            return element;
+        if (!isSpecialTag(tagName) && (id == null || id.isEmpty())) {
+            throw new IllegalArgumentException("Tag <" + tagName + "> is not a special tag, and no id is given.");
         }
-
-        else if (id == null || id.isEmpty() || document.getElementById(id) != null) {
-            throw new IllegalArgumentException("Element illegal.");
+        else if (document.getElementById(id) != null) {
+            throw new IllegalArgumentException("Element <" + id + "> is already contained in the document.");
         }
 
         HtmlElement element = new HtmlElement(tagName, id, parent);
+
+        if (isSpecialTag(tagName) && (id == null || id.isEmpty())) {
+            element.setId(tagName);
+        }
 
         document.registerElement(element);
 
