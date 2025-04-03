@@ -5,11 +5,11 @@ import org.example.visitor.NodeVisitor;
 import java.util.List;
 
 public class HtmlElement extends HtmlNode {
-    private final String tagName;
-    private final String id;
-    private final String textContent;
-    private final List<HtmlNode> children;
-    private final HtmlElement parent;
+    private String tagName;
+    private String id;
+    private String textContent;
+    private List<HtmlNode> children;
+    private HtmlElement parent;
 
     public HtmlElement(String tagName, String id, String textContent, List<HtmlNode> children, HtmlElement parent) {
         this.tagName = tagName;
@@ -30,6 +30,10 @@ public class HtmlElement extends HtmlNode {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public List<HtmlNode> getChildren() {
@@ -54,12 +58,14 @@ public class HtmlElement extends HtmlNode {
     }
 
     public void insertBefore(HtmlNode newChild, HtmlNode refChild) {
-        if (refChild.getParent() != this) {
-            throw new IllegalArgumentException("Reference child is not a child of this element");
-        }
+        assert refChild.getParent() == this;
 
         int index = children.indexOf(refChild);
         children.add(index, newChild);
+    }
+
+    public void insertAtLast(HtmlNode newChild) {
+        children.add(newChild);
     }
 
     public void removeChild(HtmlNode child) {

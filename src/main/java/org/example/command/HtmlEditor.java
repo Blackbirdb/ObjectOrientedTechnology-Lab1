@@ -8,34 +8,33 @@ import java.util.Stack;
 
 public class HtmlEditor {
     private final HtmlDocument document;
-    private final HtmlElementFactory factory;
     private final CommandHistory history = new CommandHistory();
 
     public HtmlEditor(HtmlDocument document) {
         this.document = document;
-        this.factory = document.getFactory();
     }
 
     public HtmlElement getElementById(String id) {
         return document.getElementById(id);
     }
 
-    public HtmlElementFactory getFactory() {
-        return factory;
+    // 插入元素
+    public void insertElement(String tagName, String idValue, String insertLocation, String textContent) {
+        Command cmd = new InsertElementCommand(document, tagName, idValue, insertLocation, textContent);
+        history.executeCommand(cmd);
     }
 
-    public HtmlDocument getDocument() {
-        return document;
+    public void appendElement(String tagName, String idValue, String parentElement, String textContent) {
+        Command cmd = new AppendElementCommand(document, tagName, idValue, parentElement, textContent);
+        history.executeCommand(cmd);
     }
 
-    //
-//    // 插入元素
-//    public void insertElement(String tagName, String id, String insertAfterId) {
-//        HtmlElement newElement = new HtmlElement(tagName);
-//        newElement.setId(id);
-//        Command cmd = new InsertElementCommand(document, newElement, insertAfterId);
-//        history.executeCommand(cmd);
-//    }
+    public void editId(String oldId, String newId) {
+        Command cmd = new EditIdCommand(document, oldId, newId);
+        history.executeCommand(cmd);
+    }
+
+
 //
 //    // 删除元素
 //    public void deleteElement(String elementId) {

@@ -1,17 +1,18 @@
 package org.example.command;
 
+import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 import org.example.document.HtmlNode;
 
 public class InsertElementCommand implements Command {
-    private HtmlEditor editor;
+    private HtmlDocument document;
     private String tagName;
     private String idValue;
     private String insertLocation;
     private String textContent;
 
-    public InsertElementCommand(HtmlEditor editor, String tagName, String idValue, String insertLocation, String textContent) {
-        this.editor = editor;
+    public InsertElementCommand(HtmlDocument document, String tagName, String idValue, String insertLocation, String textContent) {
+        this.document = document;
         this.tagName = tagName;
         this.idValue = idValue;
         this.insertLocation = insertLocation;
@@ -20,16 +21,16 @@ public class InsertElementCommand implements Command {
 
     @Override
     public void execute() {
-        HtmlElement parent = editor.getElementById(insertLocation).getParent();
-        HtmlElement newElement = editor.getFactory().createElement(tagName, idValue, textContent, parent);
-        parent.insertBefore(newElement, editor.getElementById(insertLocation));
+        HtmlElement parent = document.getElementById(insertLocation).getParent();
+        HtmlElement newElement = document.getFactory().createElement(tagName, idValue, textContent, parent);
+        parent.insertBefore(newElement, document.getElementById(insertLocation));
     }
 
     @Override
     public void undo() {
-        HtmlElement elementToRemove = editor.getElementById(idValue);
-        HtmlElement parent = editor.getElementById(insertLocation).getParent();
+        HtmlElement elementToRemove = document.getElementById(idValue);
+        HtmlElement parent = document.getElementById(insertLocation).getParent();
         parent.removeChild(elementToRemove);
-        editor.getDocument().unregisterElement(elementToRemove);
+        document.unregisterElement(elementToRemove);
     }
 }
