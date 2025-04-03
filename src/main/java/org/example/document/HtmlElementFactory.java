@@ -24,7 +24,9 @@ public class HtmlElementFactory {
 
         HtmlElement element = new HtmlElement(tagName, id, null, parent);
 
-        element.setTextContent(textContent);
+        if (textContent != null) {
+            element.setTextContent(textContent);
+        }
 
         document.registerElement(element);
 
