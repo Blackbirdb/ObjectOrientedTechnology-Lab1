@@ -1,6 +1,8 @@
 package org.example.visitor;
 
 import org.example.document.HtmlElement;
+import org.example.document.HtmlNode;
+import org.example.document.HtmlTextNode;
 import org.example.service.SpellChecker;
 
 import java.util.ArrayDeque;
@@ -21,12 +23,8 @@ public class TreePrintVisitor implements HtmlVisitor {
     public void visit(HtmlElement element) {
         // 生成缩进
         String indent = getIndentString();
-        boolean isLast = true;
-        if (!element.getTagName().equals("html")) {
-            isLast = Boolean.TRUE.equals(isLastStack.peek());
-        }
-//        String connector = currentIndent > 0 ? (isLast ? "└── " : "├── ") : "";
-        String connector = getConnectorString(isLast, currentIndent);
+        boolean isLast = Boolean.TRUE.equals(isLastStack.peek()); // 简化判断
+        String connector = getConnectorString(isLast);
 
         // 打印当前元素
         output.append(indent).append(connector).append(element.getTagName());
@@ -47,7 +45,7 @@ public class TreePrintVisitor implements HtmlVisitor {
         }
 
         // 处理子元素
-        List<HtmlElement> children = element.getChildren();
+        List<HtmlNode> children = element.getChildren();
         currentIndent++;
 
         for (int i = 0; i < children.size(); i++) {
@@ -59,34 +57,29 @@ public class TreePrintVisitor implements HtmlVisitor {
         currentIndent--;
     }
 
+    @Override
+    public void visit(HtmlTextNode textNode) {
+        // 处理文本节点
+        String indent = getIndentString();
+        boolean isLast = Boolean.TRUE.equals(isLastStack.peek());
+        String connector = getConnectorString(isLast);
+
+        output.append(indent).append(connector).append(textNode.getText()).append("\n");
+    }
+
     private String getIndentString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < currentIndent - 1; i++) {
-            sb.append(Boolean.TRUE.equals(isLastStack.peek()) ? "    " : "│   ");
+        int level = 0;
+        for (boolean isLast : isLastStack) {  // 遍历整个栈，决定每层的缩进
+            if (level < currentIndent - 1) {
+                sb.append(isLast ? "    " : "│   ");
+            }
+            level++;
         }
         return sb.toString();
     }
 
-    public String getOutput() {
-        return output.toString();
+    private String getConnectorString(boolean isLast) {
+        return isLast ? "└── " : "├── ";
     }
-
-    private String getConnectorString(boolean isLast, int currentIndent) {
-        return currentIndent > 0 ? (isLast ? "└── " : "├── ") : "";
-    }
-
-    // 在元素访问结束后调用（需要在外部框架支持）
-    public void afterVisit(HtmlElement element) {
-        if (!element.getChildren().isEmpty()) {
-            currentIndent--;
-            isLastStack.pop();
-        }
-
-        // 标记父节点的当前子节点是否为最后一个
-        if (!isLastStack.isEmpty()) {
-            isLastStack.pop();
-            isLastStack.push(true); // 下一个节点将是最后一个
-        }
-    }
-
 }
