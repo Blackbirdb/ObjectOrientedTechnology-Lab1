@@ -9,9 +9,9 @@ public class HtmlParser {
     private final HtmlDocument htmlDocument;
     private final HtmlElementFactory factory;
 
-    public HtmlParser(HtmlDocument document) {
-        this.htmlDocument = document;
-        this.factory = document.getFactory();
+    public HtmlParser() {
+        this.htmlDocument = new HtmlDocument();
+        this.factory = htmlDocument.getFactory();
     }
 
     /**

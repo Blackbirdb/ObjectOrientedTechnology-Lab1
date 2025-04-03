@@ -8,12 +8,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class HtmlFileReader {
-    private final HtmlDocument document;
     private final HtmlParser parser;
 
     public HtmlFileReader() {
-        this.document = new HtmlDocument();  // 每个reader有自己的document实例
-        this.parser = new HtmlParser(document);
+        this.parser = new HtmlParser();
     }
 
     /**
@@ -22,7 +20,7 @@ public class HtmlFileReader {
      * @return HtmlDocument
      * @throws IOException
      */
-    public HtmlDocument read(String filePath) throws IOException {
+    public HtmlDocument readHtmlFromFile(String filePath) throws IOException {
         String htmlContent = readFileToString(filePath);
         return parser.parse(htmlContent);
     }
@@ -32,7 +30,4 @@ public class HtmlFileReader {
         return new String(bytes, "UTF-8");  // 指定编码为UTF-8
     }
 
-    public HtmlDocument getDocument() {
-        return document;
-    }
 }
