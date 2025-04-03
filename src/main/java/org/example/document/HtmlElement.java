@@ -7,20 +7,18 @@ import java.util.List;
 public class HtmlElement extends HtmlNode {
     private String tagName;
     private String id;
-    private String textContent;
     private List<HtmlNode> children;
     private HtmlElement parent;
 
-    public HtmlElement(String tagName, String id, String textContent, List<HtmlNode> children, HtmlElement parent) {
+    public HtmlElement(String tagName, String id, List<HtmlNode> children, HtmlElement parent) {
         this.tagName = tagName;
         this.id = id;
-        this.textContent = textContent;
         this.children = children;
         this.parent = parent;
     }
 
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(HtmlVisitor visitor) {
         visitor.visit(this);
 
         for (HtmlNode child : children) {
@@ -44,12 +42,30 @@ public class HtmlElement extends HtmlNode {
         this.children.add(childNode);
     }
 
+
+    /**
+     * Get the text content of the first child node if it is a text node.
+     * @return String: text context of the given node
+     */
     public String getTextContent() {
-        return textContent;
+        if (!children.isEmpty() && children.getFirst() instanceof HtmlTextNode) {
+            return ((HtmlTextNode) children.getFirst()).getText();
+        }
+        return "";
     }
 
+
+    /**
+     * Set the text content of the first child node if it is a text node.
+     * @param textContent: String
+     */
     public void setTextContent(String textContent) {
-        this.textContent = textContent;
+        if (!children.isEmpty() && children.getFirst() instanceof HtmlTextNode) {
+            ((HtmlTextNode) children.getFirst()).setText(textContent);
+        } else {
+            HtmlTextNode textNode = new HtmlTextNode(textContent, this);
+            children.addFirst(textNode);
+        }
     }
 
     public String getTagName() {

@@ -21,7 +21,15 @@ public class HtmlTextNode extends HtmlNode {
         return parent;
     }
 
+    public void setParent(HtmlElement parent) {
+        this.parent = parent;
+    }
+
     public String getText() {
         return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }
