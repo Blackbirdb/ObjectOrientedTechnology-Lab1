@@ -19,14 +19,6 @@ public class InsertElementCommand implements Command {
         this.textContent = textContent;
     }
 
-    public InsertElementCommand(HtmlDocument document, String tagName, String idValue, String insertLocation) {
-        this.document = document;
-        this.tagName = tagName;
-        this.idValue = idValue;
-        this.insertLocation = insertLocation;
-        this.textContent = null;
-    }
-
     @Override
     public void execute() {
         HtmlElement parent = document.getElementById(insertLocation).getParent();

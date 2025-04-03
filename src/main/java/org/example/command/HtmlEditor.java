@@ -5,12 +5,8 @@ import org.example.document.HtmlElement;
 
 
 public class HtmlEditor {
-    private final HtmlDocument document;
+    private HtmlDocument document = new HtmlDocument();
     private final CommandHistory history = new CommandHistory();
-
-    public HtmlEditor(HtmlDocument document) {
-        this.document = document;
-    }
 
     public HtmlElement getElementById(String id) {
         return document.getElementById(id);
@@ -51,5 +47,13 @@ public class HtmlEditor {
     // 重做
     public void redo() {
         history.redo();
+    }
+
+    public void setDocument(HtmlDocument document) {
+        this.document = document;
+    }
+
+    public HtmlDocument getDocument() {
+        return document;
     }
 }
