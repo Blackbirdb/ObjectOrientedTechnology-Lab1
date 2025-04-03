@@ -2,6 +2,7 @@ package org.example.document;
 
 import org.example.visitor.HtmlVisitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HtmlElement extends HtmlNode {
@@ -10,10 +11,10 @@ public class HtmlElement extends HtmlNode {
     private List<HtmlNode> children;
     private HtmlElement parent;
 
-    public HtmlElement(String tagName, String id, List<HtmlNode> children, HtmlElement parent) {
+    public HtmlElement(String tagName, String id, HtmlElement parent) {
         this.tagName = tagName;
         this.id = id;
-        this.children = children;
+        this.children = new ArrayList<>();
         this.parent = parent;
     }
 

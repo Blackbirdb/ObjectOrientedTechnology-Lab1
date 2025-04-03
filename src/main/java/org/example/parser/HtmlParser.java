@@ -71,7 +71,7 @@ public class HtmlParser {
      * @param myDocument
      * @return jsoupDoc
      */
-    public static Document rebuild(HtmlDocument myDocument) {
+    public Document rebuild(HtmlDocument myDocument) {
         Document jsoupDoc = new Document("");
 
         Element htmlElement = rebuildElement(myDocument.getRoot());

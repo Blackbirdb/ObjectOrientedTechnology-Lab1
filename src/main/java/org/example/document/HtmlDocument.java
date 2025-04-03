@@ -2,6 +2,7 @@ package org.example.document;
 
 import org.example.visitor.HtmlVisitor;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class HtmlDocument {
@@ -11,6 +12,7 @@ public class HtmlDocument {
 
     public HtmlDocument() {
         this.factory = new HtmlElementFactory(this);
+        this.idToElementMap = new HashMap<>();
     }
 
     public HtmlDocument(HtmlElement root) {

@@ -31,6 +31,7 @@ public class CommandLineInterface {
         usageMap.put("edit-text", "edit-text <element> [newTextContent]");
         usageMap.put("delete", "delete <elementId>");
         usageMap.put("read", "read <filePath>");
+        usageMap.put("save", "save <filePath>");
         // 添加其他命令的用法说明
     }
 
@@ -111,6 +112,14 @@ public class CommandLineInterface {
             case "init" -> editor.setDocument(reader.readHtmlFromFile("src/main/resources/default.html"));
             case "print-tree" -> treePrinter.print();
             case "spell-check" -> System.out.println(spellChecker.hasErrors());
+            case "save" -> {
+                if (parts.length != 2) {
+                    printWrongUsage("save");
+                    return;
+                }
+                String filePath = parts[1];
+                reader.saveHtmlDocumentToFile(editor.getDocument(), filePath);
+            }
             default -> {
                 System.out.println("Unknown Command. Please try again.");
                 return;

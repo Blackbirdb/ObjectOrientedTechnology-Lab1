@@ -22,7 +22,7 @@ public class HtmlElementFactory {
             throw new IllegalArgumentException("Element with ID " + id + " already exists");
         }
 
-        HtmlElement element = new HtmlElement(tagName, id, null, parent);
+        HtmlElement element = new HtmlElement(tagName, id, parent);
 
         if (textContent != null) {
             element.setTextContent(textContent);
