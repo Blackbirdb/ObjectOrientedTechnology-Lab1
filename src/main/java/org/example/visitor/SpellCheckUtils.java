@@ -3,8 +3,12 @@ package org.example.visitor;
 import org.example.document.HtmlDocument;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.Match;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,13 +27,12 @@ public class SpellCheckUtils {
         }
     }
 
-    public List<String> getSuggestions(String text) {
+    public List<RuleMatch> checkText(String text) {
         try {
-            return langTool.check(text).stream()
-                    .flatMap(match -> match.getSuggestedReplacements().stream())
-                    .collect(Collectors.toList());
+            return langTool.check(text);
+
         } catch (IOException e) {
-            return Collections.emptyList();
+            throw new RuntimeException("LanguageTool check failed", e);
         }
     }
 

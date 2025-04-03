@@ -16,7 +16,6 @@ public class CommandLineInterface {
     private final HtmlEditor editor = new HtmlEditor();
     private final Map<String, String> usageMap = new HashMap<>();
     private final HtmlFileReader reader = new HtmlFileReader();
-    private final SpellChecker spellChecker = new SpellChecker(editor.getDocument());
 
 
     public CommandLineInterface() {
@@ -113,7 +112,10 @@ public class CommandLineInterface {
                 TreePrinter treePrinter = new TreePrinter(editor.getDocument());
                 treePrinter.print();
             }
-            case "spell-check" -> System.out.println(spellChecker.hasErrors());
+            case "spell-check" -> {
+                SpellChecker spellChecker = new SpellChecker(editor.getDocument());
+                spellChecker.printErrorMap();
+            }
             case "save" -> {
                 if (parts.length != 2) {
                     printWrongUsage("save");
