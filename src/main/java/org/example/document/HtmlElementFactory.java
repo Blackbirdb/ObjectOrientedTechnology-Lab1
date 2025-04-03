@@ -29,8 +29,13 @@ public class HtmlElementFactory {
 
     public HtmlElement createElement(String tagName, String id, HtmlElement parent) {
 
-        if (!isSpecialTag(tagName) && document.getElementById(id) != null) {
-            throw new IllegalArgumentException("Element with ID " + id + " already exists");
+        if (isSpecialTag(tagName)) {
+            HtmlElement element = new HtmlElement(tagName, id, parent);
+            return element;
+        }
+
+        else if (id == null || id.isEmpty() || document.getElementById(id) != null) {
+            throw new IllegalArgumentException("Element illegal.");
         }
 
         HtmlElement element = new HtmlElement(tagName, id, parent);

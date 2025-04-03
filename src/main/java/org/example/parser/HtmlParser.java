@@ -97,10 +97,6 @@ public class HtmlParser {
             jsoupElement.attr("id", myElement.getId());
         }
 
-        if (myElement.getTextContent() != null) {
-            jsoupElement.text(myElement.getTextContent());
-        }
-
         for (HtmlNode child : myElement.getChildren()) {
             if (child instanceof HtmlElement) {
                 jsoupElement.appendChild(rebuildElement((HtmlElement) child));

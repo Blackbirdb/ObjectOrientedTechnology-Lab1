@@ -59,7 +59,7 @@ public class TreePrintVisitor implements HtmlVisitor {
 
     private String getIndentString() {
         StringBuilder sb = new StringBuilder();
-        int level = 0;
+        int level = 1;
 
         while (level <= currentIndent - 1) {
             boolean isLast = isLastStack.get(level);
