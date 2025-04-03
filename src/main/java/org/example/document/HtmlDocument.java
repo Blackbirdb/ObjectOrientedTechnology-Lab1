@@ -1,5 +1,7 @@
 package org.example.document;
 
+import org.example.visitor.HtmlVisitor;
+
 import java.util.Map;
 
 public class HtmlDocument {
@@ -41,5 +43,9 @@ public class HtmlDocument {
 
     public HtmlElementFactory getFactory() {
         return this.factory;
+    }
+
+    public void accept(HtmlVisitor visitor) {
+        root.accept(visitor);
     }
 }
