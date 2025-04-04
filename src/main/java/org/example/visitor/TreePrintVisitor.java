@@ -10,7 +10,6 @@ import java.util.Stack;
 
 public class TreePrintVisitor implements HtmlVisitor {
     private final StringBuilder output = new StringBuilder();
-    private final SpellCheckUtils spellCheckUtils = new SpellCheckUtils();
     private int currentIndent = 0;
     private final Stack<Boolean> isLastStack = new Stack<>();
 
@@ -24,7 +23,13 @@ public class TreePrintVisitor implements HtmlVisitor {
         String indent = getIndentString();
         String connector = currentIndent == 0 ? "" : getConnectorString(isLast);
 
-        output.append(indent).append(connector).append(element.getTagName());
+        output.append(indent).append(connector);
+
+        if (SpellCheckUtils.hasErrors(element.getTextContent())){
+            output.append("[X]");
+        }
+
+        output.append(element.getTagName());
 
         if (element.getId() != null && !element.getId().isEmpty()) {
             output.append("#").append(element.getId());
@@ -34,15 +39,11 @@ public class TreePrintVisitor implements HtmlVisitor {
         List<HtmlNode> children = element.getChildren();
 
         currentIndent++;
-
         isLastStack.push(isLast);
-
         for (HtmlNode child : children) {
             child.accept(this);
         }
-
         isLastStack.pop();
-
         currentIndent--;
     }
 

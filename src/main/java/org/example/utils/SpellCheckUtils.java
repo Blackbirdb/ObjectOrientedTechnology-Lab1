@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.List;
 
 public class SpellCheckUtils {
-    private final JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
+    private static final JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
 
-    public boolean hasErrors(String text) {
+    public static boolean hasErrors(String text) {
         if (text == null || text.trim().isEmpty()) {
             return false;
         }
@@ -21,7 +21,7 @@ public class SpellCheckUtils {
         }
     }
 
-    public List<RuleMatch> checkText(String text) {
+    public static List<RuleMatch> checkText(String text) {
         try {
             return langTool.check(text);
 

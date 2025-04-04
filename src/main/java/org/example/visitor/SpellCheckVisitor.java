@@ -9,16 +9,9 @@ import org.example.utils.SpellCheckUtils;
 import java.util.*;
 
 public class SpellCheckVisitor implements HtmlVisitor {
-    private final SpellCheckUtils spellCheckUtils;
     private final Map<String, List<RuleMatch>> errorMap;
 
     public SpellCheckVisitor() {
-        this.errorMap = new HashMap<>();
-        this.spellCheckUtils = new SpellCheckUtils();
-    }
-
-    public SpellCheckVisitor(SpellCheckUtils spellCheckUtils) {
-        this.spellCheckUtils = spellCheckUtils;
         this.errorMap = new HashMap<>();
     }
 
@@ -35,9 +28,9 @@ public class SpellCheckVisitor implements HtmlVisitor {
     }
 
     private void checkText(String text, HtmlNode node) {
-        if (spellCheckUtils.hasErrors(text)) {
+        if (SpellCheckUtils.hasErrors(text)) {
             String parentId = node.getParent().getId();
-            errorMap.put(parentId, spellCheckUtils.checkText(text));
+            errorMap.put(parentId, SpellCheckUtils.checkText(text));
         }
     }
 

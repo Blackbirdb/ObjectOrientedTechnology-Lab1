@@ -25,7 +25,7 @@ public class CommandLineInterface {
         System.out.println("Welcome to the html editor!");
         while (!sessionManager.cwdIsSet()){
             System.out.println("Press 'Enter' to use the current directory as working directory.");
-            System.out.println("Otherwise, enter the path to the working directory:");
+            System.out.println("Otherwise, enter the path to the working directory.");
             System.out.print("Path: ");
             String cwd = new Scanner(System.in).nextLine();
             if (cwd.isEmpty()){
