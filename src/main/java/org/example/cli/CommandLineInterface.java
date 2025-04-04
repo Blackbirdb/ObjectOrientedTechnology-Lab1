@@ -174,6 +174,18 @@ public class CommandLineInterface {
                 }
                 sessionManager.switchEditor(fileName);
             }
+            case "showid" -> {
+                if (parts.length != 2) {
+                    printWrongUsage("showid");
+                    return;
+                }
+                String showId = parts[1];
+                if (!showId.equals("true") && !showId.equals("false")) {
+                    System.out.println("Invalid argument: " + showId);
+                    return;
+                }
+                sessionManager.getActiveEditor().setShowId(Boolean.parseBoolean(showId));
+            }
             case "help" -> {
                 commandTable.printCommands();
             }

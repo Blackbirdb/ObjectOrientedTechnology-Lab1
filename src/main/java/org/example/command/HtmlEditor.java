@@ -19,11 +19,14 @@ public class HtmlEditor {
     private int modifiedCount = 0;
     @Getter
     private final String filePath;
+    @Setter
+    private boolean showId;
 
     public HtmlEditor(String filePath) throws IOException {
         this.document = HtmlFileParser.readHtmlFromFile(filePath);
         this.filePath = filePath;
         this.history = new CommandHistory();
+        this.showId = true;
     }
 
     public boolean isModified(){
@@ -84,7 +87,7 @@ public class HtmlEditor {
     }
 
     public void printTree() {
-        TreePrinter.print(document);
+        TreePrinter.print(document, showId);
     }
 
     public void spellCheck(){

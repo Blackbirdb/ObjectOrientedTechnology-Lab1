@@ -12,6 +12,15 @@ public class TreePrintVisitor implements HtmlVisitor {
     private final StringBuilder output = new StringBuilder();
     private int currentIndent = 0;
     private final Stack<Boolean> isLastStack = new Stack<>();
+    private boolean showId;
+
+    public TreePrintVisitor(){
+        this.showId = true;
+    }
+
+    public TreePrintVisitor(boolean showId) {
+        this.showId = showId;
+    }
 
     public String getTreeOutput() {
         return output.toString();
@@ -31,7 +40,7 @@ public class TreePrintVisitor implements HtmlVisitor {
 
         output.append(element.getTagName());
 
-        if (element.getId() != null && !element.getId().isEmpty()) {
+        if (showId && element.getId() != null && !element.getId().isEmpty()) {
             output.append("#").append(element.getId());
         }
         output.append("\n");
