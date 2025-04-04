@@ -53,6 +53,7 @@ public class SessionManager {
 
     /**
      * loads file from cwd using filename.
+     * If fileName does not exist, create one and init with default.html
      */
     public void loadFile(String fileName) throws IOException {
         if (openEditors.containsKey(fileName)) {
@@ -82,32 +83,12 @@ public class SessionManager {
         }
     }
 
-
-    /**
-     * loads files that are not in cwd
-     */
-    public void loadFileNotInCwd(String filePath) throws IOException {
-        if (openEditors.containsKey(filePath)) {
-            throw new IllegalArgumentException(filePath + " is already opened");
-        }
-
-        HtmlEditor editor = new HtmlEditor(filePath);
-        openEditors.put(filePath, editor);
-        activeEditor = editor;
-    }
-
      /**
-     * saves opened files to themselves. Both files in cwd and not can be saved.
+     * saves active file to the file specified by fileName
      */
     public void saveFile(String fileName) throws IOException {
-        if (openEditors.containsKey(fileName)) {
-            HtmlEditor editor = openEditors.get(fileName);
-            editor.save();
-        } else {
-            throw new IllegalArgumentException("File not loaded: " + fileName);
-        }
+        activeEditor.saveToFile(getPathFromName(fileName));
     }
-
 
     public void close() {
         if (activeEditor == null) return;

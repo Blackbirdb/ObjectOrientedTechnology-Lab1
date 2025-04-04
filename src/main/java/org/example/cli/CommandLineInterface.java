@@ -23,12 +23,17 @@ public class CommandLineInterface {
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("=============================================================================");
+        System.out.println("=========================================================================================");
         System.out.println("Welcome to the html editor!");
         while (!sessionManager.cwdIsSet()){
-            System.out.print("Please specify current working directory: ");
+            System.out.println("Press 'Enter' to use the current directory as working directory.");
+            System.out.println("Otherwise, enter the path to the working directory:");
+            System.out.print("Path: ");
             String cwd = new Scanner(System.in).nextLine();
-            if (!PathValidateUtils.isValidPath(cwd)) {
+            if (cwd.isEmpty()){
+                sessionManager.setCwd(System.getProperty("user.dir"));
+            }
+            else if (!PathValidateUtils.isValidPath(cwd)) {
                 System.out.println("Invalid path: " + cwd);
             }
             else {
@@ -39,7 +44,7 @@ public class CommandLineInterface {
         System.out.println("Please initialize the editor by using 'init', 'read <filePath>' or 'load <fileName>' command.");
         System.out.println("Type \"help\" to see the available commands.");
         System.out.println("Type \"exit\" to exit the editor.");
-        System.out.println("=============================================================================");
+        System.out.println("=========================================================================================");
 
         while (true) {
             System.out.print("> ");
@@ -123,22 +128,6 @@ public class CommandLineInterface {
             }
             case "undo" -> sessionManager.getActiveEditor().undo();
             case "redo" -> sessionManager.getActiveEditor().redo();
-            case "read" -> {    // reads files not in cwd
-                if (parts.length != 2) {
-                    printWrongUsage("read");
-                    return;
-                }
-                String filePath = parts[1];
-
-                if (!PathValidateUtils.isValidHtmlFilePath(filePath)) {
-                    System.out.println("Invalid file path: " + filePath);
-                    return;
-                }
-                sessionManager.loadFileNotInCwd(filePath);
-            }
-            case "init" -> {
-                sessionManager.loadFileNotInCwd("src/main/resources/default.html");
-            }
             case "load" -> {        // loads file in cwd
                 if (parts.length != 2) {
                     printWrongUsage("load");
