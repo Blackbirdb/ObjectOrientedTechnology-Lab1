@@ -90,6 +90,10 @@ public class SessionManager {
         activeEditor.saveToFile(getPathFromName(fileName));
     }
 
+    /**
+     * closes the active editor. will ask whether to save file if modified.
+     * saves to the same file as opened.
+     */
     public void close() {
         if (activeEditor == null) return;
         else if (activeEditor.isModified()) {
@@ -156,43 +160,4 @@ public class SessionManager {
             System.out.println("File not loaded: " + fileName);
         }
     }
-
-
-
-//
-//    public void saveFile(String fileName) {
-//        if (openEditors.containsKey(fileName)) {
-//            openEditors.get(fileName).save();
-//        }
-//    }
-//
-//    public void closeActiveEditor() {
-//        if (activeEditor == null) return;
-//        if (activeEditor.isModified()) {
-//            // 询问用户是否保存（CLI 交互）
-//            System.out.println("文件已修改，是否保存？(y/n)");
-//            Scanner scanner = new Scanner(System.in);
-//            String input = scanner.nextLine();
-//            if (input.equalsIgnoreCase("y")) {
-//                activeEditor.save();
-//            }
-//        }
-//        openEditors.remove(activeEditor.getFileName());
-//        activeEditor = openEditors.isEmpty() ? null : openEditors.values().iterator().next();
-//    }
-//
-//    public void listEditors() {
-//        for (HtmlEditor editor : openEditors.values()) {
-//            String marker = editor == activeEditor ? "> " : "  ";
-//            String modified = editor.isModified() ? "*" : "";
-//            System.out.println(marker + editor.getFileName() + modified);
-//        }
-//    }
-//
-//    public void switchEditor(String fileName) {
-//        if (openEditors.containsKey(fileName)) {
-//            activeEditor = openEditors.get(fileName);
-//        }
-//    }
-
 }

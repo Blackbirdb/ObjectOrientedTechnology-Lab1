@@ -15,8 +15,6 @@ import java.util.Scanner;
 
 
 public class CommandLineInterface {
-//    private HtmlEditor editor = null;
-//    private boolean initialized = false;
     private final CommandTable commandTable = new CommandTable();
     private final SessionManager sessionManager = new SessionManager();
     private final List<String> initCommands = new ArrayList<>(List.of("init", "read", "load", "help"));
