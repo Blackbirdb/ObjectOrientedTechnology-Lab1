@@ -4,15 +4,21 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.Set;
 
-class DirTreeCommand {
+public class DirTreeCommand {
     private Path rootPath;
     private Set<Path> openFiles;
     public DirTreeCommand(Path rootPath, Set<Path> openFiles) {
         this.rootPath = rootPath;
         this.openFiles = openFiles;
     }
+    public DirTreeCommand(Path rootPath) {
+        this.rootPath = rootPath;
+        this.openFiles = new HashSet<>();
+    }
+
     private DirectoryNode buildFileTree(Path path) throws IOException {
         DirectoryNode root = new DirectoryNode(path);
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {

@@ -3,6 +3,7 @@ package org.example.session;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.command.HtmlEditor;
+import org.example.filesys.DirTreeCommand;
 import org.example.utils.PathValidateUtils;
 
 import java.io.IOException;
@@ -25,6 +26,11 @@ public class SessionManager {
 
     public boolean cwdIsSet() {
         return cwd != null;
+    }
+
+    public void dirTree(){
+        DirTreeCommand dirTreeCommand = new DirTreeCommand(Paths.get(cwd));
+        dirTreeCommand.execute();
     }
 
     private String getPathFromName(String fileName) {

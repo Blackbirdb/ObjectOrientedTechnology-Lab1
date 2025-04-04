@@ -186,6 +186,9 @@ public class CommandLineInterface {
                 }
                 sessionManager.getActiveEditor().setShowId(Boolean.parseBoolean(showId));
             }
+            case "dir-tree" -> {
+                sessionManager.dirTree();
+            }
             case "help" -> {
                 commandTable.printCommands();
             }
