@@ -6,14 +6,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 
-public class HtmlParser {
+public class HtmlParserUtils {
     private final HtmlDocument htmlDocument;
 
-    public HtmlParser() {
+    public HtmlParserUtils() {
         this.htmlDocument = new HtmlDocument();
     }
 
-    public HtmlParser(HtmlDocument htmlDocument) {
+    public HtmlParserUtils(HtmlDocument htmlDocument) {
         this.htmlDocument = htmlDocument;
     }
 

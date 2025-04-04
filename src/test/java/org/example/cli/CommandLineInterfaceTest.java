@@ -2,7 +2,7 @@ package org.example.cli;
 
 import org.example.command.HtmlEditor;
 import org.example.document.HtmlDocument;
-import org.example.service.HtmlFileReader;
+import org.example.service.HtmlFileParser;
 import org.example.service.TreePrinter;
 import org.example.service.SpellChecker;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,12 +13,11 @@ import org.mockito.MockitoAnnotations;
 import java.io.IOException;
 
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class CommandLineInterfaceTest {
 
     @Mock private HtmlEditor editor;
-    @Mock private HtmlFileReader reader;
+    @Mock private HtmlFileParser reader;
     @Mock private TreePrinter treePrinter;
     @Mock private SpellChecker spellChecker;
 

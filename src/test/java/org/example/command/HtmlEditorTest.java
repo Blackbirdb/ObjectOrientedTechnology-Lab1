@@ -22,7 +22,7 @@ class HtmlEditorTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        editor = new HtmlEditor(history, document);
+        editor = new HtmlEditor(document);
     }
 
     @Test

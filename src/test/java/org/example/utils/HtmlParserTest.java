@@ -4,7 +4,6 @@ import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 import org.example.document.HtmlElementFactory;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class HtmlParserTest {
-    private HtmlParser parser;
+    private HtmlParserUtils parser;
     private HtmlDocument htmlDocument;
 
     @BeforeEach
@@ -22,7 +21,7 @@ class HtmlParserTest {
         htmlDocument = mock(HtmlDocument.class);
         HtmlElementFactory factory = mock(HtmlElementFactory.class);
         when(htmlDocument.getFactory()).thenReturn(factory);
-        parser = new HtmlParser();
+        parser = new HtmlParserUtils();
     }
 
     @Test

@@ -4,19 +4,15 @@ import org.example.document.HtmlDocument;
 import org.example.visitor.TreePrintVisitor;
 
 public class TreePrinter {
-    private final HtmlDocument document;
-    private final TreePrintVisitor visitor = new TreePrintVisitor();
 
-    public TreePrinter(HtmlDocument document) {
-        this.document = document;
-    }
-
-    public void print() {
+    public static void print(HtmlDocument document) {
+        TreePrintVisitor visitor = new TreePrintVisitor();
         document.accept(visitor);
         System.out.println(visitor.getTreeOutput());
     }
 
-    public String getTreeOutput() {
+    public static String getTreeOutput(HtmlDocument document) {
+        TreePrintVisitor visitor = new TreePrintVisitor();
         document.accept(visitor);
         return visitor.getTreeOutput();
     }

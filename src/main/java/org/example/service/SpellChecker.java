@@ -8,27 +8,16 @@ import java.util.List;
 import java.util.Map;
 
 public class SpellChecker {
-    private final SpellCheckVisitor visitor;
-    private final HtmlDocument document;
 
-    public SpellChecker(HtmlDocument document) {
-        this.document = document;
-        this.visitor = new SpellCheckVisitor();
-    }
-
-    public SpellChecker(HtmlDocument document, SpellCheckVisitor visitor) {
-        this.document = document;
-        this.visitor = visitor;
-    }
-
-    public Map<String, List<RuleMatch>> getErrorMap() {
+    public static Map<String, List<RuleMatch>> getErrorMap(HtmlDocument document) {
+        SpellCheckVisitor visitor = new SpellCheckVisitor();
         document.accept(visitor);
         return visitor.getErrorMap();
     }
 
-    public String getErrorMapAsString() {
+    public static String getErrorMapAsString(HtmlDocument document) {
         StringBuilder builder = new StringBuilder();
-        Map<String, List<RuleMatch>> errorMap = getErrorMap();
+        Map<String, List<RuleMatch>> errorMap = getErrorMap(document);
         for (Map.Entry<String, List<RuleMatch>> entry : errorMap.entrySet()) {
             String errorTagId = entry.getKey();
             List<RuleMatch> errors = entry.getValue();
@@ -42,8 +31,8 @@ public class SpellChecker {
         return builder.toString();
     }
 
-    public void printErrorMap() {
-        String errors = getErrorMapAsString();
+    public static void printErrorMap(HtmlDocument document) {
+        String errors = getErrorMapAsString(document);
         if (!errors.isEmpty()) {
             System.out.println("Errors found:");
             System.out.println(errors);

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
+import org.example.service.HtmlFileParser;
 
 
 public class HtmlEditor {
@@ -11,11 +12,7 @@ public class HtmlEditor {
     @Setter
     private HtmlDocument document;
     private final CommandHistory history;
-
-    public HtmlEditor(CommandHistory history, HtmlDocument document) {
-        this.history = history;
-        this.document = document;
-    }
+    private HtmlFileParser parser;
 
     public HtmlEditor(HtmlDocument document) {
         this.document = document;
@@ -46,19 +43,18 @@ public class HtmlEditor {
         history.executeCommand(cmd);
     }
 
-    // 删除元素
     public void deleteElement(String elementId) {
         Command cmd = new DeleteElementCommand(document, elementId);
         history.executeCommand(cmd);
     }
 
-    // 撤销
     public void undo() {
         history.undo();
     }
 
-    // 重做
     public void redo() {
         history.redo();
     }
+
+
 }

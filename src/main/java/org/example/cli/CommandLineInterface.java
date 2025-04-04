@@ -2,21 +2,18 @@ package org.example.cli;
 
 import org.example.command.HtmlEditor;
 import org.example.document.HtmlDocument;
-import org.example.service.HtmlFileReader;
+import org.example.service.HtmlFileParser;
 import org.example.service.SpellChecker;
 import org.example.service.TreePrinter;
 import org.example.utils.CommandTable;
 import org.example.utils.PathValidateUtils;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 
 public class CommandLineInterface {
     private HtmlEditor editor = null;
-    private HtmlFileReader reader;
     private boolean initialized = false;
     private final CommandTable commandTable = new CommandTable();
 
@@ -122,22 +119,18 @@ public class CommandLineInterface {
                     return;
                 }
 
-                reader = new HtmlFileReader(new HtmlDocument());
-                editor = new HtmlEditor(reader.readHtmlFromFile(filePath));
+                editor = new HtmlEditor(HtmlFileParser.readHtmlFromFile(filePath));
                 initialized = true;
             }
             case "init" -> {
-                reader = new HtmlFileReader(new HtmlDocument());
-                editor = new HtmlEditor(reader.readHtmlFromFile("src/main/resources/default.html"));
+                editor = new HtmlEditor(HtmlFileParser.readHtmlFromFile("src/main/resources/default.html"));
                 initialized = true;
             }
             case "print-tree" -> {
-                TreePrinter treePrinter = new TreePrinter(editor.getDocument());
-                treePrinter.print();
+                TreePrinter.print(editor.getDocument());
             }
             case "spell-check" -> {
-                SpellChecker spellChecker = new SpellChecker(editor.getDocument());
-                spellChecker.printErrorMap();
+                SpellChecker.printErrorMap(editor.getDocument());
             }
             case "save" -> {
                 if (parts.length != 2) {
@@ -149,7 +142,7 @@ public class CommandLineInterface {
                     System.out.println("Invalid file path: " + filePath);
                     return;
                 }
-                reader.saveHtmlDocumentToFile(editor.getDocument(), filePath);
+                HtmlFileParser.saveHtmlDocumentToFile(editor.getDocument(), filePath);
             }
             case "help" -> {
                 commandTable.printCommands();

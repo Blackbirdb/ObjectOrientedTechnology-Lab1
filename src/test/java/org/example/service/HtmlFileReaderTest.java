@@ -21,7 +21,7 @@ class HtmlFileReaderTest {
 
     void testSaveHtmlDocumentToFile(String readPath, String savePath) throws IOException {
 
-        HtmlFileReader reader = new HtmlFileReader();
+        HtmlFileParser reader = new HtmlFileParser();
         HtmlDocument document = reader.readHtmlFromFile(readPath);
         reader.saveHtmlDocumentToFile(document, savePath);
 

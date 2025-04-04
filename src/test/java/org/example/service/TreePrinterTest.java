@@ -80,7 +80,7 @@ public class TreePrinterTest {
     }
 
     public String testTreePrint(String filePath) throws IOException {
-        HtmlFileReader htmlFileReader = new HtmlFileReader();
+        HtmlFileParser htmlFileReader = new HtmlFileParser();
         HtmlDocument document = htmlFileReader.readHtmlFromFile(constructFilePath(filePath));
 
         TreePrinter printer = new TreePrinter(document);
