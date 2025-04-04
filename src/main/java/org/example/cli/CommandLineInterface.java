@@ -5,7 +5,7 @@ import org.example.document.HtmlDocument;
 import org.example.service.HtmlFileReader;
 import org.example.service.SpellChecker;
 import org.example.service.TreePrinter;
-import org.example.visitor.SpellCheckVisitor;
+import org.example.utils.PathValidateUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -56,7 +56,7 @@ public class CommandLineInterface {
         try {
             processCommand(command);
         } catch (IOException e) {
-            System.out.println("Error processing command: " + e.getMessage());
+            System.out.println("IO Exception: " + e.getMessage());
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid argument: " + e.getMessage());
         } catch (NullPointerException e) {
@@ -69,7 +69,7 @@ public class CommandLineInterface {
      void processCommand(String command) throws IOException {
         String[] parts = command.split(" ");
 
-        if (!initialized && !command.equals("init") && !command.equals("read")) {
+        if (!initialized && !command.equals("init") && !parts[0].equals("read")) {
             System.out.println("Please initialize the editor first by using 'init' or 'read <filePath>' command.");
             return;
         }
@@ -132,6 +132,11 @@ public class CommandLineInterface {
                 }
                 String filePath = parts[1];
 
+                if (!PathValidateUtils.isValidHtmlFilePath(filePath)) {
+                    System.out.println("Invalid file path: " + filePath);
+                    return;
+                }
+
                 reader = new HtmlFileReader(new HtmlDocument());
                 editor = new HtmlEditor(reader.readHtmlFromFile(filePath));
                 initialized = true;
@@ -155,6 +160,10 @@ public class CommandLineInterface {
                     return;
                 }
                 String filePath = parts[1];
+                if (!PathValidateUtils.isValidHtmlFilePath(filePath)) {
+                    System.out.println("Invalid file path: " + filePath);
+                    return;
+                }
                 reader.saveHtmlDocumentToFile(editor.getDocument(), filePath);
             }
             default -> {
