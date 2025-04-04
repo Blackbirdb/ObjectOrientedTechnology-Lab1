@@ -1,7 +1,11 @@
 package org.example.document;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.example.visitor.HtmlVisitor;
 
+@Setter
+@Getter
 public class HtmlTextNode extends HtmlNode {
     private String text;
 
@@ -15,11 +19,4 @@ public class HtmlTextNode extends HtmlNode {
         visitor.visit(this);
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 }

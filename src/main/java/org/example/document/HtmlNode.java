@@ -1,17 +1,17 @@
 package org.example.document;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.example.visitor.HtmlVisitor;
 
 import java.util.List;
 
+@Setter
+@Getter
 public abstract class HtmlNode {
     protected HtmlElement parent;
 
     public abstract void accept(HtmlVisitor visitor);
-    public HtmlElement getParent(){
-        return parent;
-    };
-    public void setParent(HtmlElement parent){ this.parent = parent; }
 
     public boolean isLastChild() {
         HtmlElement parent = getParent();

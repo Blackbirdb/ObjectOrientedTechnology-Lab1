@@ -22,11 +22,6 @@ public class HtmlEditor {
         this.history = new CommandHistory();
     }
 
-    public HtmlEditor() {
-        this.document = new HtmlDocument();
-        this.history = new CommandHistory();
-    }
-
     public HtmlElement getElementById(String id) {
         return document.getElementById(id);
     }

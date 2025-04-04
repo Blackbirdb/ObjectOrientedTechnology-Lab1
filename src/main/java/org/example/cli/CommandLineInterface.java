@@ -24,11 +24,6 @@ public class CommandLineInterface {
         this.editor = null;
     }
 
-    public CommandLineInterface(HtmlEditor editor) {
-        this.editor = editor;
-        initializeUsageMap();
-    }
-
     private void initializeUsageMap() {
         usageMap.put("insert", "insert <tagName> <idValue> <insertLocation> [textContent]");
         usageMap.put("append", "append <tagName> <idValue> <parentElement> [textContent]");
@@ -40,7 +35,7 @@ public class CommandLineInterface {
         // 添加其他命令的用法说明
     }
 
-    public void start() throws IOException {
+    public void start() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to the html editor!");
         while (true) {

@@ -11,7 +11,7 @@ public class HtmlDocument {
     @Getter
     @Setter
     private HtmlElement root;
-    private Map<String, HtmlElement> idToElementMap;
+    private final Map<String, HtmlElement> idToElementMap;
     @Getter
     private final HtmlElementFactory factory;
 

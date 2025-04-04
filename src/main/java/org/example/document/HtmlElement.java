@@ -7,13 +7,11 @@ import org.example.visitor.HtmlVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class HtmlElement extends HtmlNode {
-    @Getter
     private final String tagName;
     @Setter
-    @Getter
     private String id;
-    @Getter
     private final List<HtmlNode> children;
 
     public HtmlElement(String tagName, String id, HtmlElement parent) {

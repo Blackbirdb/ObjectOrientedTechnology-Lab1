@@ -3,8 +3,6 @@ package org.example.command;
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 
-import javax.lang.model.element.Element;
-
 
 public class DeleteElementCommand implements Command {
     private final HtmlDocument document;

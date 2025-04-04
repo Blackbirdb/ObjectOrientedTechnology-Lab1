@@ -1,7 +1,6 @@
 package org.example.service;
 
 import org.example.document.HtmlDocument;
-import org.example.document.HtmlNode;
 import org.example.visitor.SpellCheckVisitor;
 import org.languagetool.rules.RuleMatch;
 
