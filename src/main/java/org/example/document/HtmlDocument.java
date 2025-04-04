@@ -1,14 +1,19 @@
 package org.example.document;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.example.visitor.HtmlVisitor;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class HtmlDocument {
+    @Getter
+    @Setter
     private HtmlElement root;
     private Map<String, HtmlElement> idToElementMap;
-    private HtmlElementFactory factory;
+    @Getter
+    private final HtmlElementFactory factory;
 
     public HtmlDocument() {
         this.factory = new HtmlElementFactory(this);
@@ -18,6 +23,7 @@ public class HtmlDocument {
     public HtmlDocument(HtmlElement root) {
         this.root = root;
         this.factory = new HtmlElementFactory(this);
+        this.idToElementMap = new HashMap<>();
     }
 
     public HtmlElement getElementById(String id) {
@@ -30,18 +36,6 @@ public class HtmlDocument {
 
     public void unregisterElement(HtmlElement element) {
         idToElementMap.remove(element.getId());
-    }
-
-    public void setRoot(HtmlElement root) {
-        this.root = root;
-    }
-
-    public HtmlElement getRoot() {
-        return this.root;
-    }
-
-    public HtmlElementFactory getFactory() {
-        return this.factory;
     }
 
     public void accept(HtmlVisitor visitor) {

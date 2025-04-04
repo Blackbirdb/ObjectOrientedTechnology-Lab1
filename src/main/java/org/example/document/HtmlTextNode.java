@@ -4,7 +4,6 @@ import org.example.visitor.HtmlVisitor;
 
 public class HtmlTextNode extends HtmlNode {
     private String text;
-    private HtmlElement parent;
 
     public HtmlTextNode(String text, HtmlElement parent) {
         this.text = text;
@@ -14,15 +13,6 @@ public class HtmlTextNode extends HtmlNode {
     @Override
     public void accept(HtmlVisitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public HtmlElement getParent() {
-        return parent;
-    }
-
-    public void setParent(HtmlElement parent) {
-        this.parent = parent;
     }
 
     public String getText() {

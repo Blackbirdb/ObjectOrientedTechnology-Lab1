@@ -5,22 +5,23 @@ import org.example.visitor.HtmlVisitor;
 import java.util.List;
 
 public abstract class HtmlNode {
+    protected HtmlElement parent;
+
     public abstract void accept(HtmlVisitor visitor);
-    public abstract HtmlElement getParent();
+    public HtmlElement getParent(){
+        return parent;
+    };
+    public void setParent(HtmlElement parent){ this.parent = parent; }
+
     public boolean isLastChild() {
         HtmlElement parent = getParent();
         if (parent == null) {
             return true;
         }
         List<HtmlNode> siblings = parent.getChildren();
-        return siblings.indexOf(this) == siblings.size() - 1;
-    }
-
-    public boolean parentIsLastChild() {
-        HtmlElement parent = getParent();
-        if (parent == null) {
-            return true;
+        if (siblings == null || siblings.isEmpty()) {
+            throw new IllegalStateException("Parent has no children");
         }
-        return parent.isLastChild();
+        return siblings.indexOf(this) == siblings.size() - 1;
     }
 }

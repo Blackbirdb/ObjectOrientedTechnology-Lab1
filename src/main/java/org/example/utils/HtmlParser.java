@@ -66,7 +66,7 @@ public class HtmlParser {
             } else {
                 childNode = parseElement(child, element);
             }
-            element.addChild(childNode);
+            element.insertAtLast(childNode);
         }
 
         return element;

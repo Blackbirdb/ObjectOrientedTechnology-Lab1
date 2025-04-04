@@ -1,15 +1,20 @@
 package org.example.document;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.example.visitor.HtmlVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HtmlElement extends HtmlNode {
-    private String tagName;
+    @Getter
+    private final String tagName;
+    @Setter
+    @Getter
     private String id;
-    private List<HtmlNode> children;
-    private HtmlElement parent;
+    @Getter
+    private final List<HtmlNode> children;
 
     public HtmlElement(String tagName, String id, HtmlElement parent) {
         this.tagName = tagName;
@@ -27,7 +32,12 @@ public class HtmlElement extends HtmlNode {
         }
         sb.append(">\n");
         for (HtmlNode child : children) {
-            sb.append("Child").append("\n");
+            if (child instanceof HtmlTextNode) {
+                sb.append("text: ").append(((HtmlTextNode) child).getText()).append("\n");
+            }
+            else if (child instanceof HtmlElement) {
+                sb.append("child: ").append(((HtmlElement)child).getTagName()).append("\n");
+            }
         }
         sb.append("</").append(tagName).append(">\n");
         return sb.toString();
@@ -38,32 +48,15 @@ public class HtmlElement extends HtmlNode {
         visitor.visit(this);
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public List<HtmlNode> getChildren() {
-        return children;
-    }
-
-    public void addChild(HtmlNode childNode) {
-        this.children.add(childNode);
-    }
-
-
     /**
      * Get the text content of the first child node if it is a text node.
-     * @return String: text context of the given node
+     * @return String: text context of the given node or null
      */
     public String getTextContent() {
         if (!children.isEmpty() && children.getFirst() instanceof HtmlTextNode) {
             return ((HtmlTextNode) children.getFirst()).getText();
         }
-        return "";
+        return null;
     }
 
     /**
@@ -79,20 +72,6 @@ public class HtmlElement extends HtmlNode {
         }
     }
 
-    public String getTagName() {
-        return tagName;
-    }
-
-    @Override
-    public HtmlElement getParent() {
-        return parent;
-    }
-
-    /**
-     * Insert a new child before the specified reference child.
-     * @param newChild
-     * @param refChild
-     */
     public void insertBefore(HtmlElement newChild, HtmlElement refChild) {
         assert refChild.getParent() == this;
 
@@ -116,11 +95,8 @@ public class HtmlElement extends HtmlNode {
         children.remove(child);
     }
 
-    public void setParent(HtmlElement parent) {
-        this.parent = parent;
-    }
-
     public int getChildIndex(HtmlNode child) {
+        assert child.getParent() == this;
         return children.indexOf(child);
     }
 }
