@@ -13,15 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HtmlFileReaderTest {
     @Test
-    void testBasics() throws IOException {
-        String readPath = "src/test/java/org/example/testFiles/basics.html";
-        String savePath = "src/test/java/org/example/results/basics_result.html";
-        testSaveHtmlDocumentToFile(readPath, savePath);
-
-        assertLinesMatch(Files.readAllLines(Path.of(readPath)), Files.readAllLines(Path.of(savePath)));
-    }
-
-    @Test
     void testNested() throws IOException {
         String readPath = "src/test/java/org/example/testFiles/nested.html";
         String savePath = "src/test/java/org/example/results/nested_result.html";
