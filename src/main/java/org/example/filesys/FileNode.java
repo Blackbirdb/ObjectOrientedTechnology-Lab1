@@ -4,6 +4,7 @@ import java.nio.file.Path;
 
 class FileNode extends FileSystemNode {
     private boolean isOpen;
+
     public FileNode(Path path, boolean isOpen) {
         super(path);
         this.isOpen = isOpen;

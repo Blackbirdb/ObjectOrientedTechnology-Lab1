@@ -11,6 +11,7 @@ class DirectoryNode extends FileSystemNode {
     }
     public void addChild(FileSystemNode child) {
         children.add(child);
+        child.setParent(this);
     }
     public List<FileSystemNode> getChildren() {
         return children;

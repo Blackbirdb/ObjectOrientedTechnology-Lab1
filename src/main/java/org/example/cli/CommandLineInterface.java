@@ -70,10 +70,10 @@ public class CommandLineInterface {
      void processCommand(String command) throws IOException {
         String[] parts = command.split(" ");
 
-        if (!sessionManager.isActive() && !initCommands.contains(parts[0])) {
-            System.out.println("Please initialize the editor first by using 'init' or 'read <filePath>' command.");
-            return;
-        }
+//        if (!sessionManager.isActive() && !initCommands.contains(parts[0])) {
+//            System.out.println("Please initialize the editor first by using 'init' or 'read <filePath>' command.");
+//            return;
+//        }
 
         switch (parts[0]) {
             case "insert" -> {
