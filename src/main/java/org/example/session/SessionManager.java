@@ -23,7 +23,19 @@ public class SessionManager {
         return cwd != null;
     }
 
-    public void loadFile(String filePath) throws IOException {
+    private String getPathFromName(String fileName) {
+        if (fileName == null || fileName.isEmpty()) {
+            return null;
+        }
+        return cwd + "/" + fileName;
+    }
+
+    public void loadFile(String fileName) throws IOException {
+        String filePath = getPathFromName(fileName);
+        loadFileFromPath(filePath);
+    }
+
+    public void loadFileFromPath(String filePath) throws IOException {
         if (openEditors.containsKey(filePath)) {
             activeEditor = openEditors.get(filePath);
         }
@@ -34,12 +46,8 @@ public class SessionManager {
         }
     }
 
-    /**
-     * Saves the filePath specified
-     * @param filePath
-     * @throws IOException
-     */
-    public void saveFile(String filePath) throws IOException {
+    public void saveFile(String fileName) throws IOException {
+        String filePath = getPathFromName(fileName);
         if (openEditors.containsKey(filePath)) {
             HtmlEditor editor = openEditors.get(filePath);
             editor.saveToFile(filePath);
@@ -47,6 +55,15 @@ public class SessionManager {
             throw new IllegalArgumentException("File not loaded: " + filePath);
         }
     }
+
+//    public void saveFileToPath(String filePath) throws IOException {
+//        if (openEditors.containsKey(filePath)) {
+//            HtmlEditor editor = openEditors.get(filePath);
+//            editor.saveToFile(filePath);
+//        } else {
+//            throw new IllegalArgumentException("File not loaded: " + filePath);
+//        }
+//    }
 
 //    public void close() {
 //

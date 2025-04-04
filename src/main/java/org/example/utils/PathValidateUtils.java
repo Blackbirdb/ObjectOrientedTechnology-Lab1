@@ -25,7 +25,7 @@ public class PathValidateUtils {
         }
     }
 
-    private static boolean isHtmlFile(String path) {
+    public static boolean isHtmlFile(String path) {
         String lowerPath = path.toLowerCase();
         return lowerPath.endsWith(".html") || lowerPath.endsWith(".htm");
     }

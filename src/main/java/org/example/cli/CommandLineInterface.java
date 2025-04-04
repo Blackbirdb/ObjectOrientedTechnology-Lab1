@@ -123,10 +123,22 @@ public class CommandLineInterface {
                     System.out.println("Invalid file path: " + filePath);
                     return;
                 }
-                sessionManager.loadFile(filePath);
+                sessionManager.loadFileFromPath(filePath);
             }
             case "init" -> {
-                sessionManager.loadFile("src/main/resources/default.html");
+                sessionManager.loadFileFromPath("src/main/resources/default.html");
+            }
+            case "load" -> {
+                if (parts.length != 2) {
+                    printWrongUsage("load");
+                    return;
+                }
+                String fileName = parts[1];
+                if (!PathValidateUtils.isHtmlFile(fileName)) {
+                    System.out.println("Is not an HTML file: " + fileName);
+                    return;
+                }
+                sessionManager.loadFile(fileName);
             }
             case "print-tree" -> {
                 sessionManager.getActiveEditor().printTree();
@@ -139,12 +151,12 @@ public class CommandLineInterface {
                     printWrongUsage("save");
                     return;
                 }
-                String filePath = parts[1];
-                if (!PathValidateUtils.isValidHtmlFilePath(filePath)) {
-                    System.out.println("Invalid file path: " + filePath);
+                String fileName = parts[1];
+                if (!PathValidateUtils.isHtmlFile(fileName)) {
+                    System.out.println("Is not an HTML file: " + fileName);
                     return;
                 }
-                sessionManager.saveFile(filePath);
+                sessionManager.saveFile(fileName);
             }
             case "help" -> {
                 commandTable.printCommands();
