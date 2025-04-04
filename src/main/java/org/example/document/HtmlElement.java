@@ -44,9 +44,6 @@ public class HtmlElement extends HtmlNode {
     @Override
     public void accept(HtmlVisitor visitor) {
         visitor.visit(this);
-        for (HtmlNode child: children){
-            child.accept(visitor);
-        }
     }
 
     /**

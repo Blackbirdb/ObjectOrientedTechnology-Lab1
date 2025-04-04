@@ -17,10 +17,7 @@ class DirectoryNode extends FileSystemNode {
         return children;
     }
     @Override
-    public void accept(FileSystemVisitor visitor, int depth) {
-        visitor.visit(this, depth);
-        for (FileSystemNode child : children) {
-            child.accept(visitor, depth + 1);
-        }
+    public void accept(FileSystemVisitor visitor) {
+        visitor.visit(this);
     }
 }

@@ -1,61 +1,45 @@
 package org.example.filesys;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-class DirectoryPrinterVisitor implements FileSystemVisitor {
-    private StringBuilder output = new StringBuilder();
-    private List<Boolean> isLastStack = new ArrayList<>();
+import static org.example.utils.PrintTreeUtil.*;
 
-    private String indent(int depth) {
-        return " ".repeat(depth * 2);
-    }
+class DirectoryPrinterVisitor implements FileSystemVisitor {
+    private final StringBuilder output = new StringBuilder();
+    private int depth = 0;
+    private final Stack<Boolean> isLastStack = new Stack<>();
+
     @Override
-    public void visit(FileNode file, int depth) {
-        if (depth > 1) {
-            isLastStack = isLastStack.subList(0, depth);
-        }
-        output.append(getIndentString(depth))
+    public void visit(FileNode file) {
+        output.append(getIndentString(isLastStack, depth))
                 .append(getConnectorString(file.isLastChild(), depth))
                 .append(file.getPath().getFileName())
                 .append("\n");
     }
+
     @Override
-    public void visit(DirectoryNode directory, int depth) {
+    public void visit(DirectoryNode directory) {
 
-        if (depth > 0) {
-            isLastStack = isLastStack.subList(0, depth);
-        }
-
-        output.append(getIndentString(depth))
+        output.append(getIndentString(isLastStack, depth))
                 .append(getConnectorString(directory.isLastChild(), depth))
                 .append(directory.getPath().getFileName())
                 .append("/\n");
 
-        isLastStack.add(directory.isLastChild());
+        List<FileSystemNode> children = directory.getChildren();
+
+        depth++;
+        isLastStack.push(directory.isLastChild());
+        for (FileSystemNode child : children) {
+            child.accept(this);
+        }
+        isLastStack.pop();
+        depth--;
+
     }
+
     public String getOutput() {
         return output.toString();
     }
 
-    private String getIndentString(int depth) {
-        StringBuilder sb = new StringBuilder();
-        int level = 1;
-
-        while (level <= depth - 1) {
-            boolean isLast = isLastStack.get(level);
-            String appendString = isLast ? "    " : "│   ";
-            sb.append(appendString);
-            level++;
-        }
-        return sb.toString();
-    }
-
-    private String getConnectorString(boolean isLast, int depth) {
-        if (depth == 0) { return ""; }
-        else {
-            return isLast ? "└── " : "├── ";
-        }
-    }
 }

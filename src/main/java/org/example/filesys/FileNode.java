@@ -13,7 +13,7 @@ class FileNode extends FileSystemNode {
         return isOpen;
     }
     @Override
-    public void accept(FileSystemVisitor visitor, int depth) {
-        visitor.visit(this, depth);
+    public void accept(FileSystemVisitor visitor) {
+        visitor.visit(this);
     }
 }

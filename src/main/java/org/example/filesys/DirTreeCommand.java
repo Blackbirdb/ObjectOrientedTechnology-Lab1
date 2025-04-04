@@ -37,7 +37,7 @@ public class DirTreeCommand {
         try {
             DirectoryNode root = buildFileTree(rootPath);
             DirectoryPrinterVisitor visitor = new DirectoryPrinterVisitor();
-            root.accept(visitor, 0);
+            root.accept(visitor);
             System.out.println(visitor.getOutput());
         } catch (IOException e) {
             System.err.println("Error reading directory: " + e.getMessage());

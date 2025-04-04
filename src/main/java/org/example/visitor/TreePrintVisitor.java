@@ -8,9 +8,11 @@ import org.example.utils.SpellCheckUtils;
 import java.util.List;
 import java.util.Stack;
 
+import static org.example.utils.PrintTreeUtil.*;
+
 public class TreePrintVisitor implements HtmlVisitor {
     private final StringBuilder output = new StringBuilder();
-    private int currentIndent = 0;
+    private int depth = 0;
     private final Stack<Boolean> isLastStack = new Stack<>();
     private boolean showId;
 
@@ -26,34 +28,37 @@ public class TreePrintVisitor implements HtmlVisitor {
         return output.toString();
     }
 
+    private String getTagLabel(HtmlElement element) {
+        if (SpellCheckUtils.hasErrors(element.getTextContent()))
+            return "[X]";
+        else return "";
+    }
+
+    private String getId(HtmlElement element) {
+        if (showId && element.getId() != null && !element.getId().isEmpty())
+            return "#" + element.getId();
+        else return "";
+    }
+
     @Override
     public void visit(HtmlElement element) {
-        boolean isLast = element.isLastChild();
-        String indent = getIndentString();
-        String connector = currentIndent == 0 ? "" : getConnectorString(isLast);
 
-        output.append(indent).append(connector);
-
-        if (SpellCheckUtils.hasErrors(element.getTextContent())){
-            output.append("[X]");
-        }
-
-        output.append(element.getTagName());
-
-        if (showId && element.getId() != null && !element.getId().isEmpty()) {
-            output.append("#").append(element.getId());
-        }
-        output.append("\n");
+        output.append(getIndentString(isLastStack, depth))
+                .append(getConnectorString(element.isLastChild(), depth))
+                .append(getTagLabel(element))
+                .append(element.getTagName())
+                .append(getId(element))
+                .append("\n");
 
         List<HtmlNode> children = element.getChildren();
 
-        currentIndent++;
-        isLastStack.push(isLast);
+        depth++;
+        isLastStack.push(element.isLastChild());
         for (HtmlNode child : children) {
             child.accept(this);
         }
         isLastStack.pop();
-        currentIndent--;
+        depth--;
     }
 
     @Override
@@ -63,27 +68,10 @@ public class TreePrintVisitor implements HtmlVisitor {
             return;
         }
 
-        String indent = getIndentString();
-        boolean isLast = textNode.isLastChild();
-        String connector = getConnectorString(isLast);
-
-        output.append(indent).append(connector).append(text).append("\n");
+        output.append(getIndentString(isLastStack, depth))
+                .append(getConnectorString(textNode.isLastChild(), depth))
+                .append(text)
+                .append("\n");
     }
 
-    private String getIndentString() {
-        StringBuilder sb = new StringBuilder();
-        int level = 1;
-
-        while (level <= currentIndent - 1) {
-            boolean isLast = isLastStack.get(level);
-            String appendString = isLast ? "    " : "│   ";
-            sb.append(appendString);
-            level++;
-        }
-        return sb.toString();
-    }
-
-    private String getConnectorString(boolean isLast) {
-        return isLast ? "└── " : "├── ";
-    }
 }

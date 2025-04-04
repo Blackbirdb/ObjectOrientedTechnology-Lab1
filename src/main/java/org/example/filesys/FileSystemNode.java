@@ -33,5 +33,5 @@ abstract class FileSystemNode {
         return siblings.indexOf(this) == siblings.size() - 1;
     }
 
-    public abstract void accept(FileSystemVisitor visitor, int depth);
+    public abstract void accept(FileSystemVisitor visitor);
 }
