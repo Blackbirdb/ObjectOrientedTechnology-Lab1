@@ -56,10 +56,10 @@ public class CommandLineInterface {
      void processCommand(String command) throws IOException {
         String[] parts = command.split(" ");
 
-        if (!sessionManager.isActive() && !command.equals("init") && !parts[0].equals("read") && !command.equals("help")) {
-            System.out.println("Please initialize the editor first by using 'init' or 'read <filePath>' command.");
-            return;
-        }
+//        if (!sessionManager.isActive() && !command.equals("init") && !parts[0].equals("read") && !command.equals("help")) {
+//            System.out.println("Please initialize the editor first by using 'init' or 'read <filePath>' command.");
+//            return;
+//        }
 
         switch (parts[0]) {
             case "insert" -> {
@@ -123,10 +123,11 @@ public class CommandLineInterface {
                     System.out.println("Invalid file path: " + filePath);
                     return;
                 }
-                sessionManager.loadFileFromPath(filePath);
+//                sessionManager.loadFileFromPath(filePath);
             }
             case "init" -> {
-                sessionManager.loadFileFromPath("src/main/resources/default.html");
+//                sessionManager.loadFileFromPath("src/main/resources/default.html");
+                System.out.println("Default HTML file loaded.");
             }
             case "load" -> {
                 if (parts.length != 2) {
@@ -157,6 +158,24 @@ public class CommandLineInterface {
                     return;
                 }
                 sessionManager.saveFile(fileName);
+            }
+            case "close" -> {
+                sessionManager.close();
+            }
+            case "editor-list" -> {
+                sessionManager.editorList();
+            }
+            case "edit" -> {
+                if (parts.length != 2) {
+                    printWrongUsage("edit");
+                    return;
+                }
+                String fileName = parts[1];
+                if (!PathValidateUtils.isHtmlFile(fileName)) {
+                    System.out.println("Is not an HTML file: " + fileName);
+                    return;
+                }
+                sessionManager.switchEditor(fileName);
             }
             case "help" -> {
                 commandTable.printCommands();

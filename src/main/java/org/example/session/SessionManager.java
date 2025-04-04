@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.example.command.HtmlEditor;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class SessionManager {
@@ -30,44 +32,111 @@ public class SessionManager {
         return cwd + "/" + fileName;
     }
 
-    public void loadFile(String fileName) throws IOException {
-        String filePath = getPathFromName(fileName);
-        loadFileFromPath(filePath);
+    public static boolean isPathInCwd(String cwd, String path) {
+        Path cwdPath = Paths.get(cwd).toAbsolutePath().normalize();
+        Path targetPath = Paths.get(path).toAbsolutePath().normalize();
+        return targetPath.startsWith(cwdPath);
     }
 
-    public void loadFileFromPath(String filePath) throws IOException {
-        if (openEditors.containsKey(filePath)) {
-            activeEditor = openEditors.get(filePath);
+    private String getNameFromPath(String filePath) {
+        if (filePath == null || filePath.isEmpty()) {
+            return null;
+        }
+        if (isPathInCwd(cwd, filePath)) {
+            String[] parts = filePath.split("/");
+            return parts[parts.length - 1];
+        }
+        return filePath;
+    }
+
+    /**
+     * loads file from cwd using filename.
+     */
+    public void loadFile(String fileName) throws IOException {
+        if (openEditors.containsKey(fileName)) {
+            activeEditor = openEditors.get(fileName);
         }
         else {
-            HtmlEditor editor = new HtmlEditor(filePath);
-            openEditors.put(filePath, editor);
+            HtmlEditor editor = new HtmlEditor(getPathFromName(fileName));
+            openEditors.put(fileName, editor);
             activeEditor = editor;
         }
     }
 
+     /**
+     * saves opened files to themselves. Both files in cwd and not can be saved.
+     */
     public void saveFile(String fileName) throws IOException {
-        String filePath = getPathFromName(fileName);
-        if (openEditors.containsKey(filePath)) {
-            HtmlEditor editor = openEditors.get(filePath);
-            editor.saveToFile(filePath);
+        if (openEditors.containsKey(fileName)) {
+            HtmlEditor editor = openEditors.get(fileName);
+            editor.save();
         } else {
-            throw new IllegalArgumentException("File not loaded: " + filePath);
+            throw new IllegalArgumentException("File not loaded: " + fileName);
         }
     }
 
-//    public void saveFileToPath(String filePath) throws IOException {
-//        if (openEditors.containsKey(filePath)) {
-//            HtmlEditor editor = openEditors.get(filePath);
-//            editor.saveToFile(filePath);
-//        } else {
-//            throw new IllegalArgumentException("File not loaded: " + filePath);
-//        }
-//    }
 
-//    public void close() {
-//
-//    }
+    public void close() {
+        if (activeEditor == null) return;
+        else if (activeEditor.isModified()) {
+            System.out.println("File is modified, do you want to save file? (y/n): ");
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();
+            while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
+                System.out.println("Invalid input, please enter 'y' or 'n': ");
+                input = scanner.nextLine();
+            }
+            if (input.equalsIgnoreCase("y")) {
+                try {
+                    activeEditor.save();
+                    System.out.println("File saved successfully.");
+                } catch (IOException e) {
+                    System.out.println("Error saving file: " + e.getMessage());
+                }
+            }
+            else if (input.equalsIgnoreCase("n")) {
+                System.out.println("File not saved.");
+            }
+        }
+
+        String editorKey = activeEditor.getFilePath();
+        if (isPathInCwd(cwd, editorKey)) {
+            editorKey = getNameFromPath(editorKey);
+        }
+        openEditors.remove(editorKey);
+        if (openEditors.isEmpty()) {
+            activeEditor = null;
+        } else {
+            activeEditor = openEditors.entrySet().iterator().next().getValue();
+        }
+    }
+
+    public void editorList(){
+        StringBuilder sb = new StringBuilder();
+
+        for (Map.Entry<String, HtmlEditor> entry : openEditors.entrySet()) {
+
+            if (entry.getValue() == activeEditor) {
+                sb.append("> ");
+            } else {
+                sb.append("  ");
+            }
+            sb.append(entry.getKey());
+            if (entry.getValue().isModified()) {
+                sb.append("*");
+            }
+            sb.append("\n");
+        }
+        System.out.print(sb.toString());
+    }
+
+    public void switchEditor(String fileName) {
+        if (openEditors.containsKey(fileName)) {
+            activeEditor = openEditors.get(fileName);
+        } else {
+            System.out.println("File not loaded: " + fileName);
+        }
+    }
 
 
 
