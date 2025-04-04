@@ -5,6 +5,10 @@ import lombok.Setter;
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 import org.example.service.HtmlFileParser;
+import org.example.service.SpellChecker;
+import org.example.service.TreePrinter;
+
+import java.io.IOException;
 
 
 public class HtmlEditor {
@@ -12,10 +16,14 @@ public class HtmlEditor {
     @Setter
     private HtmlDocument document;
     private final CommandHistory history;
-    private HtmlFileParser parser;
 
     public HtmlEditor(HtmlDocument document) {
         this.document = document;
+        this.history = new CommandHistory();
+    }
+
+    public HtmlEditor(String filePath) throws IOException {
+        this.document = HtmlFileParser.readHtmlFromFile(filePath);
         this.history = new CommandHistory();
     }
 
@@ -56,5 +64,15 @@ public class HtmlEditor {
         history.redo();
     }
 
+    public void saveToFile(String filePath) throws IOException {
+        HtmlFileParser.saveHtmlDocumentToFile(document, filePath);
+    }
 
+    public void printTree() {
+        TreePrinter.print(document);
+    }
+
+    public void spellCheck(){
+        SpellChecker.printErrorMap(document);
+    }
 }

@@ -118,19 +118,18 @@ public class CommandLineInterface {
                     System.out.println("Invalid file path: " + filePath);
                     return;
                 }
-
-                editor = new HtmlEditor(HtmlFileParser.readHtmlFromFile(filePath));
+                editor = new HtmlEditor(filePath);
                 initialized = true;
             }
             case "init" -> {
-                editor = new HtmlEditor(HtmlFileParser.readHtmlFromFile("src/main/resources/default.html"));
+                editor = new HtmlEditor("src/main/resources/default.html");
                 initialized = true;
             }
             case "print-tree" -> {
-                TreePrinter.print(editor.getDocument());
+                editor.printTree();
             }
             case "spell-check" -> {
-                SpellChecker.printErrorMap(editor.getDocument());
+                editor.spellCheck();
             }
             case "save" -> {
                 if (parts.length != 2) {
@@ -142,7 +141,7 @@ public class CommandLineInterface {
                     System.out.println("Invalid file path: " + filePath);
                     return;
                 }
-                HtmlFileParser.saveHtmlDocumentToFile(editor.getDocument(), filePath);
+                editor.saveToFile(filePath);
             }
             case "help" -> {
                 commandTable.printCommands();
