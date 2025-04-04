@@ -20,7 +20,7 @@ public class HtmlFileParser {
         return parserUtils.parse(htmlContent);
     }
 
-    private String readFileToString(String filePath) throws IOException {
+    private static String readFileToString(String filePath) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(filePath));
         return new String(bytes, StandardCharsets.UTF_8);  // 指定编码为UTF-8
     }

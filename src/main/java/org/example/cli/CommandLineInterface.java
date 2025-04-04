@@ -19,10 +19,17 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         System.out.println("=============================================================================");
         System.out.println("Welcome to the html editor!");
+        if (!sessionManager.cwdIsSet()){
+            System.out.print("Please specify current working directory: ");
+            String cwd = new Scanner(System.in).nextLine();
+            sessionManager.setCwd(cwd);
+        }
+        System.out.println("Current working directory: " + sessionManager.getCwd());
         System.out.println("Please initialize the editor by using 'init' or 'read <filePath>' command.");
         System.out.println("Type \"help\" to see the available commands.");
         System.out.println("Type \"exit\" to exit the editor.");
         System.out.println("=============================================================================");
+
         while (true) {
             System.out.print("> ");
             String command = scanner.nextLine();
@@ -105,7 +112,7 @@ public class CommandLineInterface {
             }
             case "undo" -> sessionManager.getActiveEditor().undo();
             case "redo" -> sessionManager.getActiveEditor().redo();
-            case "read", "load" -> {
+            case "read" -> {
                 if (parts.length != 2) {
                     printWrongUsage("read");
                     return;
@@ -137,7 +144,7 @@ public class CommandLineInterface {
                     System.out.println("Invalid file path: " + filePath);
                     return;
                 }
-                sessionManager.getActiveEditor().saveToFile(filePath);
+                sessionManager.saveFile(filePath);
             }
             case "help" -> {
                 commandTable.printCommands();

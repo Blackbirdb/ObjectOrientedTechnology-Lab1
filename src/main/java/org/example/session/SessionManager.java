@@ -1,6 +1,7 @@
 package org.example.session;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.example.command.HtmlEditor;
 
 import java.io.IOException;
@@ -10,9 +11,16 @@ public class SessionManager {
     private final Map<String, HtmlEditor> openEditors = new LinkedHashMap<>();
     @Getter
     private HtmlEditor activeEditor = null;
+    @Setter
+    @Getter
+    private String cwd = null;
 
     public boolean isActive(){
         return activeEditor != null;
+    }
+
+    public boolean cwdIsSet() {
+        return cwd != null;
     }
 
     public void loadFile(String filePath) throws IOException {
@@ -26,6 +34,11 @@ public class SessionManager {
         }
     }
 
+    /**
+     * Saves the filePath specified
+     * @param filePath
+     * @throws IOException
+     */
     public void saveFile(String filePath) throws IOException {
         if (openEditors.containsKey(filePath)) {
             HtmlEditor editor = openEditors.get(filePath);
