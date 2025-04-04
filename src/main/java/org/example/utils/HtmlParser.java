@@ -4,6 +4,7 @@ import org.example.document.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
 
 public class HtmlParser {
     private final HtmlDocument htmlDocument;
@@ -20,7 +21,7 @@ public class HtmlParser {
      * @return htmlDocument
      */
     public HtmlDocument parse(String html) {
-        Document jsoupDoc = Jsoup.parse(html);
+        Document jsoupDoc = Jsoup.parse(html, "", Parser.xmlParser());
 
         validateDocumentStructure(jsoupDoc);
 

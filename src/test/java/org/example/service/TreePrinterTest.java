@@ -65,7 +65,7 @@ public class TreePrinterTest {
     }
 
     @Test
-    public void testBasics() throws IOException {
+    public void testBasics() throws Exception {
         String result = testTreePrint("basics.html");
         String expected = """
                 html

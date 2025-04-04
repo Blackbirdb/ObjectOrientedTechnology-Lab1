@@ -1,11 +1,10 @@
-package org.example.visitor;
+package org.example.utils;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.languagetool.rules.RuleMatch;
-import org.example.utils.SpellCheckUtils;
 
 import java.util.List;
 
