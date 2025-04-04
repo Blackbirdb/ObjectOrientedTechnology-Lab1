@@ -3,8 +3,10 @@ package org.example.session;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.command.HtmlEditor;
+import org.example.utils.PathValidateUtils;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -57,10 +59,29 @@ public class SessionManager {
             throw new IllegalArgumentException(fileName + " is already opened");
         }
 
-        HtmlEditor editor = new HtmlEditor(getPathFromName(fileName));
+        String filePath = getPathFromName(fileName);
+
+        if (!PathValidateUtils.fileExists(filePath)) {
+            initNewHtmlFileAt(filePath);
+        }
+        HtmlEditor editor = new HtmlEditor(filePath);
+
         openEditors.put(fileName, editor);
         activeEditor = editor;
     }
+
+
+    public static void initNewHtmlFileAt(String filePath) {
+        Path sourcePath = Paths.get("src/main/resources/default.html");
+        Path targetPath = Paths.get(filePath);
+
+        try {
+            Files.copy(sourcePath, targetPath);
+        } catch (Exception e) {
+            System.err.println("Failed to copy html file: " + filePath);
+        }
+    }
+
 
     /**
      * loads files that are not in cwd
@@ -126,6 +147,10 @@ public class SessionManager {
     public void editorList(){
         StringBuilder sb = new StringBuilder();
 
+        if (openEditors.isEmpty()) {
+            System.out.println("No editors loaded. ");
+        }
+
         for (Map.Entry<String, HtmlEditor> entry : openEditors.entrySet()) {
 
             if (entry.getValue() == activeEditor) {
@@ -139,7 +164,8 @@ public class SessionManager {
             }
             sb.append("\n");
         }
-        System.out.print(sb.toString());
+
+        System.out.print(sb);
     }
 
     public void switchEditor(String fileName) {

@@ -7,6 +7,8 @@ import org.example.utils.CommandTable;
 import org.example.utils.PathValidateUtils;
 
 import java.io.IOException;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,10 +25,15 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         System.out.println("=============================================================================");
         System.out.println("Welcome to the html editor!");
-        if (!sessionManager.cwdIsSet()){
+        while (!sessionManager.cwdIsSet()){
             System.out.print("Please specify current working directory: ");
             String cwd = new Scanner(System.in).nextLine();
-            sessionManager.setCwd(cwd);
+            if (!PathValidateUtils.isValidPath(cwd)) {
+                System.out.println("Invalid path: " + cwd);
+            }
+            else {
+                sessionManager.setCwd(cwd);
+            }
         }
         System.out.println("Current working directory: " + sessionManager.getCwd());
         System.out.println("Please initialize the editor by using 'init', 'read <filePath>' or 'load <fileName>' command.");

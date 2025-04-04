@@ -16,7 +16,7 @@ public class PathValidateUtils {
         return Files.exists(filePath) && Files.isReadable(filePath);
     }
 
-    private static boolean isValidPath(String path) {
+    public static boolean isValidPath(String path) {
         try {
             Paths.get(path);
             return true;
@@ -28,5 +28,10 @@ public class PathValidateUtils {
     public static boolean isHtmlFile(String path) {
         String lowerPath = path.toLowerCase();
         return lowerPath.endsWith(".html") || lowerPath.endsWith(".htm");
+    }
+
+    public static boolean fileExists(String pathString) {
+        Path path = Paths.get(pathString);
+        return Files.exists(path) && Files.isRegularFile(path);
     }
 }

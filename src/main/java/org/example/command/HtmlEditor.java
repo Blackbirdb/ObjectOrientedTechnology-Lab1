@@ -80,6 +80,7 @@ public class HtmlEditor {
 
     public void save() throws IOException {
         HtmlFileParser.saveHtmlDocumentToFile(document, this.filePath);
+        modifiedCount = 0;
     }
 
     public void printTree() {
