@@ -23,7 +23,9 @@ class HtmlElementTest {
     @Test
     void toString_shouldReturnCorrectHtmlString() {
         element.insertAtLast(textNode);
-        String expected = "<div id=\"content\">\nChild\n</div>\n";
+        String expected = "<div id=\"content\">\n" +
+                            "text: initial text\n" +
+                            "</div>\n";
         assertEquals(expected, element.toString());
     }
 

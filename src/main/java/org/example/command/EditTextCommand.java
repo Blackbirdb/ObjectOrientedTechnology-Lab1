@@ -19,7 +19,7 @@ public class EditTextCommand implements Command {
     @Override
     public void execute() {
         HtmlElement element = document.getElementById(elementId);
-        if (document.getElementById(elementId) == null) {
+        if (element == null) {
             throw new IllegalArgumentException("Element with ID " + elementId + " does not exist.");
         }
         oldTextContent = element.getTextContent();
@@ -29,7 +29,7 @@ public class EditTextCommand implements Command {
     @Override
     public void undo() {
         HtmlElement element = document.getElementById(elementId);
-        if (document.getElementById(elementId) == null) {
+        if (element == null) {
             throw new IllegalArgumentException("Element with ID " + elementId + " does not exist, undo failed.");
         }
         element.setTextContent(oldTextContent);

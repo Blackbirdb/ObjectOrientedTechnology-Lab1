@@ -21,13 +21,36 @@ public class AppendElementCommand implements Command {
     @Override
     public void execute() {
         HtmlElement parent = document.getElementById(parentElement);
+        if (parent == null) {
+            throw new IllegalArgumentException("Parent element is null, can't append to root element.");
+        }
+        else if (parent.getTagName().equals("html")) {
+            throw new IllegalArgumentException("Can't append to html element.");
+        }
+        else if (document.isSpecialTag(tagName)) {
+            throw new IllegalArgumentException("Can't append special tag element.");
+        }
         HtmlElement element = document.getFactory().createElement(tagName, idValue, textContent, parent);
         parent.insertAtLast(element);
     }
     @Override
     public void undo() {
         HtmlElement elementToRemove = document.getElementById(idValue);
+        if (elementToRemove == null) {
+            throw new IllegalArgumentException("Element with ID " + idValue + " does not exist.");
+        }
+        else if (document.isSpecialTag(tagName)) {
+            throw new IllegalArgumentException("Can't delete special tag element.");
+        }
+
         HtmlElement parent = document.getElementById(parentElement);
+        if (parent == null) {
+            throw new IllegalArgumentException("Parent element is null, can't remove from root element.");
+        }
+        else if (parent.getTagName().equals("html")) {
+            throw new IllegalArgumentException("Can't remove from html element.");
+        }
+
         parent.removeChild(elementToRemove);
         document.unregisterElement(elementToRemove);
     }

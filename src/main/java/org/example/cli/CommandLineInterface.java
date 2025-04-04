@@ -1,6 +1,7 @@
 package org.example.cli;
 
 import org.example.command.HtmlEditor;
+import org.example.document.HtmlDocument;
 import org.example.service.HtmlFileReader;
 import org.example.service.SpellChecker;
 import org.example.service.TreePrinter;
@@ -13,12 +14,18 @@ import java.util.Scanner;
 
 
 public class CommandLineInterface {
-    private final HtmlEditor editor = new HtmlEditor();
+    private HtmlEditor editor;
+    private HtmlFileReader reader;
     private final Map<String, String> usageMap = new HashMap<>();
-    private final HtmlFileReader reader = new HtmlFileReader();
-
+    private boolean initialized = false;
 
     public CommandLineInterface() {
+        initializeUsageMap();
+        this.editor = null;
+    }
+
+    public CommandLineInterface(HtmlEditor editor) {
+        this.editor = editor;
         initializeUsageMap();
     }
 
@@ -35,18 +42,37 @@ public class CommandLineInterface {
 
     public void start() throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("欢迎使用 HTML 命令行编辑器！");
+        System.out.println("Welcome to the html editor!");
         while (true) {
             System.out.print("> ");
             String command = scanner.nextLine();
             if (command.equals("exit")) break;
-            processCommand(command);
+            processCommandWithExceptionHandling(command);
         }
         scanner.close();
     }
 
-    private void processCommand(String command) throws IOException {
+    void processCommandWithExceptionHandling(String command) {
+        try {
+            processCommand(command);
+        } catch (IOException e) {
+            System.out.println("Error processing command: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid argument: " + e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("Null pointer exception: " + e.getMessage());
+        } catch (IllegalStateException e) {
+            System.out.println("Illegal State Exception: " + e.getMessage());
+        }
+    }
+
+     void processCommand(String command) throws IOException {
         String[] parts = command.split(" ");
+
+        if (!initialized && !command.equals("init") && !command.equals("read")) {
+            System.out.println("Please initialize the editor first by using 'init' or 'read <filePath>' command.");
+            return;
+        }
 
         switch (parts[0]) {
             case "insert" -> {
@@ -105,9 +131,16 @@ public class CommandLineInterface {
                     return;
                 }
                 String filePath = parts[1];
-                editor.setDocument(reader.readHtmlFromFile(filePath));
+
+                reader = new HtmlFileReader(new HtmlDocument());
+                editor = new HtmlEditor(reader.readHtmlFromFile(filePath));
+                initialized = true;
             }
-            case "init" -> editor.setDocument(reader.readHtmlFromFile("src/main/resources/default.html"));
+            case "init" -> {
+                reader = new HtmlFileReader(new HtmlDocument());
+                editor = new HtmlEditor(reader.readHtmlFromFile("src/main/resources/default.html"));
+                initialized = true;
+            }
             case "print-tree" -> {
                 TreePrinter treePrinter = new TreePrinter(editor.getDocument());
                 treePrinter.print();

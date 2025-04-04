@@ -22,11 +22,6 @@ public class SpellChecker {
         this.visitor = visitor;
     }
 
-    public boolean hasErrors() {
-        document.accept(visitor);
-        return visitor.hasErrors();
-    }
-
     public Map<String, List<RuleMatch>> getErrorMap() {
         document.accept(visitor);
         return visitor.getErrorMap();
@@ -50,6 +45,12 @@ public class SpellChecker {
 
     public void printErrorMap() {
         String errors = getErrorMapAsString();
-        System.out.println(errors);
+        if (!errors.isEmpty()) {
+            System.out.println("Errors found:");
+            System.out.println(errors);
+        }
+        else {
+            System.out.println("No errors found.");
+        }
     }
 }

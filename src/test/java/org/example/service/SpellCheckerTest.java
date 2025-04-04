@@ -24,27 +24,7 @@ class SpellCheckerTest {
         spellChecker = new SpellChecker(document, visitor);
     }
 
-    @Test
-    void hasErrors_shouldReturnTrueWhenVisitorHasErrors() {
-        when(visitor.hasErrors()).thenReturn(true);
-        doAnswer(invocation -> {
-            visitor.hasErrors();
-            return null;
-        }).when(document).accept(visitor);
 
-        assertTrue(spellChecker.hasErrors());
-    }
-
-    @Test
-    void hasErrors_shouldReturnFalseWhenVisitorHasNoErrors() {
-        when(visitor.hasErrors()).thenReturn(false);
-        doAnswer(invocation -> {
-            visitor.hasErrors();
-            return null;
-        }).when(document).accept(visitor);
-
-        assertFalse(spellChecker.hasErrors());
-    }
 
     @Test
     void getErrorMap_shouldReturnCorrectErrorMap() {

@@ -7,6 +7,14 @@ public class CommandHistory {
     private final Stack<Command> undoStack = new Stack<>();
     private final Stack<Command> redoStack = new Stack<>();
 
+    public boolean undoStackIsEmpty() {
+        return undoStack.isEmpty();
+    }
+
+    public boolean redoStackIsEmpty() {
+        return redoStack.isEmpty();
+    }
+
     public void executeCommand(Command cmd) {
         cmd.execute();
         undoStack.push(cmd);
@@ -14,18 +22,20 @@ public class CommandHistory {
     }
 
     public void undo() {
-        if (!undoStack.isEmpty()) {
-            Command cmd = undoStack.pop();
-            cmd.undo();
-            redoStack.push(cmd);
+        if (undoStackIsEmpty()) {
+            throw new IllegalStateException("No commands to undo.");
         }
+        Command cmd = undoStack.pop();
+        cmd.undo();
+        redoStack.push(cmd);
     }
 
     public void redo() {
-        if (!redoStack.isEmpty()) {
-            Command cmd = redoStack.pop();
-            cmd.execute();
-            undoStack.push(cmd);
+        if (redoStackIsEmpty()) {
+            throw new IllegalStateException("No commands to redo.");
         }
+        Command cmd = redoStack.pop();
+        cmd.execute();
+        undoStack.push(cmd);
     }
 }

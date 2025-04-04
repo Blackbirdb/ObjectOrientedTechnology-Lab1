@@ -48,12 +48,16 @@ public class TreePrintVisitor implements HtmlVisitor {
 
     @Override
     public void visit(HtmlTextNode textNode) {
-        // 处理文本节点
+        String text = textNode.getText();
+        if (text == null || text.isEmpty()) {
+            return;
+        }
+
         String indent = getIndentString();
         boolean isLast = textNode.isLastChild();
         String connector = getConnectorString(isLast);
 
-        output.append(indent).append(connector).append(textNode.getText()).append("\n");
+        output.append(indent).append(connector).append(text).append("\n");
     }
 
     private String getIndentString() {

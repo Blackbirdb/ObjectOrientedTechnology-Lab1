@@ -65,6 +65,7 @@ public class HtmlElement extends HtmlNode {
      */
     public void setTextContent(String textContent) {
         if (!children.isEmpty() && children.getFirst() instanceof HtmlTextNode) {
+            if (textContent == null) {textContent = "";}
             ((HtmlTextNode) children.getFirst()).setText(textContent);
         } else {
             HtmlTextNode textNode = new HtmlTextNode(textContent, this);
@@ -93,6 +94,7 @@ public class HtmlElement extends HtmlNode {
 
     public void removeChild(HtmlNode child) {
         children.remove(child);
+        child.setParent(null);
     }
 
     public int getChildIndex(HtmlNode child) {

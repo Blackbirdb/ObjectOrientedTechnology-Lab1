@@ -1,18 +1,36 @@
 package org.example.command;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 
 
 public class HtmlEditor {
-    private HtmlDocument document = new HtmlDocument();
-    private final CommandHistory history = new CommandHistory();
+    @Getter
+    @Setter
+    private HtmlDocument document;
+    private final CommandHistory history;
+
+    public HtmlEditor(CommandHistory history, HtmlDocument document) {
+        this.history = history;
+        this.document = document;
+    }
+
+    public HtmlEditor(HtmlDocument document) {
+        this.document = document;
+        this.history = new CommandHistory();
+    }
+
+    public HtmlEditor() {
+        this.document = new HtmlDocument();
+        this.history = new CommandHistory();
+    }
 
     public HtmlElement getElementById(String id) {
         return document.getElementById(id);
     }
 
-    // 插入元素
     public void insertElement(String tagName, String idValue, String insertLocation, String textContent) {
         Command cmd = new InsertElementCommand(document, tagName, idValue, insertLocation, textContent);
         history.executeCommand(cmd);
@@ -47,13 +65,5 @@ public class HtmlEditor {
     // 重做
     public void redo() {
         history.redo();
-    }
-
-    public void setDocument(HtmlDocument document) {
-        this.document = document;
-    }
-
-    public HtmlDocument getDocument() {
-        return document;
     }
 }

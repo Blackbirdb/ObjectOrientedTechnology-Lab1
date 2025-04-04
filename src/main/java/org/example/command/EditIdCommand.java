@@ -18,6 +18,10 @@ public class EditIdCommand implements Command {
     public void execute() {
         HtmlElement element = document.getElementById(oldId);
 
+        if (element == null) {
+            throw new IllegalArgumentException("Element with ID " + oldId + " does not exist.");
+        }
+
         if (document.getElementById(newId) != null) {
             throw new IllegalArgumentException("Element with ID " + newId + " already exists");
         }
@@ -30,6 +34,10 @@ public class EditIdCommand implements Command {
     @Override
     public void undo() {
         HtmlElement element = document.getElementById(newId);
+
+        if (element == null) {
+            throw new IllegalArgumentException("Element with ID " + newId + " does not exist.");
+        }
 
         if (document.getElementById(oldId) != null) {
             throw new IllegalArgumentException("Element with ID " + oldId + " already exists, undo failed.");

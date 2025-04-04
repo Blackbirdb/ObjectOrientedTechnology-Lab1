@@ -38,8 +38,9 @@ public class HtmlElementFactory {
         return element;
     }
 
-    private boolean isSpecialTag(String tagName) {
+    public boolean isSpecialTag(String tagName) {
         return tagName.equals("html") || tagName.equals("head")
                 || tagName.equals("title") || tagName.equals("body");
     }
+
 }

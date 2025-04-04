@@ -23,11 +23,20 @@ public class DeleteElementCommand implements Command {
     @Override
     public void execute() {
         oldElement = document.getElementById(elementId);
+
         if (oldElement == null) {
             throw new IllegalArgumentException("Element with ID " + elementId + " does not exist.");
         }
+        else if (document.isSpecialTag(oldElement.getTagName())) {
+            throw new IllegalArgumentException("Cannot delete special tag elements.");
+        }
+
         document.unregisterElement(oldElement);
         parent = oldElement.getParent();
+        if (parent == null) {
+            throw new IllegalArgumentException("Element with ID " + elementId + " does not exist.");
+        }
+
         index = parent.getChildIndex(oldElement);
         parent.removeChild(oldElement);
     }

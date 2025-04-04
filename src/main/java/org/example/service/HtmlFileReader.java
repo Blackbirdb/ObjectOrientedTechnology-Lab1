@@ -16,6 +16,8 @@ public class HtmlFileReader {
         this.parser = new HtmlParser();
     }
 
+    public HtmlFileReader(HtmlDocument htmlDocument) { this.parser = new HtmlParser(htmlDocument); }
+
     /**
      * reads an HTML file from given path and returns an HtmlDocument object
      * @return HtmlDocument

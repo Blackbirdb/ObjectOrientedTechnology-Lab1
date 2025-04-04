@@ -8,11 +8,13 @@ import org.jsoup.parser.Parser;
 
 public class HtmlParser {
     private final HtmlDocument htmlDocument;
-    private final HtmlElementFactory factory;
 
     public HtmlParser() {
         this.htmlDocument = new HtmlDocument();
-        this.factory = htmlDocument.getFactory();
+    }
+
+    public HtmlParser(HtmlDocument htmlDocument) {
+        this.htmlDocument = htmlDocument;
     }
 
     /**
@@ -52,10 +54,10 @@ public class HtmlParser {
 
         HtmlElement element;
         if (!jsoupElement.ownText().isEmpty()) {
-            element = this.factory.createElement(tagName, id, jsoupElement.ownText(), parent);
+            element = this.htmlDocument.getFactory().createElement(tagName, id, jsoupElement.ownText(), parent);
         }
         else {
-            element = this.factory.createElement(tagName, id, parent);
+            element = this.htmlDocument.getFactory().createElement(tagName, id, parent);
         }
 
         // 递归处理子元素
@@ -100,7 +102,10 @@ public class HtmlParser {
             if (child instanceof HtmlElement) {
                 jsoupElement.appendChild(rebuildElement((HtmlElement) child));
             } else if (child instanceof HtmlTextNode) {
-                jsoupElement.appendText(((HtmlTextNode) child).getText());
+                String text = ((HtmlTextNode) child).getText();
+                if (text != null && !text.isEmpty()) {
+                    jsoupElement.appendText(text);
+                }
             }
         }
 
