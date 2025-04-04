@@ -9,11 +9,17 @@ import java.util.List;
 import java.util.Map;
 
 public class SpellChecker {
-    private final SpellCheckVisitor visitor = new SpellCheckVisitor();
+    private final SpellCheckVisitor visitor;
     private final HtmlDocument document;
 
     public SpellChecker(HtmlDocument document) {
         this.document = document;
+        this.visitor = new SpellCheckVisitor();
+    }
+
+    public SpellChecker(HtmlDocument document, SpellCheckVisitor visitor) {
+        this.document = document;
+        this.visitor = visitor;
     }
 
     public boolean hasErrors() {

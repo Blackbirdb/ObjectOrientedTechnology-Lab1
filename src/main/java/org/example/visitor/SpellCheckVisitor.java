@@ -8,8 +8,18 @@ import org.languagetool.rules.RuleMatch;
 import java.util.*;
 
 public class SpellCheckVisitor implements HtmlVisitor {
-    private final SpellCheckUtils spellCheckUtils = new SpellCheckUtils();
-    private final Map<String, List<RuleMatch>> errorMap = new HashMap<>();
+    private final SpellCheckUtils spellCheckUtils;
+    private final Map<String, List<RuleMatch>> errorMap;
+
+    public SpellCheckVisitor() {
+        this.errorMap = new HashMap<>();
+        this.spellCheckUtils = new SpellCheckUtils();
+    }
+
+    public SpellCheckVisitor(SpellCheckUtils spellCheckUtils) {
+        this.spellCheckUtils = spellCheckUtils;
+        this.errorMap = new HashMap<>();
+    }
 
     @Override
     public void visit(HtmlElement element) {
