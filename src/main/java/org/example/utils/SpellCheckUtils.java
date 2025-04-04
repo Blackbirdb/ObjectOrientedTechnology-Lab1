@@ -1,17 +1,11 @@
-package org.example.visitor;
+package org.example.utils;
 
-import org.example.document.HtmlDocument;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.Match;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SpellCheckUtils {
     private final JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));

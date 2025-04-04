@@ -1,4 +1,4 @@
-package org.example.parser;
+package org.example.utils;
 
 import org.example.document.*;
 import org.jsoup.Jsoup;

@@ -1,7 +1,7 @@
 package org.example.service;
 
 import org.example.document.HtmlDocument;
-import org.example.parser.HtmlParser;
+import org.example.utils.HtmlParser;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;

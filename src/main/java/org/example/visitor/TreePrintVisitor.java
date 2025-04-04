@@ -3,9 +3,8 @@ package org.example.visitor;
 import org.example.document.HtmlElement;
 import org.example.document.HtmlNode;
 import org.example.document.HtmlTextNode;
+import org.example.utils.SpellCheckUtils;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.List;
 import java.util.Stack;
 

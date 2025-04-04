@@ -6,6 +6,7 @@ import org.example.document.HtmlTextNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.languagetool.rules.RuleMatch;
+import org.example.utils.SpellCheckUtils;
 
 import java.util.Collections;
 import java.util.List;

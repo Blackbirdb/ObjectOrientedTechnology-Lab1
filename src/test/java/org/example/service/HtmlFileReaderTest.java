@@ -1,8 +1,6 @@
 package org.example.service;
 
 import org.example.document.HtmlDocument;
-import org.example.parser.HtmlParser;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
