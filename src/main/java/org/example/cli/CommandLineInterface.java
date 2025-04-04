@@ -1,11 +1,14 @@
 package org.example.cli;
 
+import org.example.command.Command;
 import org.example.command.HtmlEditor;
 import org.example.session.SessionManager;
 import org.example.utils.CommandTable;
 import org.example.utils.PathValidateUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -13,7 +16,8 @@ public class CommandLineInterface {
 //    private HtmlEditor editor = null;
 //    private boolean initialized = false;
     private final CommandTable commandTable = new CommandTable();
-    private SessionManager sessionManager = new SessionManager();
+    private final SessionManager sessionManager = new SessionManager();
+    private final List<String> initCommands = new ArrayList<>(List.of("init", "read", "load", "help"));
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -25,7 +29,7 @@ public class CommandLineInterface {
             sessionManager.setCwd(cwd);
         }
         System.out.println("Current working directory: " + sessionManager.getCwd());
-        System.out.println("Please initialize the editor by using 'init' or 'read <filePath>' command.");
+        System.out.println("Please initialize the editor by using 'init', 'read <filePath>' or 'load <fileName>' command.");
         System.out.println("Type \"help\" to see the available commands.");
         System.out.println("Type \"exit\" to exit the editor.");
         System.out.println("=============================================================================");
@@ -56,10 +60,10 @@ public class CommandLineInterface {
      void processCommand(String command) throws IOException {
         String[] parts = command.split(" ");
 
-//        if (!sessionManager.isActive() && !command.equals("init") && !parts[0].equals("read") && !command.equals("help")) {
-//            System.out.println("Please initialize the editor first by using 'init' or 'read <filePath>' command.");
-//            return;
-//        }
+        if (!sessionManager.isActive() && !initCommands.contains(parts[0])) {
+            System.out.println("Please initialize the editor first by using 'init' or 'read <filePath>' command.");
+            return;
+        }
 
         switch (parts[0]) {
             case "insert" -> {
@@ -112,7 +116,7 @@ public class CommandLineInterface {
             }
             case "undo" -> sessionManager.getActiveEditor().undo();
             case "redo" -> sessionManager.getActiveEditor().redo();
-            case "read" -> {
+            case "read" -> {    // reads files not in cwd
                 if (parts.length != 2) {
                     printWrongUsage("read");
                     return;
@@ -123,13 +127,12 @@ public class CommandLineInterface {
                     System.out.println("Invalid file path: " + filePath);
                     return;
                 }
-//                sessionManager.loadFileFromPath(filePath);
+                sessionManager.loadFileNotInCwd(filePath);
             }
             case "init" -> {
-//                sessionManager.loadFileFromPath("src/main/resources/default.html");
-                System.out.println("Default HTML file loaded.");
+                sessionManager.loadFileNotInCwd("src/main/resources/default.html");
             }
-            case "load" -> {
+            case "load" -> {        // loads file in cwd
                 if (parts.length != 2) {
                     printWrongUsage("load");
                     return;

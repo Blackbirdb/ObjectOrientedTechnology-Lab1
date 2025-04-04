@@ -54,13 +54,25 @@ public class SessionManager {
      */
     public void loadFile(String fileName) throws IOException {
         if (openEditors.containsKey(fileName)) {
-            activeEditor = openEditors.get(fileName);
+            throw new IllegalArgumentException(fileName + " is already opened");
         }
-        else {
-            HtmlEditor editor = new HtmlEditor(getPathFromName(fileName));
-            openEditors.put(fileName, editor);
-            activeEditor = editor;
+
+        HtmlEditor editor = new HtmlEditor(getPathFromName(fileName));
+        openEditors.put(fileName, editor);
+        activeEditor = editor;
+    }
+
+    /**
+     * loads files that are not in cwd
+     */
+    public void loadFileNotInCwd(String filePath) throws IOException {
+        if (openEditors.containsKey(filePath)) {
+            throw new IllegalArgumentException(filePath + " is already opened");
         }
+
+        HtmlEditor editor = new HtmlEditor(filePath);
+        openEditors.put(filePath, editor);
+        activeEditor = editor;
     }
 
      /**
