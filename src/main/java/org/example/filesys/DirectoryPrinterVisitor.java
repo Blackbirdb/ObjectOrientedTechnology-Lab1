@@ -13,8 +13,6 @@ class DirectoryPrinterVisitor implements FileSystemVisitor {
     }
     @Override
     public void visit(FileNode file, int depth) {
-//        System.out.println("visits file, depth: " + depth);
-//        System.out.println(isLastStack);
         if (depth > 1) {
             isLastStack = isLastStack.subList(0, depth);
         }
@@ -22,27 +20,19 @@ class DirectoryPrinterVisitor implements FileSystemVisitor {
                 .append(getConnectorString(file.isLastChild(), depth))
                 .append(file.getPath().getFileName())
                 .append("\n");
-//        if (file.isLastChild()) {
-//            isLastStack.pop();
-//        }
     }
     @Override
     public void visit(DirectoryNode directory, int depth) {
-        System.out.println("visits directory, depth: " + depth);
 
-        if (depth >= 1) {
+        if (depth > 0) {
             isLastStack = isLastStack.subList(0, depth);
         }
-
-        System.out.println(isLastStack);
 
         output.append(getIndentString(depth))
                 .append(getConnectorString(directory.isLastChild(), depth))
                 .append(directory.getPath().getFileName())
                 .append("/\n");
-//        if (directory.getChildren().isEmpty()) {
-//            isLastStack.pop();
-//        }
+
         isLastStack.add(directory.isLastChild());
     }
     public String getOutput() {
