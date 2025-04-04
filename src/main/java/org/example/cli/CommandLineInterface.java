@@ -1,10 +1,7 @@
 package org.example.cli;
 
 import org.example.command.HtmlEditor;
-import org.example.document.HtmlDocument;
-import org.example.service.HtmlFileParser;
-import org.example.service.SpellChecker;
-import org.example.service.TreePrinter;
+import org.example.session.SessionManager;
 import org.example.utils.CommandTable;
 import org.example.utils.PathValidateUtils;
 
@@ -13,9 +10,10 @@ import java.util.Scanner;
 
 
 public class CommandLineInterface {
-    private HtmlEditor editor = null;
-    private boolean initialized = false;
+//    private HtmlEditor editor = null;
+//    private boolean initialized = false;
     private final CommandTable commandTable = new CommandTable();
+    private SessionManager sessionManager = new SessionManager();
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -51,7 +49,7 @@ public class CommandLineInterface {
      void processCommand(String command) throws IOException {
         String[] parts = command.split(" ");
 
-        if (!initialized && !command.equals("init") && !parts[0].equals("read") && !command.equals("help")) {
+        if (!sessionManager.isActive() && !command.equals("init") && !parts[0].equals("read") && !command.equals("help")) {
             System.out.println("Please initialize the editor first by using 'init' or 'read <filePath>' command.");
             return;
         }
@@ -66,7 +64,7 @@ public class CommandLineInterface {
                 String idValue = parts[2];
                 String insertLocation = parts[3];
                 String textContent = parts.length > 4 ? command.substring(command.indexOf(insertLocation) + insertLocation.length()).trim() : null;
-                editor.insertElement(tagName, idValue, insertLocation, textContent);
+                sessionManager.getActiveEditor().insertElement(tagName, idValue, insertLocation, textContent);
             }
             case "append" -> {
                 if (parts.length < 4) {
@@ -77,7 +75,7 @@ public class CommandLineInterface {
                 String idValue = parts[2];
                 String parentElement = parts[3];
                 String textContent = parts.length > 4 ? command.substring(command.indexOf(parentElement) + parentElement.length()).trim() : null;
-                editor.appendElement(tagName, idValue, parentElement, textContent);
+                sessionManager.getActiveEditor().appendElement(tagName, idValue, parentElement, textContent);
             }
             case "edit-id" -> {
                 if (parts.length != 3) {
@@ -86,7 +84,7 @@ public class CommandLineInterface {
                 }
                 String oldId = parts[1];
                 String newId = parts[2];
-                editor.editId(oldId, newId);
+                sessionManager.getActiveEditor().editId(oldId, newId);
             }
             case "edit-text" -> {
                 if (parts.length < 2) {
@@ -95,7 +93,7 @@ public class CommandLineInterface {
                 }
                 String element = parts[1];
                 String newTextContent = parts.length > 2 ? command.substring(command.indexOf(element) + element.length()).trim() : null;
-                editor.editText(element, newTextContent);
+                sessionManager.getActiveEditor().editText(element, newTextContent);
             }
             case "delete" -> {
                 if (parts.length != 2) {
@@ -103,11 +101,11 @@ public class CommandLineInterface {
                     return;
                 }
                 String elementId = parts[1];
-                editor.deleteElement(elementId);
+                sessionManager.getActiveEditor().deleteElement(elementId);
             }
-            case "undo" -> editor.undo();
-            case "redo" -> editor.redo();
-            case "read" -> {
+            case "undo" -> sessionManager.getActiveEditor().undo();
+            case "redo" -> sessionManager.getActiveEditor().redo();
+            case "read", "load" -> {
                 if (parts.length != 2) {
                     printWrongUsage("read");
                     return;
@@ -118,18 +116,16 @@ public class CommandLineInterface {
                     System.out.println("Invalid file path: " + filePath);
                     return;
                 }
-                editor = new HtmlEditor(filePath);
-                initialized = true;
+                sessionManager.loadFile(filePath);
             }
             case "init" -> {
-                editor = new HtmlEditor("src/main/resources/default.html");
-                initialized = true;
+                sessionManager.loadFile("src/main/resources/default.html");
             }
             case "print-tree" -> {
-                editor.printTree();
+                sessionManager.getActiveEditor().printTree();
             }
             case "spell-check" -> {
-                editor.spellCheck();
+                sessionManager.getActiveEditor().spellCheck();
             }
             case "save" -> {
                 if (parts.length != 2) {
@@ -141,7 +137,7 @@ public class CommandLineInterface {
                     System.out.println("Invalid file path: " + filePath);
                     return;
                 }
-                editor.saveToFile(filePath);
+                sessionManager.getActiveEditor().saveToFile(filePath);
             }
             case "help" -> {
                 commandTable.printCommands();

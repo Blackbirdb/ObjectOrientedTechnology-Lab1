@@ -2,23 +2,25 @@ package org.example.session;
 
 import lombok.Getter;
 import org.example.command.HtmlEditor;
-import org.example.service.HtmlFileParser;
-import org.example.utils.HtmlParserUtils;
 
 import java.io.IOException;
 import java.util.*;
 
-public class SessionManagement {
+public class SessionManager {
     private final Map<String, HtmlEditor> openEditors = new LinkedHashMap<>();
     @Getter
     private HtmlEditor activeEditor = null;
+
+    public boolean isActive(){
+        return activeEditor != null;
+    }
 
     public void loadFile(String filePath) throws IOException {
         if (openEditors.containsKey(filePath)) {
             activeEditor = openEditors.get(filePath);
         }
         else {
-            HtmlEditor editor = new HtmlEditor(HtmlFileParser.readHtmlFromFile(filePath));
+            HtmlEditor editor = new HtmlEditor(filePath);
             openEditors.put(filePath, editor);
             activeEditor = editor;
         }
@@ -27,15 +29,15 @@ public class SessionManagement {
     public void saveFile(String filePath) throws IOException {
         if (openEditors.containsKey(filePath)) {
             HtmlEditor editor = openEditors.get(filePath);
-            HtmlFileParser.saveHtmlDocumentToFile(editor.getDocument(), filePath);
+            editor.saveToFile(filePath);
         } else {
             throw new IllegalArgumentException("File not loaded: " + filePath);
         }
     }
 
-    public void close() {
-
-    }
+//    public void close() {
+//
+//    }
 
 
 
