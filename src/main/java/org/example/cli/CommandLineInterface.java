@@ -5,6 +5,7 @@ import org.example.document.HtmlDocument;
 import org.example.service.HtmlFileReader;
 import org.example.service.SpellChecker;
 import org.example.service.TreePrinter;
+import org.example.utils.CommandTable;
 import org.example.utils.PathValidateUtils;
 
 import java.io.IOException;
@@ -14,30 +15,19 @@ import java.util.Scanner;
 
 
 public class CommandLineInterface {
-    private HtmlEditor editor;
+    private HtmlEditor editor = null;
     private HtmlFileReader reader;
-    private final Map<String, String> usageMap = new HashMap<>();
     private boolean initialized = false;
-
-    public CommandLineInterface() {
-        initializeUsageMap();
-        this.editor = null;
-    }
-
-    private void initializeUsageMap() {
-        usageMap.put("insert", "insert <tagName> <idValue> <insertLocation> [textContent]");
-        usageMap.put("append", "append <tagName> <idValue> <parentElement> [textContent]");
-        usageMap.put("edit-id", "edit-id <oldId> <newId>");
-        usageMap.put("edit-text", "edit-text <element> [newTextContent]");
-        usageMap.put("delete", "delete <elementId>");
-        usageMap.put("read", "read <filePath>");
-        usageMap.put("save", "save <filePath>");
-        // 添加其他命令的用法说明
-    }
+    private final CommandTable commandTable = new CommandTable();
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("=============================================================================");
         System.out.println("Welcome to the html editor!");
+        System.out.println("Please initialize the editor by using 'init' or 'read <filePath>' command.");
+        System.out.println("Type \"help\" to see the available commands.");
+        System.out.println("Type \"exit\" to exit the editor.");
+        System.out.println("=============================================================================");
         while (true) {
             System.out.print("> ");
             String command = scanner.nextLine();
@@ -64,7 +54,7 @@ public class CommandLineInterface {
      void processCommand(String command) throws IOException {
         String[] parts = command.split(" ");
 
-        if (!initialized && !command.equals("init") && !parts[0].equals("read")) {
+        if (!initialized && !command.equals("init") && !parts[0].equals("read") && !command.equals("help")) {
             System.out.println("Please initialize the editor first by using 'init' or 'read <filePath>' command.");
             return;
         }
@@ -161,6 +151,9 @@ public class CommandLineInterface {
                 }
                 reader.saveHtmlDocumentToFile(editor.getDocument(), filePath);
             }
+            case "help" -> {
+                commandTable.printCommands();
+            }
             default -> {
                 System.out.println("Unknown Command. Please try again.");
                 return;
@@ -170,8 +163,8 @@ public class CommandLineInterface {
     }
 
     private void printWrongUsage(String command) {
-        String usage = usageMap.get(command);
-        System.out.println("Wrong usage for command: " + command + ". \nUsage: " + usage);
+        System.out.println("Wrong usage for command: " + command + ". ");
+        commandTable.printCommandUsage(command);
     }
 
     private void printSuccess(String command) {
