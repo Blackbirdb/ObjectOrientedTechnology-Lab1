@@ -132,7 +132,7 @@ public class CommandLineInterface {
                     System.out.println("Is not an HTML file: " + fileName);
                     return;
                 }
-//                sessionManager.loadFile(fileName);
+                sessionManager.loadFile(fileName);
             }
             case "print-tree" -> {
                 sessionManager.getActiveEditor().printTree();

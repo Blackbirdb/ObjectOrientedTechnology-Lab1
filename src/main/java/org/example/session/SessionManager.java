@@ -16,30 +16,19 @@ import java.util.*;
 public class SessionManager {
     private final Session session = new Session();
 
-    public void dirTree(){
+    public void dirTree() throws IOException {
         SessionCommand cmd = new DirTreeCommand(session);
         cmd.execute();
     }
 
-//    /**
-//     * loads file from cwd using filename.
-//     * If fileName does not exist, create one and init with default.html
-//     */
-//    public void loadFile(String fileName) throws IOException {
-//        if (openEditors.containsKey(fileName)) {
-//            throw new IllegalArgumentException(fileName + " is already opened");
-//        }
-//
-//        String filePath = PathUtils.getPathFromName(fileName, this.cwd);
-//
-//        if (!PathUtils.fileExists(filePath)) {
-//            initNewHtmlFileAt(filePath);
-//        }
-//        HtmlEditor editor = new HtmlEditor(filePath);
-//
-//        openEditors.put(fileName, editor);
-//        activeEditor = editor;
-//    }
+    /**
+     * loads file from cwd using filename.
+     * If fileName does not exist, create one and init with default.html
+     */
+    public void loadFile(String fileName) throws IOException {
+        SessionCommand cmd = new LoadFileCommand(session, fileName);
+        cmd.execute();
+    }
 //
 //
 //    public static void initNewHtmlFileAt(String filePath) {
