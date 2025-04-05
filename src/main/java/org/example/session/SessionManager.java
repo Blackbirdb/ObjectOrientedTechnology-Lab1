@@ -4,13 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.command.HtmlEditor;
 import org.example.filesys.DirTreeCommand;
-import org.example.utils.PathValidateUtils;
+import org.example.utils.PathUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+
 
 public class SessionManager {
     private final Map<String, HtmlEditor> openEditors = new LinkedHashMap<>();
@@ -33,30 +34,6 @@ public class SessionManager {
         dirTreeCommand.execute();
     }
 
-    private String getPathFromName(String fileName) {
-        if (fileName == null || fileName.isEmpty()) {
-            return null;
-        }
-        return cwd + "/" + fileName;
-    }
-
-    public static boolean isPathInCwd(String cwd, String path) {
-        Path cwdPath = Paths.get(cwd).toAbsolutePath().normalize();
-        Path targetPath = Paths.get(path).toAbsolutePath().normalize();
-        return targetPath.startsWith(cwdPath);
-    }
-
-    private String getNameFromPath(String filePath) {
-        if (filePath == null || filePath.isEmpty()) {
-            return null;
-        }
-        if (isPathInCwd(cwd, filePath)) {
-            String[] parts = filePath.split("/");
-            return parts[parts.length - 1];
-        }
-        return filePath;
-    }
-
     /**
      * loads file from cwd using filename.
      * If fileName does not exist, create one and init with default.html
@@ -66,9 +43,9 @@ public class SessionManager {
             throw new IllegalArgumentException(fileName + " is already opened");
         }
 
-        String filePath = getPathFromName(fileName);
+        String filePath = PathUtils.getPathFromName(fileName, this.cwd);
 
-        if (!PathValidateUtils.fileExists(filePath)) {
+        if (!PathUtils.fileExists(filePath)) {
             initNewHtmlFileAt(filePath);
         }
         HtmlEditor editor = new HtmlEditor(filePath);
@@ -93,7 +70,7 @@ public class SessionManager {
      * saves active file to the file specified by fileName
      */
     public void saveFile(String fileName) throws IOException {
-        activeEditor.saveToFile(getPathFromName(fileName));
+        activeEditor.saveToFile(PathUtils.getPathFromName(fileName, this.cwd));
     }
 
     /**
@@ -124,8 +101,8 @@ public class SessionManager {
         }
 
         String editorKey = activeEditor.getFilePath();
-        if (isPathInCwd(cwd, editorKey)) {
-            editorKey = getNameFromPath(editorKey);
+        if (PathUtils.isPathInCwd(cwd, editorKey)) {
+            editorKey = PathUtils.getNameFromPath(editorKey, cwd);
         }
         openEditors.remove(editorKey);
         if (openEditors.isEmpty()) {

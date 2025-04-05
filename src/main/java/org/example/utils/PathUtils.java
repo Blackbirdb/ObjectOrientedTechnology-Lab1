@@ -2,7 +2,7 @@ package org.example.utils;
 
 import java.nio.file.*;
 
-public class PathValidateUtils {
+public class PathUtils {
     public static boolean isValidHtmlFilePath(String path) {
         if (!isValidPath(path)) {
             return false;
@@ -34,4 +34,31 @@ public class PathValidateUtils {
         Path path = Paths.get(pathString);
         return Files.exists(path) && Files.isRegularFile(path);
     }
+
+    public static String getPathFromName(String fileName, String cwd) {
+        if (fileName == null || fileName.isEmpty()) {
+            return null;
+        }
+        return cwd + "/" + fileName;
+    }
+
+    public static String getNameFromPath(String filePath, String cwd) {
+        if (filePath == null || filePath.isEmpty()) {
+            return null;
+        }
+        if (isPathInCwd(cwd, filePath)) {
+            String[] parts = filePath.split("/");
+            return parts[parts.length - 1];
+        }
+        return filePath;
+    }
+
+    public static boolean isPathInCwd(String cwd, String path) {
+        Path cwdPath = Paths.get(cwd).toAbsolutePath().normalize();
+        Path targetPath = Paths.get(path).toAbsolutePath().normalize();
+        return targetPath.startsWith(cwdPath);
+    }
+
+
+
 }

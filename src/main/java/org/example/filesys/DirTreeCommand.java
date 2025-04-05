@@ -10,10 +10,7 @@ import java.util.Set;
 public class DirTreeCommand {
     private Path rootPath;
     private Set<Path> openFiles;
-    public DirTreeCommand(Path rootPath, Set<Path> openFiles) {
-        this.rootPath = rootPath;
-        this.openFiles = openFiles;
-    }
+
     public DirTreeCommand(Path rootPath) {
         this.rootPath = rootPath;
         this.openFiles = new HashSet<>();

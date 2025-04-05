@@ -1,14 +1,10 @@
 package org.example.cli;
 
-import org.example.command.Command;
-import org.example.command.HtmlEditor;
 import org.example.session.SessionManager;
 import org.example.utils.CommandTable;
-import org.example.utils.PathValidateUtils;
+import org.example.utils.PathUtils;
 
 import java.io.IOException;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -31,7 +27,7 @@ public class CommandLineInterface {
             if (cwd.isEmpty()){
                 sessionManager.setCwd(System.getProperty("user.dir"));
             }
-            else if (!PathValidateUtils.isValidPath(cwd)) {
+            else if (!PathUtils.isValidPath(cwd)) {
                 System.out.println("Invalid path: " + cwd);
             }
             else {
@@ -132,7 +128,7 @@ public class CommandLineInterface {
                     return;
                 }
                 String fileName = parts[1];
-                if (!PathValidateUtils.isHtmlFile(fileName)) {
+                if (!PathUtils.isHtmlFile(fileName)) {
                     System.out.println("Is not an HTML file: " + fileName);
                     return;
                 }
@@ -150,7 +146,7 @@ public class CommandLineInterface {
                     return;
                 }
                 String fileName = parts[1];
-                if (!PathValidateUtils.isHtmlFile(fileName)) {
+                if (!PathUtils.isHtmlFile(fileName)) {
                     System.out.println("Is not an HTML file: " + fileName);
                     return;
                 }
@@ -168,7 +164,7 @@ public class CommandLineInterface {
                     return;
                 }
                 String fileName = parts[1];
-                if (!PathValidateUtils.isHtmlFile(fileName)) {
+                if (!PathUtils.isHtmlFile(fileName)) {
                     System.out.println("Is not an HTML file: " + fileName);
                     return;
                 }
