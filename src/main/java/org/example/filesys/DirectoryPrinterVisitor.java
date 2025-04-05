@@ -15,6 +15,7 @@ class DirectoryPrinterVisitor implements FileSystemVisitor {
         output.append(getIndentString(isLastStack, depth))
                 .append(getConnectorString(file.isLastChild(), depth))
                 .append(file.getPath().getFileName())
+                .append(file.isOpen() ? "*" : "")
                 .append("\n");
     }
 

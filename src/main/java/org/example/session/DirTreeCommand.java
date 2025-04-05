@@ -24,6 +24,6 @@ public class DirTreeCommand implements SessionCommand {
         }
 
         DirTreePrinter dirTreePrinter = new DirTreePrinter(rootPath, openFiles);
-        dirTreePrinter.execute();
+        dirTreePrinter.print();
     }
 }

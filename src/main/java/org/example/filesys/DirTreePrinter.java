@@ -8,8 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DirTreePrinter {
-    private Path rootPath;
-    private Set<Path> openFiles;
+    private final Path rootPath;
+    private final Set<Path> openFiles;
 
     public DirTreePrinter(Path rootPath, HashSet<Path> openFiles) {
         this.rootPath = rootPath;
@@ -30,7 +30,7 @@ public class DirTreePrinter {
         }
         return root;
     }
-    public void execute() {
+    public void print() {
         try {
             DirectoryNode root = buildFileTree(rootPath);
             DirectoryPrinterVisitor visitor = new DirectoryPrinterVisitor();
