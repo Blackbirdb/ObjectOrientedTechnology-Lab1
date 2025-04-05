@@ -19,7 +19,7 @@ public class LoadFileCommand implements SessionCommand{
 
     @Override
     public void execute() throws IOException {
-        if (session.containsEditorName(fileName)) {
+        if (session.existEditorByName(fileName)) {
             throw new IllegalArgumentException(fileName + " is already opened");
         }
         String filePath = session.getPathFromName(fileName);

@@ -16,6 +16,9 @@ import java.util.*;
 public class SessionManager {
     private final Session session = new Session();
 
+    /**
+     * prints the directory tree of the current working directory.
+     */
     public void dirTree() throws IOException {
         SessionCommand cmd = new DirTreeCommand(session);
         cmd.execute();
@@ -31,12 +34,13 @@ public class SessionManager {
     }
 
 
-//     /**
-//     * saves active file to the file specified by fileName
-//     */
-//    public void saveFile(String fileName) throws IOException {
-//        activeEditor.saveToFile(PathUtils.getPathFromName(fileName, this.cwd));
-//    }
+     /**
+     * saves active file to the file specified by fileName
+     */
+    public void saveFile(String fileName) throws IOException {
+        SessionCommand cmd = new SaveFileCommand(session, fileName);
+        cmd.execute();
+    }
 //
 //    /**
 //     * closes the active editor. will ask whether to save file if modified.

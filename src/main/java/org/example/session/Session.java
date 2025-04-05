@@ -26,7 +26,7 @@ public class Session {
         return openEditors.keySet();
     }
 
-    public boolean containsEditorName(String fileName){
+    public boolean existEditorByName(String fileName){
         return openEditors.containsKey(fileName);
     }
 
