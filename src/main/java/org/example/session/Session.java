@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.example.editor.HtmlEditor;
 import org.example.utils.PathUtils;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -42,4 +44,41 @@ public class Session {
         openEditors.remove(fileName);
     }
 
+    public String getActiveEditorName() {
+        if (activeEditor != null) {
+            return PathUtils.getNameFromPath(activeEditor.getFilePath(), cwd);
+        }
+        return null;
+    }
+
+    public void closeActiveEditor(){
+        String fileName = getActiveEditorName();
+        openEditors.remove(fileName);
+
+        if (openEditors.isEmpty()) {
+            activeEditor = null;
+        } else {
+            activeEditor = openEditors.entrySet().iterator().next().getValue();
+        }
+    }
+
+    public void saveActiveEditor() throws IOException { activeEditor.save(); }
+
+    public boolean existActivateEditor(){ return activeEditor != null; }
+
+    public boolean isActiveEditorModified() {
+        if (existActivateEditor()) {
+            return activeEditor.isModified();
+        }
+        return false;
+    }
+
+    public void saveActiveEditorAs(String fileName) throws IOException {
+        if (activeEditor != null) {
+            activeEditor.saveToFile(getPathFromName(fileName));
+        }
+        else {
+            throw new IllegalStateException("No active editor found");
+        }
+    }
 }

@@ -41,45 +41,16 @@ public class SessionManager {
         SessionCommand cmd = new SaveFileCommand(session, fileName);
         cmd.execute();
     }
-//
-//    /**
-//     * closes the active editor. will ask whether to save file if modified.
-//     * saves to the same file as opened.
-//     */
-//    public void close() {
-//        if (activeEditor == null) return;
-//        else if (activeEditor.isModified()) {
-//            System.out.println("File is modified, do you want to save file? (y/n): ");
-//            Scanner scanner = new Scanner(System.in);
-//            String input = scanner.nextLine();
-//            while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
-//                System.out.println("Invalid input, please enter 'y' or 'n': ");
-//                input = scanner.nextLine();
-//            }
-//            if (input.equalsIgnoreCase("y")) {
-//                try {
-//                    activeEditor.save();
-//                    System.out.println("File saved successfully.");
-//                } catch (IOException e) {
-//                    System.out.println("Error saving file: " + e.getMessage());
-//                }
-//            }
-//            else if (input.equalsIgnoreCase("n")) {
-//                System.out.println("File not saved.");
-//            }
-//        }
-//
-//        String editorKey = activeEditor.getFilePath();
-//        if (PathUtils.isPathInCwd(cwd, editorKey)) {
-//            editorKey = PathUtils.getNameFromPath(editorKey, cwd);
-//        }
-//        openEditors.remove(editorKey);
-//        if (openEditors.isEmpty()) {
-//            activeEditor = null;
-//        } else {
-//            activeEditor = openEditors.entrySet().iterator().next().getValue();
-//        }
-//    }
+
+    /**
+     * closes the active editor. will ask whether to save file if modified.
+     * saves to the same file as opened.
+     */
+    public void close() throws IOException {
+        SessionCommand cmd = new CloseCommand(session);
+        cmd.execute();
+    }
+
 //
 //    public void editorList(){
 //        StringBuilder sb = new StringBuilder();

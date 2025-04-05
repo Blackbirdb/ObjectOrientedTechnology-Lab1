@@ -12,11 +12,7 @@ public class SaveFileCommand implements SessionCommand{
     }
 
     @Override
-    public void execute() {
-        try {
-            session.getActiveEditor().saveToFile(session.getPathFromName(fileName));
-        } catch (IOException e) {
-            System.err.println("Error saving file: " + e.getMessage());
-        }
+    public void execute() throws IOException {
+        session.saveActiveEditorAs(fileName);
     }
 }
