@@ -16,11 +16,17 @@ public class HtmlEditor {
     @Getter @Setter private Boolean showId;
 
     public HtmlEditor(String filePath) {
-        HtmlFileParser parser = new HtmlFileParser();
-        this.document = parser.readHtmlFromFile(filePath);
+        this.document = HtmlFileParser.readHtmlFromFile(filePath);
         this.filePath = filePath;
         this.history = new CommandHistory();
         this.showId = true;
+    }
+
+    public HtmlEditor(HtmlDocument document, CommandHistory history, String filePath, Boolean showId) {
+        this.document = document;
+        this.history = history;
+        this.filePath = filePath;
+        this.showId = showId;
     }
 
     public HtmlElement getElementById(String id) {

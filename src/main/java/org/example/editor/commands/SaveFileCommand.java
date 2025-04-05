@@ -14,7 +14,6 @@ public class SaveFileCommand implements IrrevocableCommand {
     }
 
     public void execute() {
-        HtmlFileParser parser = new HtmlFileParser();
-        parser.saveHtmlDocumentToFile(document, filePath);
+        HtmlFileParser.saveHtmlDocumentToFile(document, filePath);
     }
 }
