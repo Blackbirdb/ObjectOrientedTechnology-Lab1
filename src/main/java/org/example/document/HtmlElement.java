@@ -65,8 +65,10 @@ public class HtmlElement extends HtmlNode {
             if (textContent == null) {textContent = "";}
             ((HtmlTextNode) children.getFirst()).setText(textContent);
         } else {
-            HtmlTextNode textNode = new HtmlTextNode(textContent, this);
-            children.addFirst(textNode);
+            if (textContent != null) {
+                HtmlTextNode textNode = new HtmlTextNode(textContent, this);
+                children.addFirst(textNode);
+            }
         }
     }
 
