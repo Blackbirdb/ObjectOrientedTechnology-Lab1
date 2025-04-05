@@ -10,12 +10,10 @@ import java.io.IOException;
 import java.util.*;
 
 // 抽象节点类
+@Getter
 abstract class FileSystemNode {
-    @Getter
     protected Path path;
-    @Getter
-    @Setter
-    protected DirectoryNode parent;
+    @Setter protected DirectoryNode parent;
 
     public FileSystemNode(Path path) {
         this.path = path;

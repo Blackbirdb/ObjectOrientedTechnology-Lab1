@@ -23,7 +23,8 @@ public class DirTreePrinter {
                 if (Files.isDirectory(entry)) {
                     root.addChild(buildFileTree(entry));
                 } else {
-                    boolean isOpen = openFiles.contains(entry);
+                    boolean isOpen = openFiles.contains(rootPath.relativize(entry));
+                    System.out.println(rootPath.relativize(entry) + " " + isOpen);
                     root.addChild(new FileNode(entry, isOpen));
                 }
             }
@@ -33,6 +34,7 @@ public class DirTreePrinter {
     public void print() {
         try {
             DirectoryNode root = buildFileTree(rootPath);
+            System.out.println(openFiles);
             DirectoryPrinterVisitor visitor = new DirectoryPrinterVisitor();
             root.accept(visitor);
             System.out.println(visitor.getOutput());

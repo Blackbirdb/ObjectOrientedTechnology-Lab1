@@ -1,11 +1,14 @@
 package org.example.filesys;
 
+import lombok.Getter;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 class DirectoryNode extends FileSystemNode {
-    private List<FileSystemNode> children = new ArrayList<>();
+    private final List<FileSystemNode> children = new ArrayList<>();
     public DirectoryNode(Path path) {
         super(path);
     }
@@ -13,9 +16,7 @@ class DirectoryNode extends FileSystemNode {
         children.add(child);
         child.setParent(this);
     }
-    public List<FileSystemNode> getChildren() {
-        return children;
-    }
+
     @Override
     public void accept(FileSystemVisitor visitor) {
         visitor.visit(this);
