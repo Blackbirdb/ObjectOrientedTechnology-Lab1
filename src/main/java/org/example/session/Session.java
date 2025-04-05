@@ -11,10 +11,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+@Getter
 public class Session {
     private final Map<String, HtmlEditor> openEditors = new LinkedHashMap<>();
-    @Getter @Setter private HtmlEditor activeEditor = null;
-    @Getter @Setter private String cwd = null;
+    @Setter private HtmlEditor activeEditor = null;
+    @Setter private String cwd = null;
 
     public boolean isActive(){
         return activeEditor != null;

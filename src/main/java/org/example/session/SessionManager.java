@@ -1,16 +1,8 @@
 package org.example.session;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.example.editor.HtmlEditor;
-import org.example.filesys.DirTreePrinter;
-import org.example.utils.PathUtils;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
 
 
 public class SessionManager {
@@ -51,30 +43,11 @@ public class SessionManager {
         cmd.execute();
     }
 
-//
-//    public void editorList(){
-//        StringBuilder sb = new StringBuilder();
-//
-//        if (openEditors.isEmpty()) {
-//            System.out.println("No editors loaded. ");
-//        }
-//
-//        for (Map.Entry<String, HtmlEditor> entry : openEditors.entrySet()) {
-//
-//            if (entry.getValue() == activeEditor) {
-//                sb.append("> ");
-//            } else {
-//                sb.append("  ");
-//            }
-//            sb.append(entry.getKey());
-//            if (entry.getValue().isModified()) {
-//                sb.append("*");
-//            }
-//            sb.append("\n");
-//        }
-//
-//        System.out.print(sb);
-//    }
+
+    public void editorList() throws IOException {
+        SessionCommand cmd = new EditorListCommand(session);
+        cmd.execute();
+    }
 //
 //    public void switchEditor(String fileName) {
 //        if (openEditors.containsKey(fileName)) {
@@ -83,6 +56,8 @@ public class SessionManager {
 //            System.out.println("File not loaded: " + fileName);
 //        }
 //    }
+
+
 /********************************* Basic Session Operations *********************************/
     public HtmlEditor getActiveEditor() {
         return session.getActiveEditor();
