@@ -14,7 +14,7 @@ public class CloseCommand implements SessionCommand {
 
     @Override
     public void execute() {
-        if (session.existActivateEditor()) {
+        if (!session.existActivateEditor()) {
             System.out.println("No active editor to close.");
             return;
         }

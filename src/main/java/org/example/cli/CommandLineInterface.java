@@ -43,7 +43,10 @@ public class CommandLineInterface {
         while (true) {
             System.out.print("> ");
             String command = scanner.nextLine();
-            if (command.equals("exit")) break;
+            if (command.equals("exit")) {
+                sessionManager.saveSession();
+                break;
+            }
             processCommandWithExceptionHandling(command);
         }
         scanner.close();
