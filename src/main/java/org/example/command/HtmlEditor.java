@@ -18,7 +18,6 @@ public class HtmlEditor {
     @Setter
     private HtmlDocument document;
     private final CommandHistory history;
-    private int modifiedCount = 0;
     @Getter
     private final String filePath;
     @Setter
@@ -31,68 +30,69 @@ public class HtmlEditor {
         this.showId = true;
     }
 
-    public boolean isModified(){
-        return modifiedCount > 0;
-    }
-
     public HtmlElement getElementById(String id) {
         return document.getElementById(id);
     }
 
+    public boolean isModified() {
+        return history.isModified();
+    }
+
+    /************************** Revocable Commands **************************/
     public void insertElement(String tagName, String idValue, String insertLocation, String textContent) {
         Command cmd = new InsertElementCommand(document, tagName, idValue, insertLocation, textContent);
         history.executeCommand(cmd);
-        modifiedCount++;
     }
 
     public void appendElement(String tagName, String idValue, String parentElement, String textContent) {
         Command cmd = new AppendElementCommand(document, tagName, idValue, parentElement, textContent);
         history.executeCommand(cmd);
-        modifiedCount++;
     }
 
     public void editId(String oldId, String newId) {
         Command cmd = new EditIdCommand(document, oldId, newId);
         history.executeCommand(cmd);
-        modifiedCount++;
     }
 
     public void editText(String element, String newTextContent) {
         Command cmd = new EditTextCommand(document, element, newTextContent);
         history.executeCommand(cmd);
-        modifiedCount++;
     }
 
     public void deleteElement(String elementId) {
         Command cmd = new DeleteElementCommand(document, elementId);
         history.executeCommand(cmd);
-        modifiedCount++;
     }
 
     public void undo() {
         history.undo();
-        modifiedCount--;
     }
 
     public void redo() {
         history.redo();
-        modifiedCount++;
     }
 
+    /************************** Irrevocable Commands **************************/
+
     public void saveToFile(String filePath) throws IOException {
-        HtmlFileParser.saveHtmlDocumentToFile(document, filePath);
+        IrrevocableCommand cmd = new SaveFileCommand(document, filePath);
+        history.executeCommand(cmd);
+        history.resetModified();
     }
 
     public void save() throws IOException {
-        HtmlFileParser.saveHtmlDocumentToFile(document, this.filePath);
-        modifiedCount = 0;
+        SaveFileCommand cmd = new SaveFileCommand(document, this.filePath);
+        history.executeCommand(cmd);
+        history.resetModified();
     }
 
-    public void printTree() {
-        TreePrinter.print(document, showId);
+    public void printTree() throws IOException {
+        IrrevocableCommand cmd = new PrintTreeCommand(document, showId);
+        history.executeCommand(cmd);
     }
 
-    public void spellCheck(){
-        SpellChecker.printErrorMap(document);
+    public void spellCheck() throws IOException {
+        IrrevocableCommand cmd = new SpellCheckCommand(document);
+        history.executeCommand(cmd);
     }
 }

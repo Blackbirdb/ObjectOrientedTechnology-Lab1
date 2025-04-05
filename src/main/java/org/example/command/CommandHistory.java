@@ -1,11 +1,13 @@
 package org.example.command;
 
+import java.io.IOException;
 import java.util.Stack;
 
 // 命令历史管理
 public class CommandHistory {
     private final Stack<Command> undoStack = new Stack<>();
     private final Stack<Command> redoStack = new Stack<>();
+    private int modifiedCount = 0;
 
     public boolean undoStackIsEmpty() {
         return undoStack.isEmpty();
@@ -15,10 +17,23 @@ public class CommandHistory {
         return redoStack.isEmpty();
     }
 
+    public boolean isModified(){
+        return modifiedCount > 0;
+    }
+
+    public void resetModified(){
+        modifiedCount = 0;
+    }
+
     public void executeCommand(Command cmd) {
         cmd.execute();
         undoStack.push(cmd);
         redoStack.clear();
+        modifiedCount++;
+    }
+
+    public void executeCommand(IrrevocableCommand cmd) throws IOException {
+        cmd.execute();
     }
 
     public void undo() {
@@ -28,6 +43,7 @@ public class CommandHistory {
         Command cmd = undoStack.pop();
         cmd.undo();
         redoStack.push(cmd);
+        modifiedCount--;
     }
 
     public void redo() {
@@ -37,5 +53,6 @@ public class CommandHistory {
         Command cmd = redoStack.pop();
         cmd.execute();
         undoStack.push(cmd);
+        modifiedCount++;
     }
 }
