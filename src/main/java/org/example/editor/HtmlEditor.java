@@ -4,9 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
-import org.example.service.HtmlFileParser;
-
-import java.io.IOException;
+import org.example.editor.commands.*;
+import org.example.tools.htmlparser.HtmlFileParser;
 
 
 public class HtmlEditor {

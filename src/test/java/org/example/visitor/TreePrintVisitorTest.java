@@ -2,6 +2,8 @@ package org.example.visitor;
 
 import org.example.document.HtmlElement;
 import org.example.document.HtmlTextNode;
+import org.example.document.HtmlVisitor;
+import org.example.tools.htmltreeprinter.TreePrintVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -2,9 +2,9 @@ package org.example.cli;
 
 import org.example.editor.HtmlEditor;
 import org.example.document.HtmlDocument;
-import org.example.service.HtmlFileParser;
-import org.example.service.HtmlTreePrinter;
-import org.example.service.SpellChecker;
+import org.example.tools.htmlparser.HtmlFileParser;
+import org.example.tools.htmltreeprinter.HtmlTreePrinter;
+import org.example.tools.spellcheck.SpellChecker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

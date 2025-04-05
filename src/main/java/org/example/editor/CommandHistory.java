@@ -1,6 +1,8 @@
 package org.example.editor;
 
-import java.io.IOException;
+import org.example.editor.commands.Command;
+import org.example.editor.commands.IrrevocableCommand;
+
 import java.util.Stack;
 
 // 命令历史管理

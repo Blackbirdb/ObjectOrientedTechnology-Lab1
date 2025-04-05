@@ -3,10 +3,11 @@ package org.example.visitor;
 import org.example.document.HtmlElement;
 import org.example.document.HtmlNode;
 import org.example.document.HtmlTextNode;
+import org.example.tools.spellcheck.SpellCheckVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.languagetool.rules.RuleMatch;
-import org.example.utils.SpellCheckUtils;
+import org.example.tools.spellcheck.SpellCheckUtils;
 
 import java.util.Collections;
 import java.util.List;

@@ -3,6 +3,7 @@ package org.example.editor;
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 import org.example.document.HtmlElementFactory;
+import org.example.editor.commands.AppendElementCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

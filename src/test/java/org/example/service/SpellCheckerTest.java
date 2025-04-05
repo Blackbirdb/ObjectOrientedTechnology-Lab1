@@ -1,7 +1,8 @@
 package org.example.service;
 
 import org.example.document.HtmlDocument;
-import org.example.visitor.SpellCheckVisitor;
+import org.example.tools.spellcheck.SpellChecker;
+import org.example.tools.spellcheck.SpellCheckVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.languagetool.rules.RuleMatch;

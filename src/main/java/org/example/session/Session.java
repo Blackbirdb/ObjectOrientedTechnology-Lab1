@@ -2,13 +2,9 @@ package org.example.session;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.SessionStateSaver.SessionState;
-import org.example.SessionStateSaver.SessionStateSaver;
 import org.example.editor.HtmlEditor;
-import org.example.utils.PathUtils;
+import org.example.tools.utils.PathUtils;
 
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;

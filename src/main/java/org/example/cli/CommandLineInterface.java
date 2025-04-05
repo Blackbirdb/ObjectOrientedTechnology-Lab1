@@ -1,10 +1,9 @@
 package org.example.cli;
 
 import org.example.session.SessionManager;
-import org.example.utils.CommandTable;
-import org.example.utils.PathUtils;
+import org.example.tools.utils.CommandTable;
+import org.example.tools.utils.PathUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

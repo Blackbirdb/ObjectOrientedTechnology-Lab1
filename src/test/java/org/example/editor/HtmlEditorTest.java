@@ -2,6 +2,7 @@ package org.example.editor;
 
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
+import org.example.editor.commands.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
