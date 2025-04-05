@@ -43,7 +43,6 @@ public class SessionManager {
         cmd.execute();
     }
 
-
     public void editorList() throws IOException {
         SessionCommand cmd = new EditorListCommand(session);
         cmd.execute();
@@ -51,6 +50,11 @@ public class SessionManager {
 
     public void switchEditor(String fileName) throws IOException {
         SessionCommand cmd = new SwitchEditorCommand(session, fileName);
+        cmd.execute();
+    }
+
+    public void setShowId(boolean showId) throws IOException {
+        SessionCommand cmd = new SetShowIdCommand(session, showId);
         cmd.execute();
     }
 

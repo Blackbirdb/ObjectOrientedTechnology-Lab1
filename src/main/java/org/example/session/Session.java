@@ -86,4 +86,6 @@ public class Session {
     public void setActiveEditorByName(String fileName) {
         activeEditor = openEditors.get(fileName);
     }
+
+    public void setShowId(boolean showId) { activeEditor.setShowId(showId); }
 }

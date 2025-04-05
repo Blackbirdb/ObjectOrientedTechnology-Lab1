@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class CommandLineInterface {
     private final CommandTable commandTable = new CommandTable();
     private final SessionManager sessionManager = new SessionManager();
-    private final List<String> initCommands = new ArrayList<>(List.of("init", "read", "load", "help"));
+    private final List<String> initCommands = new ArrayList<>(List.of("init", "read", "load", "dir-tree","help"));
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -66,10 +66,10 @@ public class CommandLineInterface {
      void processCommand(String command) throws IOException {
         String[] parts = command.split(" ");
 
-//        if (!sessionManager.isActive() && !initCommands.contains(parts[0])) {
-//            System.out.println("Please initialize the editor first by using 'init' or 'read <filePath>' command.");
-//            return;
-//        }
+        if (!sessionManager.isActive() && !initCommands.contains(parts[0])) {
+            System.out.println("Please initialize the editor first!");
+            return;
+        }
 
         switch (parts[0]) {
             case "insert" -> {
@@ -180,7 +180,7 @@ public class CommandLineInterface {
                     System.out.println("Invalid argument: " + showId);
                     return;
                 }
-//                sessionManager.getActiveEditor().setShowId(Boolean.parseBoolean(showId));
+                sessionManager.setShowId(Boolean.parseBoolean(showId));
             }
             case "dir-tree" -> {
                 sessionManager.dirTree();

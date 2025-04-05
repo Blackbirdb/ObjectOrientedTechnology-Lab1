@@ -14,7 +14,7 @@ public class SwitchEditorCommand implements SessionCommand{
         if (session.existEditorByName(fileName)) {
             session.setActiveEditorByName(fileName);
         } else {
-            System.out.println("File not loaded: " + fileName);
+            throw new IllegalStateException("File not loaded: " + fileName);
         }
     }
 }
