@@ -29,19 +29,8 @@ public class SessionManager {
         SessionCommand cmd = new LoadFileCommand(session, fileName);
         cmd.execute();
     }
-//
-//
-//    public static void initNewHtmlFileAt(String filePath) {
-//        Path sourcePath = Paths.get("src/main/resources/default.html");
-//        Path targetPath = Paths.get(filePath);
-//
-//        try {
-//            Files.copy(sourcePath, targetPath);
-//        } catch (Exception e) {
-//            System.err.println("Failed to copy html file: " + filePath);
-//        }
-//    }
-//
+
+
 //     /**
 //     * saves active file to the file specified by fileName
 //     */

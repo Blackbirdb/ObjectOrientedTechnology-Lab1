@@ -31,6 +31,7 @@ public class LoadFileCommand implements SessionCommand{
         session.setActiveEditor(editor);
     }
 
+    // TODO: generate template directly, independent from default.html
     private static void initNewHtmlFileAt(String filePath) {
         Path sourcePath = Paths.get("src/main/resources/default.html");
         Path targetPath = Paths.get(filePath);
