@@ -40,6 +40,14 @@ public class CloseCommand implements SessionCommand {
             }
         }
 
-        session.closeActiveEditor();
+        String fileName = session.getActiveEditorName();
+        session.removeEditor(fileName);
+
+        if (session.getOpenEditors().isEmpty()) {
+            session.setActiveEditor(null);
+        }
+        else {
+            session.setActiveEditor(session.getOpenEditors().entrySet().iterator().next().getValue());
+        }
     }
 }

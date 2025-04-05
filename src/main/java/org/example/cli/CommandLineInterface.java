@@ -52,8 +52,6 @@ public class CommandLineInterface {
     void processCommandWithExceptionHandling(String command) {
         try {
             processCommand(command);
-        } catch (IOException e) {
-            System.out.println("IO Exception: " + e.getMessage());
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid argument: " + e.getMessage());
         } catch (NullPointerException e) {
@@ -63,7 +61,7 @@ public class CommandLineInterface {
         }
     }
 
-     void processCommand(String command) throws IOException {
+     void processCommand(String command) {
         String[] parts = command.split(" ");
 
         if (!sessionManager.isActive() && !initCommands.contains(parts[0])) {

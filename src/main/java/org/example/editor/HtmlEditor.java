@@ -10,16 +10,12 @@ import java.io.IOException;
 
 
 public class HtmlEditor {
-    @Getter
-    @Setter
-    private HtmlDocument document;
+    @Getter @Setter private HtmlDocument document;
     private final CommandHistory history;
-    @Getter
-    private final String filePath;
-    @Setter
-    private boolean showId;
+    @Getter private final String filePath;
+    @Getter @Setter private Boolean showId;
 
-    public HtmlEditor(String filePath) throws IOException {
+    public HtmlEditor(String filePath) {
         this.document = HtmlFileParser.readHtmlFromFile(filePath);
         this.filePath = filePath;
         this.history = new CommandHistory();

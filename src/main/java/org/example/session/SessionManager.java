@@ -2,16 +2,18 @@ package org.example.session;
 
 import org.example.editor.HtmlEditor;
 
-import java.io.IOException;
-
-
 public class SessionManager {
-    private final Session session = new Session();
+    private final Session session;
+
+    public SessionManager() {
+        this.session = new Session();
+        loadSession();
+    }
 
     /**
      * prints the directory tree of the current working directory.
      */
-    public void dirTree() throws IOException {
+    public void dirTree() {
         SessionCommand cmd = new DirTreeCommand(session);
         cmd.execute();
     }
@@ -20,7 +22,7 @@ public class SessionManager {
      * loads file from cwd using filename.
      * If fileName does not exist, create one and init with default.html
      */
-    public void loadFile(String fileName) throws IOException {
+    public void loadFile(String fileName) {
         SessionCommand cmd = new LoadFileCommand(session, fileName);
         cmd.execute();
     }
@@ -29,7 +31,7 @@ public class SessionManager {
      /**
      * saves active file to the file specified by fileName
      */
-    public void saveFile(String fileName) throws IOException {
+    public void saveFile(String fileName) {
         SessionCommand cmd = new SaveFileCommand(session, fileName);
         cmd.execute();
     }
@@ -38,23 +40,33 @@ public class SessionManager {
      * closes the active editor. will ask whether to save file if modified.
      * saves to the same file as opened.
      */
-    public void close() throws IOException {
+    public void close() {
         SessionCommand cmd = new CloseCommand(session);
         cmd.execute();
     }
 
-    public void editorList() throws IOException {
+    public void editorList() {
         SessionCommand cmd = new EditorListCommand(session);
         cmd.execute();
     }
 
-    public void switchEditor(String fileName) throws IOException {
+    public void switchEditor(String fileName) {
         SessionCommand cmd = new SwitchEditorCommand(session, fileName);
         cmd.execute();
     }
 
-    public void setShowId(boolean showId) throws IOException {
+    public void setShowId(boolean showId) {
         SessionCommand cmd = new SetShowIdCommand(session, showId);
+        cmd.execute();
+    }
+
+    public void saveSession() {
+        SessionCommand cmd = new SaveSessionCommand(session);
+        cmd.execute();
+    }
+
+    public void loadSession() {
+        SessionCommand cmd = new LoadSessionCommand(session);
         cmd.execute();
     }
 

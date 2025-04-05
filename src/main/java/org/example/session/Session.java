@@ -2,6 +2,8 @@ package org.example.session;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.example.SessionStateSaver.SessionState;
+import org.example.SessionStateSaver.SessionStateSaver;
 import org.example.editor.HtmlEditor;
 import org.example.utils.PathUtils;
 
@@ -46,41 +48,20 @@ public class Session {
     }
 
     public String getActiveEditorName() {
-        if (activeEditor != null) {
-            return PathUtils.getNameFromPath(activeEditor.getFilePath(), cwd);
-        }
-        return null;
-    }
-
-    public void closeActiveEditor(){
-        String fileName = getActiveEditorName();
-        openEditors.remove(fileName);
-
-        if (openEditors.isEmpty()) {
-            activeEditor = null;
-        } else {
-            activeEditor = openEditors.entrySet().iterator().next().getValue();
-        }
+        return PathUtils.getNameFromPath(activeEditor.getFilePath(), cwd);
     }
 
     public void saveActiveEditor() throws IOException { activeEditor.save(); }
 
     public boolean existActivateEditor(){ return activeEditor != null; }
 
+    // assert exists activeEditor
     public boolean isActiveEditorModified() {
-        if (existActivateEditor()) {
-            return activeEditor.isModified();
-        }
-        return false;
+        return activeEditor.isModified();
     }
 
     public void saveActiveEditorAs(String fileName) throws IOException {
-        if (activeEditor != null) {
-            activeEditor.saveToFile(getPathFromName(fileName));
-        }
-        else {
-            throw new IllegalStateException("No active editor found");
-        }
+        activeEditor.saveToFile(getPathFromName(fileName));
     }
 
     public void setActiveEditorByName(String fileName) {
@@ -88,4 +69,5 @@ public class Session {
     }
 
     public void setShowId(boolean showId) { activeEditor.setShowId(showId); }
+
 }

@@ -13,6 +13,12 @@ public class SaveFileCommand implements SessionCommand{
 
     @Override
     public void execute() throws IOException {
-        session.saveActiveEditorAs(fileName);
+        if (session.existActivateEditor()){
+            session.saveActiveEditorAs(fileName);
+        }
+        else {
+            throw new IllegalStateException("No active editor found");
+        }
     }
 }
+

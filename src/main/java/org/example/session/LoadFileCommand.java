@@ -18,17 +18,21 @@ public class LoadFileCommand implements SessionCommand{
     }
 
     @Override
-    public void execute() throws IOException {
-        if (session.existEditorByName(fileName)) {
-            throw new IllegalArgumentException(fileName + " is already opened");
+    public void execute() {
+        try {
+            if (session.existEditorByName(fileName)) {
+                throw new IllegalArgumentException(fileName + " is already opened");
+            }
+            String filePath = session.getPathFromName(fileName);
+            if (!PathUtils.fileExists(filePath)) {
+                initNewHtmlFileAt(filePath);
+            }
+            HtmlEditor editor = new HtmlEditor(filePath);
+            session.addEditor(fileName, editor);
+            session.setActiveEditor(editor);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
         }
-        String filePath = session.getPathFromName(fileName);
-        if (!PathUtils.fileExists(filePath)) {
-            initNewHtmlFileAt(filePath);
-        }
-        HtmlEditor editor = new HtmlEditor(filePath);
-        session.addEditor(fileName, editor);
-        session.setActiveEditor(editor);
     }
 
     // TODO: generate template directly, independent from default.html
