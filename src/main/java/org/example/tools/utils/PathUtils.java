@@ -25,6 +25,23 @@ public class PathUtils {
         }
     }
 
+    public static boolean isValidFolder(String path) {
+        try {
+            Path folderPath = Paths.get(path);
+
+            Paths.get(path);
+
+            if (Files.exists(folderPath)) {
+                return Files.isDirectory(folderPath);
+            }
+
+            return false;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static boolean isHtmlFile(String path) {
         String lowerPath = path.toLowerCase();
         return lowerPath.endsWith(".html") || lowerPath.endsWith(".htm");

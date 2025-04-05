@@ -10,23 +10,40 @@ import java.util.Scanner;
 
 
 public class CommandLineInterface {
-    private final CommandTable commandTable = new CommandTable();
-    private final SessionManager sessionManager = new SessionManager();
+    private final CommandTable commandTable;
+    private final SessionManager sessionManager;
+    private final Scanner scanner;
     private final List<String> initCommands = new ArrayList<>(List.of("init", "read", "load", "dir-tree","help"));
 
+    public CommandLineInterface() {
+        this.commandTable = new CommandTable();
+        this.sessionManager = new SessionManager();
+        this.scanner = new Scanner(System.in);
+    }
+
+    public CommandLineInterface(SessionManager sessionManager,CommandTable commandTable, Scanner scanner) {
+        this.sessionManager = sessionManager;
+        this.commandTable = commandTable;
+        this.scanner = scanner;
+    }
+
     public void start() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("=========================================================================================");
         System.out.println("Welcome to the html editor!");
         while (!sessionManager.cwdIsSet()){
             System.out.println("Press 'Enter' to use the current directory as working directory.");
             System.out.println("Otherwise, enter the path to the working directory.");
             System.out.print("Path: ");
-            String cwd = new Scanner(System.in).nextLine();
+            String cwd = null;
+            try {
+                cwd = scanner.nextLine();
+            } catch (Exception e) {
+                break;
+            }
             if (cwd.isEmpty()){
                 sessionManager.setCwd(System.getProperty("user.dir"));
             }
-            else if (!PathUtils.isValidPath(cwd)) {
+            else if (!PathUtils.isValidFolder(cwd)) {
                 System.out.println("Invalid path: " + cwd);
             }
             else {
@@ -34,16 +51,21 @@ public class CommandLineInterface {
             }
         }
         System.out.println("Current working directory: " + sessionManager.getCwd());
-        System.out.println("Please initialize the editor by using 'init', 'read <filePath>' or 'load <fileName>' command.");
+        System.out.println("Please initialize the editor by using 'load <fileName>' command.");
         System.out.println("Type \"help\" to see the available commands.");
         System.out.println("Type \"exit\" to exit the editor.");
         System.out.println("=========================================================================================");
 
         while (true) {
             System.out.print("> ");
-            String command = scanner.nextLine();
+            String command = null;
+            try {
+                command = scanner.nextLine();
+            } catch (Exception e) {
+                break;
+            }
             if (command.equals("exit")) {
-                sessionManager.saveSession();
+//                sessionManager.saveSession();
                 break;
             }
             processCommandWithExceptionHandling(command);

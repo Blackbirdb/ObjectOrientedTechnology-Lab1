@@ -16,6 +16,7 @@ public class SaveSessionCommand implements SessionCommand {
 
     @Override
     public void execute() {
+        if (!session.isActive()) { return; }
         SessionState state = new SessionState();
         for (Map.Entry <String, HtmlEditor> entry : session.getOpenEditors().entrySet()) {
             state.openFiles.add(entry.getKey());

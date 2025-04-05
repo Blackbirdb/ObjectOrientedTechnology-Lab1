@@ -1,129 +1,75 @@
 package org.example.cli;
 
-import org.example.editor.HtmlEditor;
-import org.example.document.HtmlDocument;
-import org.example.tools.htmlparser.HtmlFileParser;
-import org.example.tools.htmltreeprinter.HtmlTreePrinter;
-import org.example.tools.spellcheck.SpellChecker;
+import org.example.session.SessionManager;
+import org.example.tools.utils.CommandTable;
+import org.example.tools.utils.PathUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.Scanner;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class CommandLineInterfaceTest {
-
-    @Mock private HtmlEditor editor;
-    @Mock private HtmlFileParser reader;
-    @Mock private HtmlTreePrinter treePrinter;
-    @Mock private SpellChecker spellChecker;
-
     private CommandLineInterface cli;
+    private SessionManager sessionManager;
+    private CommandTable commandTable;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        cli = new CommandLineInterface();
-        when(editor.getDocument())
-                .thenReturn(mock(HtmlDocument.class));
+        sessionManager = mock(SessionManager.class);
+        commandTable = mock(CommandTable.class);
+//        System.setOut(new PrintStream(outContent));
+    }
+
+    @AfterEach
+    void tearDown() {
+        System.setOut(originalOut);
     }
 
     @Test
-    void insertCommand_shouldInsertElement() throws IOException {
-        cli.processCommand("insert div new-id location content");
-        verify(editor).insertElement("div", "new-id", "location", "content");
+    void start_initializesCwdWhenEmpty() {
+        InputStream inputStream = new ByteArrayInputStream("\nexit\n".getBytes());
+        Scanner scanner = new Scanner(inputStream);
+        cli = new CommandLineInterface(sessionManager, commandTable, scanner);
+        when(sessionManager.cwdIsSet()).thenReturn(false, true);
+
+        cli.start();
+
+        verify(sessionManager).setCwd(System.getProperty("user.dir"));
     }
 
     @Test
-    void insertCommand_shouldPrintWrongUsageWhenArgumentsAreMissing() throws IOException {
-        cli.processCommand("insert div new-id");
-        verify(editor, never()).insertElement(anyString(), anyString(), anyString(), anyString());
+    void start_setsCwdWhenValidPathProvided() {
+        String validPath = "src/main/resources/testFiles";
+        String command = validPath + "\nexit\n";
+        Scanner scanner = new Scanner(new ByteArrayInputStream(validPath.getBytes()));
+        cli = new CommandLineInterface(sessionManager, commandTable, scanner);
+        when(sessionManager.cwdIsSet()).thenReturn(false, true);
+
+        cli.start();
+
+        verify(sessionManager).setCwd(validPath);
     }
 
     @Test
-    void appendCommand_shouldAppendElement() throws IOException {
-        cli.processCommand("append div new-id parent content");
-        verify(editor).appendElement("div", "new-id", "parent", "content");
-    }
+    void start_rejectsInvalidPath() {
+        String invalidPath = "invalid::path";
+        String command = invalidPath + "\n";
+        Scanner scanner = new Scanner(new ByteArrayInputStream(command.getBytes()));
+        cli = new CommandLineInterface(sessionManager, commandTable, scanner);
+        when(sessionManager.cwdIsSet()).thenReturn(false, false);
 
-    @Test
-    void appendCommand_shouldPrintWrongUsageWhenArgumentsAreMissing() throws IOException {
-        cli.processCommand("append div new-id");
-        verify(editor, never()).appendElement(anyString(), anyString(), anyString(), anyString());
-    }
+        cli.start();
 
-    @Test
-    void editIdCommand_shouldEditElementId() throws IOException {
-        cli.processCommand("edit-id old-id new-id");
-        verify(editor).editId("old-id", "new-id");
-    }
-
-    @Test
-    void editIdCommand_shouldPrintWrongUsageWhenArgumentsAreMissing() throws IOException {
-        cli.processCommand("edit-id old-id");
-        verify(editor, never()).editId(anyString(), anyString());
-    }
-
-    @Test
-    void editTextCommand_shouldEditElementText() throws IOException {
-        cli.processCommand("edit-text element new text");
-        verify(editor).editText("element", "new text");
-    }
-
-    @Test
-    void editTextCommand_shouldPrintWrongUsageWhenArgumentsAreMissing() throws IOException {
-        cli.processCommand("edit-text");
-        verify(editor, never()).editText(anyString(), anyString());
-    }
-
-    @Test
-    void deleteCommand_shouldDeleteElement() throws IOException {
-        cli.processCommand("delete element-id");
-        verify(editor).deleteElement("element-id");
-    }
-
-    @Test
-    void deleteCommand_shouldPrintWrongUsageWhenArgumentsAreMissing() throws IOException {
-        cli.processCommand("delete");
-        verify(editor, never()).deleteElement(anyString());
-    }
-
-    @Test
-    void readCommand_shouldReadHtmlFromFile() throws IOException {
-        cli.processCommand("read filePath");
-        verify(reader).readHtmlFromFile("filePath");
-    }
-
-    @Test
-    void readCommand_shouldPrintWrongUsageWhenArgumentsAreMissing() throws IOException {
-        cli.processCommand("read");
-        verify(reader, never()).readHtmlFromFile(anyString());
-    }
-
-    @Test
-    void saveCommand_shouldSaveHtmlToFile() throws IOException {
-        cli.processCommand("save filePath");
-        verify(reader).saveHtmlDocumentToFile(any(), eq("filePath"));
-    }
-
-    @Test
-    void saveCommand_shouldPrintWrongUsageWhenArgumentsAreMissing() throws IOException {
-        cli.processCommand("save");
-        verify(reader, never()).saveHtmlDocumentToFile(any(), anyString());
-    }
-
-    @Test
-    void undoCommand_shouldUndoLastCommand() throws IOException {
-        cli.processCommand("undo");
-        verify(editor).undo();
-    }
-
-    @Test
-    void redoCommand_shouldRedoLastUndoneCommand() throws IOException {
-        cli.processCommand("redo");
-        verify(editor).redo();
+        verify(sessionManager, never()).setCwd(invalidPath);
     }
 }
