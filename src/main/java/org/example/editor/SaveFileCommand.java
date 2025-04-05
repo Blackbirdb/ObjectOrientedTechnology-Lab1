@@ -14,7 +14,7 @@ public class SaveFileCommand implements IrrevocableCommand {
         this.filePath = filePath;
     }
 
-    public void execute() throws IOException {
+    public void execute() {
         HtmlFileParser.saveHtmlDocumentToFile(document, filePath);
     }
 

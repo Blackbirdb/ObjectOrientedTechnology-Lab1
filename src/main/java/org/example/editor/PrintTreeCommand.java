@@ -14,7 +14,7 @@ public class PrintTreeCommand implements IrrevocableCommand {
         this.showId = showId;
     }
 
-    public void execute() throws IOException {
+    public void execute() {
         HtmlTreePrinter.print(document, showId);
     }
 }

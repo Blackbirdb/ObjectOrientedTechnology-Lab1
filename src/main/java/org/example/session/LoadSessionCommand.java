@@ -16,24 +16,20 @@ public class LoadSessionCommand implements SessionCommand{
 
     @Override
     public void execute() {
-        try {
-            if (SessionStateSaver.sessionFileExists()) {
-                SessionState state = SessionStateSaver.loadSession();
-                if (state != null) {
-                    session.setCwd(state.cwd);
-                    for (String fileName : state.openFiles) {
-                        String filePath = PathUtils.getPathFromName(fileName, state.cwd);
-                        HtmlEditor editor = new HtmlEditor(filePath);
-                        editor.setShowId(state.showIdMap.getOrDefault(fileName, true));
-                        session.addEditor(fileName, editor);
-                        if (fileName.equals(state.activeEditorName)){
-                            session.setActiveEditor(editor);
-                        }
+        if (SessionStateSaver.sessionFileExists()) {
+            SessionState state = SessionStateSaver.loadSession();
+            if (state != null) {
+                session.setCwd(state.cwd);
+                for (String fileName : state.openFiles) {
+                    String filePath = PathUtils.getPathFromName(fileName, state.cwd);
+                    HtmlEditor editor = new HtmlEditor(filePath);
+                    editor.setShowId(state.showIdMap.getOrDefault(fileName, true));
+                    session.addEditor(fileName, editor);
+                    if (fileName.equals(state.activeEditorName)){
+                        session.setActiveEditor(editor);
                     }
                 }
             }
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
         }
     }
 }

@@ -66,24 +66,24 @@ public class HtmlEditor {
 
     /************************** Irrevocable Commands **************************/
 
-    public void saveToFile(String filePath) throws IOException {
+    public void saveToFile(String filePath) {
         IrrevocableCommand cmd = new SaveFileCommand(document, filePath);
         history.executeCommand(cmd);
         history.resetModified();
     }
 
-    public void save() throws IOException {
+    public void save() {
         SaveFileCommand cmd = new SaveFileCommand(document, this.filePath);
         history.executeCommand(cmd);
         history.resetModified();
     }
 
-    public void printTree() throws IOException {
+    public void printTree() {
         IrrevocableCommand cmd = new PrintTreeCommand(document, showId);
         history.executeCommand(cmd);
     }
 
-    public void spellCheck() throws IOException {
+    public void spellCheck() {
         IrrevocableCommand cmd = new SpellCheckCommand(document);
         history.executeCommand(cmd);
     }

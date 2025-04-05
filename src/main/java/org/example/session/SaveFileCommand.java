@@ -12,7 +12,7 @@ public class SaveFileCommand implements SessionCommand{
     }
 
     @Override
-    public void execute() throws IOException {
+    public void execute() {
         if (session.existActivateEditor()){
             session.saveActiveEditorAs(fileName);
         }

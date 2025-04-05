@@ -51,7 +51,7 @@ public class Session {
         return PathUtils.getNameFromPath(activeEditor.getFilePath(), cwd);
     }
 
-    public void saveActiveEditor() throws IOException { activeEditor.save(); }
+    public void saveActiveEditor() { activeEditor.save(); }
 
     public boolean existActivateEditor(){ return activeEditor != null; }
 
@@ -60,7 +60,7 @@ public class Session {
         return activeEditor.isModified();
     }
 
-    public void saveActiveEditorAs(String fileName) throws IOException {
+    public void saveActiveEditorAs(String fileName) {
         activeEditor.saveToFile(getPathFromName(fileName));
     }
 

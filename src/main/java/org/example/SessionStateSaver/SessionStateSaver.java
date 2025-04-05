@@ -15,7 +15,7 @@ public class SessionStateSaver {
         try (Writer writer = new FileWriter(SESSION_FILE)) {
             gson.toJson(state, writer);
         } catch (IOException e) {
-            System.err.println("Error saving session: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

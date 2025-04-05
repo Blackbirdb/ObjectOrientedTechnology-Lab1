@@ -32,7 +32,7 @@ public class CommandHistory {
         modifiedCount++;
     }
 
-    public void executeCommand(IrrevocableCommand cmd) throws IOException {
+    public void executeCommand(IrrevocableCommand cmd) {
         cmd.execute();
     }
 
