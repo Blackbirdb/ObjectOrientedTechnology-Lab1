@@ -6,6 +6,7 @@ import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 import org.example.editor.commands.*;
 import org.example.tools.htmlparser.HtmlFileParser;
+import org.example.tools.htmlparser.HtmlParserUtils;
 
 
 public class HtmlEditor {
@@ -15,7 +16,8 @@ public class HtmlEditor {
     @Getter @Setter private Boolean showId;
 
     public HtmlEditor(String filePath) {
-        this.document = HtmlFileParser.readHtmlFromFile(filePath);
+        HtmlFileParser parser = new HtmlFileParser();
+        this.document = parser.readHtmlFromFile(filePath);
         this.filePath = filePath;
         this.history = new CommandHistory();
         this.showId = true;
