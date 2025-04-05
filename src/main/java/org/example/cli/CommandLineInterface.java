@@ -150,13 +150,13 @@ public class CommandLineInterface {
                     System.out.println("Is not an HTML file: " + fileName);
                     return;
                 }
-//                sessionManager.saveFile(fileName);
+                sessionManager.saveFile(fileName);
             }
             case "close" -> {
-//                sessionManager.close();
+                sessionManager.close();
             }
             case "editor-list" -> {
-//                sessionManager.editorList();
+                sessionManager.editorList();
             }
             case "edit" -> {
                 if (parts.length != 2) {
@@ -168,7 +168,7 @@ public class CommandLineInterface {
                     System.out.println("Is not an HTML file: " + fileName);
                     return;
                 }
-//                sessionManager.switchEditor(fileName);
+                sessionManager.switchEditor(fileName);
             }
             case "showid" -> {
                 if (parts.length != 2) {

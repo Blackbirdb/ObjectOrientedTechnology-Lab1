@@ -48,14 +48,11 @@ public class SessionManager {
         SessionCommand cmd = new EditorListCommand(session);
         cmd.execute();
     }
-//
-//    public void switchEditor(String fileName) {
-//        if (openEditors.containsKey(fileName)) {
-//            activeEditor = openEditors.get(fileName);
-//        } else {
-//            System.out.println("File not loaded: " + fileName);
-//        }
-//    }
+
+    public void switchEditor(String fileName) throws IOException {
+        SessionCommand cmd = new SwitchEditorCommand(session, fileName);
+        cmd.execute();
+    }
 
 
 /********************************* Basic Session Operations *********************************/

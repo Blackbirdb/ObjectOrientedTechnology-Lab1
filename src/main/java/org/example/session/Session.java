@@ -82,4 +82,8 @@ public class Session {
             throw new IllegalStateException("No active editor found");
         }
     }
+
+    public void setActiveEditorByName(String fileName) {
+        activeEditor = openEditors.get(fileName);
+    }
 }
