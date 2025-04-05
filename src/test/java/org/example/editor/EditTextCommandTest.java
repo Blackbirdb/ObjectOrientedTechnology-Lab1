@@ -1,4 +1,4 @@
-package org.example.command;
+package org.example.editor;
 
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
@@ -10,47 +10,46 @@ import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class DeleteElementCommandTest {
+class EditTextCommandTest {
 
     @Mock private HtmlDocument document;
     @Mock private HtmlElement element;
-    @Mock private HtmlElement parent;
 
-    private DeleteElementCommand command;
+    private EditTextCommand command;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         when(document.getElementById("element-id")).thenReturn(element);
-        when(element.getParent()).thenReturn(parent);
-        when(parent.getChildIndex(element)).thenReturn(0);
-        command = new DeleteElementCommand(document, "element-id");
+        command = new EditTextCommand(document, "element-id", "new text");
     }
 
     @Test
-    void execute_shouldRemoveElementFromParent() {
+    void execute_shouldUpdateTextContent() {
+        when(element.getTextContent()).thenReturn("old text");
         command.execute();
-        verify(parent).removeChild(element);
-        verify(document).unregisterElement(element);
+        verify(element).setTextContent("new text");
     }
 
     @Test
     void execute_shouldThrowExceptionWhenElementDoesNotExist() {
         when(document.getElementById("nonexistent-id")).thenReturn(null);
-        DeleteElementCommand invalidCommand = new DeleteElementCommand(document, "nonexistent-id");
+        EditTextCommand invalidCommand = new EditTextCommand(document, "nonexistent-id", "new text");
         assertThrows(IllegalArgumentException.class, invalidCommand::execute);
     }
 
     @Test
-    void undo_shouldReinsertElementAtOriginalIndex() {
+    void undo_shouldRevertTextContent() {
+        when(element.getTextContent()).thenReturn("old text");
         command.execute();
         command.undo();
-        verify(parent).insertAtIndex(0, element);
+        verify(element).setTextContent("old text");
     }
 
     @Test
-    void undo_shouldThrowExceptionWhenParentIsNull() {
-        DeleteElementCommand invalidCommand = new DeleteElementCommand(document, "element-id");
-        assertThrows(IllegalStateException.class, invalidCommand::undo);
+    void undo_shouldThrowExceptionWhenElementDoesNotExist() {
+        when(document.getElementById("nonexistent-id")).thenReturn(null);
+        EditTextCommand invalidCommand = new EditTextCommand(document, "nonexistent-id", "new text");
+        assertThrows(IllegalArgumentException.class, invalidCommand::undo);
     }
 }

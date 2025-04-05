@@ -1,4 +1,4 @@
-package org.example.command;
+package org.example.editor;
 
 import lombok.Getter;
 import lombok.Setter;

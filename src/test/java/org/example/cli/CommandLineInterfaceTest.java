@@ -1,6 +1,6 @@
 package org.example.cli;
 
-import org.example.command.HtmlEditor;
+import org.example.editor.HtmlEditor;
 import org.example.document.HtmlDocument;
 import org.example.service.HtmlFileParser;
 import org.example.service.HtmlTreePrinter;

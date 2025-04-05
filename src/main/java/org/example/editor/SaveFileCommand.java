@@ -1,7 +1,6 @@
-package org.example.command;
+package org.example.editor;
 
 import org.example.document.HtmlDocument;
-import org.example.document.HtmlElement;
 import org.example.service.HtmlFileParser;
 
 import java.io.IOException;

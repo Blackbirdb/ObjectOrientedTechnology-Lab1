@@ -1,4 +1,4 @@
-package org.example.command;
+package org.example.editor;
 
 import org.example.document.HtmlDocument;
 import org.example.service.HtmlTreePrinter;

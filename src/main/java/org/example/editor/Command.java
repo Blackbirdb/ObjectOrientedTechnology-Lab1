@@ -1,4 +1,4 @@
-package org.example.command;
+package org.example.editor;
 
 
 public interface Command {

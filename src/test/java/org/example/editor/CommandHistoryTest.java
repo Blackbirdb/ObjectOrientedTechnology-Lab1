@@ -1,4 +1,4 @@
-package org.example.command;
+package org.example.editor;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
