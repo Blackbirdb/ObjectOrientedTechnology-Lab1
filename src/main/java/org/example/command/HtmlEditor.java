@@ -4,13 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
-import org.example.filesys.DirTreeCommand;
 import org.example.service.HtmlFileParser;
-import org.example.service.SpellChecker;
-import org.example.service.TreePrinter;
 
 import java.io.IOException;
-import java.util.HashSet;
 
 
 public class HtmlEditor {

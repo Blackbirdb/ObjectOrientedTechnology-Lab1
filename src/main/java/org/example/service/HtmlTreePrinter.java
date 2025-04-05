@@ -3,7 +3,7 @@ package org.example.service;
 import org.example.document.HtmlDocument;
 import org.example.visitor.TreePrintVisitor;
 
-public class TreePrinter {
+public class HtmlTreePrinter {
 
     public static void print(HtmlDocument document, boolean showId) {
         TreePrintVisitor visitor = new TreePrintVisitor(showId);

@@ -1,8 +1,7 @@
 package org.example.command;
 
 import org.example.document.HtmlDocument;
-import org.example.service.HtmlFileParser;
-import org.example.service.TreePrinter;
+import org.example.service.HtmlTreePrinter;
 
 import java.io.IOException;
 
@@ -16,6 +15,6 @@ public class PrintTreeCommand implements IrrevocableCommand {
     }
 
     public void execute() throws IOException {
-        TreePrinter.print(document, showId);
+        HtmlTreePrinter.print(document, showId);
     }
 }

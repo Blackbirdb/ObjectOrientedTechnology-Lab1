@@ -83,7 +83,7 @@ public class TreePrinterTest {
         HtmlFileParser htmlFileReader = new HtmlFileParser();
         HtmlDocument document = htmlFileReader.readHtmlFromFile(constructFilePath(filePath));
 
-        TreePrinter printer = new TreePrinter(document);
+        HtmlTreePrinter printer = new HtmlTreePrinter(document);
         String result = printer.getTreeOutput();
 
         System.out.println(result);
