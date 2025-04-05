@@ -6,6 +6,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 
+import static org.example.document.HtmlDocument.isSpecialTag;
+
 public class HtmlParserUtils {
     private final HtmlDocument htmlDocument;
 
@@ -106,11 +108,6 @@ public class HtmlParserUtils {
         }
 
         return jsoupElement;
-    }
-
-    private boolean isSpecialTag(String tagName) {
-        return tagName.equals("html") || tagName.equals("head")
-                || tagName.equals("title") || tagName.equals("body");
     }
 
     /**

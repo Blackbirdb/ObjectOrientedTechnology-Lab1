@@ -22,7 +22,7 @@ public class InsertElementCommand implements Command {
 
     @Override
     public void execute() {
-        if (document.isSpecialTag(tagName)) {
+        if (HtmlDocument.isSpecialTag(tagName)) {
             throw new IllegalArgumentException("Can't insert special tag element.");
         }
 
@@ -49,7 +49,7 @@ public class InsertElementCommand implements Command {
         if (elementToRemove == null) {
             throw new IllegalArgumentException("Element with ID " + idValue + " does not exist.");
         }
-        else if (document.isSpecialTag(tagName)) {
+        else if (HtmlDocument.isSpecialTag(tagName)) {
             throw new IllegalArgumentException("Can't delete special tag element.");
         }
 
