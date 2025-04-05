@@ -1,18 +1,19 @@
 package org.example.tools.htmltreeprinter;
 
 import org.example.document.HtmlDocument;
+import org.example.document.HtmlElement;
 
 public class HtmlTreePrinter {
 
-    public static void print(HtmlDocument document, boolean showId) {
+    public static void print(HtmlElement root, boolean showId) {
         TreePrintVisitor visitor = new TreePrintVisitor(showId);
-        document.accept(visitor);
+        root.accept(visitor);
         System.out.println(visitor.getTreeOutput());
     }
 
-    public static String getTreeOutput(HtmlDocument document, boolean showId) {
+    public static String getTreeOutput(HtmlElement root, boolean showId) {
         TreePrintVisitor visitor = new TreePrintVisitor();
-        document.accept(visitor);
+        root.accept(visitor);
         return visitor.getTreeOutput();
     }
 }

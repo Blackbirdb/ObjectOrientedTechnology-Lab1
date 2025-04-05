@@ -37,11 +37,7 @@ public class HtmlDocument {
         idToElementMap.remove(element.getId());
     }
 
-    public void accept(HtmlVisitor visitor) {
-        root.accept(visitor);
-    }
-
-    public boolean isSpecialTag(String tagName) {
+    public static boolean isSpecialTag(String tagName) {
         return tagName.equals("html") || tagName.equals("head")
                 || tagName.equals("title") || tagName.equals("body");
     }

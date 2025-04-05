@@ -11,6 +11,6 @@ public class SpellCheckCommand implements IrrevocableCommand{
     }
 
     public void execute() {
-        SpellChecker.printErrorMap(document);
+        SpellChecker.printErrorMap(document.getRoot());
     }
 }

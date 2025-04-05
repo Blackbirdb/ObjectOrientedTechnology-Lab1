@@ -1,6 +1,7 @@
 package org.example.tools.spellcheck;
 
 import org.example.document.HtmlDocument;
+import org.example.document.HtmlElement;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.List;
@@ -8,15 +9,15 @@ import java.util.Map;
 
 public class SpellChecker {
 
-    public static Map<String, List<RuleMatch>> getErrorMap(HtmlDocument document) {
+    public static Map<String, List<RuleMatch>> getErrorMap(HtmlElement root) {
         SpellCheckVisitor visitor = new SpellCheckVisitor();
-        document.accept(visitor);
+        root.accept(visitor);
         return visitor.getErrorMap();
     }
 
-    public static String getErrorMapAsString(HtmlDocument document) {
+    public static String getErrorMapAsString(HtmlElement root) {
         StringBuilder builder = new StringBuilder();
-        Map<String, List<RuleMatch>> errorMap = getErrorMap(document);
+        Map<String, List<RuleMatch>> errorMap = getErrorMap(root);
         for (Map.Entry<String, List<RuleMatch>> entry : errorMap.entrySet()) {
             String errorTagId = entry.getKey();
             List<RuleMatch> errors = entry.getValue();
@@ -30,8 +31,8 @@ public class SpellChecker {
         return builder.toString();
     }
 
-    public static void printErrorMap(HtmlDocument document) {
-        String errors = getErrorMapAsString(document);
+    public static void printErrorMap(HtmlElement root) {
+        String errors = getErrorMapAsString(root);
         if (!errors.isEmpty()) {
             System.out.println("Errors found:");
             System.out.println(errors);

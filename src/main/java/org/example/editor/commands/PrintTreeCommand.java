@@ -13,6 +13,6 @@ public class PrintTreeCommand implements IrrevocableCommand {
     }
 
     public void execute() {
-        HtmlTreePrinter.print(document, showId);
+        HtmlTreePrinter.print(document.getRoot(), showId);
     }
 }
