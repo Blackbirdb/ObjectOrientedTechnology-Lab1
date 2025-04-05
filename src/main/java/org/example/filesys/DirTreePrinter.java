@@ -7,13 +7,13 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DirTreeCommand {
+public class DirTreePrinter {
     private Path rootPath;
     private Set<Path> openFiles;
 
-    public DirTreeCommand(Path rootPath) {
+    public DirTreePrinter(Path rootPath, HashSet<Path> openFiles) {
         this.rootPath = rootPath;
-        this.openFiles = new HashSet<>();
+        this.openFiles = openFiles;
     }
 
     private DirectoryNode buildFileTree(Path path) throws IOException {
