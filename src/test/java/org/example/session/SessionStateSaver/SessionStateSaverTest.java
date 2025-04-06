@@ -16,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SessionStateSaverTest {
 
+    private final SessionStateSaver saver = new SessionStateSaver();
+
     @AfterEach
     void tearDown() {
         File sessionFile = new File("session.json");
@@ -32,10 +34,10 @@ class SessionStateSaverTest {
         state.activeEditorName = "file1.html";
         state.showIdMap = new HashMap<>(Map.of("file1.html", true, "file2.html", false));
 
-        SessionStateSaver.saveSession(state);
+        saver.saveSession(state);
 
         assertTrue(Files.exists(Paths.get("session.json")));
-        SessionState loadedState = SessionStateSaver.loadSession();
+        SessionState loadedState = saver.loadSession();
         assertEquals(state.cwd, loadedState.cwd);
         assertEquals(state.openFiles, loadedState.openFiles);
         assertEquals(state.activeEditorName, loadedState.activeEditorName);
@@ -49,15 +51,15 @@ class SessionStateSaverTest {
             sessionFile.delete();
         }
 
-        assertNull(SessionStateSaver.loadSession());
+        assertNull(saver.loadSession());
     }
 
     @Test
     void sessionFileExistsReturnsTrueWhenFileExists() {
         SessionState state = new SessionState();
-        SessionStateSaver.saveSession(state);
+        saver.saveSession(state);
 
-        assertTrue(SessionStateSaver.sessionFileExists());
+        assertTrue(saver.sessionFileExists());
     }
 
     @Test
@@ -67,6 +69,6 @@ class SessionStateSaverTest {
             sessionFile.delete();
         }
 
-        assertFalse(SessionStateSaver.sessionFileExists());
+        assertFalse(saver.sessionFileExists());
     }
 }

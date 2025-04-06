@@ -8,15 +8,22 @@ import org.example.tools.utils.PathUtils;
 
 public class LoadSessionCommand implements SessionCommand{
     private final Session session;
+    private final SessionStateSaver sessionStateSaver;
 
     public LoadSessionCommand(Session session) {
         this.session = session;
+        this.sessionStateSaver = new SessionStateSaver();
+    }
+
+    public LoadSessionCommand(Session session, SessionStateSaver sessionStateSaver) {
+        this.session = session;
+        this.sessionStateSaver = sessionStateSaver;
     }
 
     @Override
     public void execute() {
-        if (SessionStateSaver.sessionFileExists()) {
-            SessionState state = SessionStateSaver.loadSession();
+        if (sessionStateSaver.sessionFileExists()) {
+            SessionState state = sessionStateSaver.loadSession();
             if (state != null) {
                 session.setCwd(state.cwd);
                 for (String fileName : state.openFiles) {

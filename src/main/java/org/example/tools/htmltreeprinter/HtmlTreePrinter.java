@@ -11,9 +11,4 @@ public class HtmlTreePrinter {
         System.out.println(visitor.getTreeOutput());
     }
 
-    public String getTreeOutput(HtmlElement root, boolean showId) {
-        TreePrintVisitor visitor = new TreePrintVisitor();
-        root.accept(visitor);
-        return visitor.getTreeOutput();
-    }
 }

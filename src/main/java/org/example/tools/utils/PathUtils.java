@@ -3,27 +3,6 @@ package org.example.tools.utils;
 import java.nio.file.*;
 
 public class PathUtils {
-    public static boolean isValidHtmlFilePath(String path) {
-        if (!isValidPath(path)) {
-            return false;
-        }
-
-        if (!isHtmlFile(path)) {
-            return false;
-        }
-
-        Path filePath = Paths.get(path);
-        return Files.exists(filePath) && Files.isReadable(filePath);
-    }
-
-    public static boolean isValidPath(String path) {
-        try {
-            Paths.get(path);
-            return true;
-        } catch (InvalidPathException e) {
-            return false;
-        }
-    }
 
     public static boolean isValidFolder(String path) {
         try {

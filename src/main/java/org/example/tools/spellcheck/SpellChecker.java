@@ -9,8 +9,17 @@ import java.util.Map;
 
 public class SpellChecker {
 
+    private final SpellCheckVisitor visitor;
+
+    public SpellChecker() {
+        this.visitor = new SpellCheckVisitor();
+    }
+
+    public SpellChecker(SpellCheckVisitor spellCheckVisitor) {
+        this.visitor = spellCheckVisitor;
+    }
+
     public Map<String, List<RuleMatch>> getErrorMap(HtmlElement root) {
-        SpellCheckVisitor visitor = new SpellCheckVisitor();
         root.accept(visitor);
         return visitor.getErrorMap();
     }

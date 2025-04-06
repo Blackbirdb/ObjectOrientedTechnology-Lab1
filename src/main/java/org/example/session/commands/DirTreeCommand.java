@@ -16,6 +16,7 @@ public class DirTreeCommand implements SessionCommand {
 
     @Override
     public void execute() {
+
         Path rootPath = Paths.get(session.getCwd());
         HashSet<Path> openFiles = new HashSet<>();
 
