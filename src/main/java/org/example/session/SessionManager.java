@@ -75,48 +75,39 @@ public class SessionManager {
 /********************************* Active Editor Operations *********************************/
 
     public void insertElement(String tagName, String idValue, String insertLocation, String textContent) {
-        session.validateActiveEditor();
-        session.getActiveEditor().insertElement(tagName, idValue, insertLocation, textContent);
+        session.insertElement(tagName, idValue, insertLocation, textContent);
     }
 
     public void appendElement(String tagName, String idValue, String insertLocation, String textContent) {
-        session.validateActiveEditor();
-        session.getActiveEditor().appendElement(tagName, idValue, insertLocation, textContent);
+        session.appendElement(tagName, idValue, insertLocation, textContent);
     }
 
     public void editId(String oldId, String newId) {
-        session.validateActiveEditor();
-        session.getActiveEditor().editId(oldId, newId);
+        session.editId(oldId, newId);
     }
 
     public void editText(String element, String newTextContent) {
-        session.validateActiveEditor();
-        session.getActiveEditor().editText(element, newTextContent);
+        session.editText(element, newTextContent);
     }
 
     public void deleteElement(String elementId) {
-        session.validateActiveEditor();
-        session.getActiveEditor().deleteElement(elementId);
+        session.deleteElement(elementId);
     }
 
     public void undo() {
-        session.validateActiveEditor();
-        session.getActiveEditor().undo();
+        session.undo();
     }
 
     public void redo() {
-        session.validateActiveEditor();
-        session.getActiveEditor().redo();
+        session.redo();
     }
 
     public void printTree() {
-        session.validateActiveEditor();
-        session.getActiveEditor().printTree();
+        session.printTree();
     }
 
     public void spellCheck() {
-        session.validateActiveEditor();
-        session.getActiveEditor().spellCheck();
+        session.spellCheck();
     }
 
 

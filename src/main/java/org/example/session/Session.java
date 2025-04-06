@@ -98,10 +98,57 @@ public class Session {
 
     public void setShowId(boolean showId) { activeEditor.setShowId(showId); }
 
-    public void validateActiveEditor() {
+    private void validateActiveEditor() {
         if (activeEditor == null) {
             throw new IllegalStateException("No active editor found.");
         }
+    }
+
+/************************************* Active Editor Operations ************************************/
+
+    void insertElement(String tagName, String idValue, String insertLocation, String textContent) {
+        validateActiveEditor();
+        activeEditor.insertElement(tagName, idValue, insertLocation, textContent);
+    }
+
+    void appendElement(String tagName, String idValue, String parentElement, String textContent) {
+        validateActiveEditor();
+        activeEditor.appendElement(tagName, idValue, parentElement, textContent);
+    }
+
+    void editId(String oldId, String newId) {
+        validateActiveEditor();
+        activeEditor.editId(oldId, newId);
+    }
+
+    void editText(String element, String newTextContent) {
+        validateActiveEditor();
+        activeEditor.editText(element, newTextContent);
+    }
+
+    void deleteElement(String elementId) {
+        validateActiveEditor();
+        activeEditor.deleteElement(elementId);
+    }
+
+    void undo(){
+        validateActiveEditor();
+        activeEditor.undo();
+    }
+
+    void redo(){
+        validateActiveEditor();
+        activeEditor.redo();
+    }
+
+    void spellCheck() {
+        validateActiveEditor();
+        activeEditor.spellCheck();
+    }
+
+    void printTree() {
+        validateActiveEditor();
+        activeEditor.printTree();
     }
 
 }
