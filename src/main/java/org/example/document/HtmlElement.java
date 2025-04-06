@@ -93,7 +93,6 @@ public class HtmlElement extends HtmlNode {
 
     public void removeChild(HtmlNode child) {
         children.remove(child);
-        child.setParent(null);
     }
 
     public int getChildIndex(HtmlNode child) {

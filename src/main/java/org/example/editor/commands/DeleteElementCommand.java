@@ -45,5 +45,6 @@ public class DeleteElementCommand implements Command {
             throw new IllegalStateException("Parent element is null, cannot undo.");
         }
         parent.insertAtIndex(index, oldElement);
+        document.registerElement(oldElement);
     }
 }
