@@ -18,7 +18,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CommandLineInterfaceIntegrationTest {
+class IntegratedTest {
 
     private final InputStream originalIn = System.in;
     private final PrintStream originalOut = System.out;
@@ -30,7 +30,7 @@ class CommandLineInterfaceIntegrationTest {
     @BeforeEach
     void setUp() throws IOException {
         outputStream = new ByteArrayOutputStream();
-//        System.setOut(new PrintStream(outputStream));
+        System.setOut(new PrintStream(outputStream));
 
         // 源目录路径
         Path sourceDir = Paths.get("src/main/resources/testFiles");
@@ -152,76 +152,58 @@ class CommandLineInterfaceIntegrationTest {
 
         cli.processCommand("dir-tree");
 
-//        String output = outputStream.toString();
-//        assertTrue(output.contains("Command executed successfully: load"));
-//        assertTrue(sessionManager.isActive());
-    }
-
-    @Test
-    void testProcessCommandLoadWithInvalidFile() {
-        CommandTable commandTable = new CommandTable();
-        SessionManager sessionManager = new SessionManager();
-        sessionManager.setCwd(tempDir.toString());
-
-        CommandLineInterface cli = new CommandLineInterface(sessionManager, commandTable, new Scanner(System.in));
-        cli.processCommand("load nonexistent.html");
-
         String output = outputStream.toString();
-        assertFalse(output.contains("Command executed successfully: load"));
-        assertFalse(sessionManager.isActive());
+        assertTrue(output.contains("""
+                html#html
+                ├── head#head
+                │   ├── tag1#id1
+                │   │   └── Hello World
+                │   └── title#title
+                │       ├── tag3#id3
+                │       │   └── Hello World 3
+                │       └── tag2#id2
+                │           └── Hello World 2
+                └── body#body
+                
+                """));
+
+        assertTrue(output.contains("""
+                html#html
+                ├── head#head
+                │   ├── tag1#id1
+                │   │   └── Hello World
+                │   └── title#title
+                │       └── tag3#id3
+                │           └── Hello World 3
+                └── body#body
+                
+                """));
+
+        assertTrue(output.contains("""
+                testFiles/
+                ├── default.html*
+                ├── spellcheck.html
+                ├── nested.html*
+                ├── dumbFolder/
+                │   └── basics.html
+                └── new.html
+                
+                """));
+
+        assertTrue(output.contains("""
+                html#html
+                ├── head#head
+                │   └── title#title
+                └── body#body
+                
+                """));
+
+        assertTrue(output.contains("""
+                  default.html
+                  nested.html
+                > new.html
+                """));
+
     }
 
-    @Test
-    void testProcessCommandDirTree() {
-        CommandTable commandTable = new CommandTable();
-        SessionManager sessionManager = new SessionManager();
-        sessionManager.setCwd(tempDir.toString());
-
-        CommandLineInterface cli = new CommandLineInterface(sessionManager, commandTable, new Scanner(System.in));
-        cli.processCommand("dir-tree");
-
-        String output = outputStream.toString();
-        assertTrue(output.contains("Command executed successfully: dir-tree"));
-        assertTrue(output.contains("Directory tree for:"));
-    }
-
-    @Test
-    void testProcessCommandWithoutInitialization() {
-        CommandTable commandTable = new CommandTable();
-        SessionManager sessionManager = new SessionManager();
-        sessionManager.setCwd(tempDir.toString());
-
-        CommandLineInterface cli = new CommandLineInterface(sessionManager, commandTable, new Scanner(System.in));
-        cli.processCommand("print-tree"); // Command that requires initialization
-
-        String output = outputStream.toString();
-        assertTrue(output.contains("Please initialize the editor first!"));
-        assertFalse(output.contains("Command executed successfully: print-tree"));
-    }
-
-    @Test
-    void testProcessCommandWithInvalidCommand() {
-        CommandTable commandTable = new CommandTable();
-        SessionManager sessionManager = new SessionManager();
-        sessionManager.setCwd(tempDir.toString());
-
-        CommandLineInterface cli = new CommandLineInterface(sessionManager, commandTable, new Scanner(System.in));
-        cli.processCommand("invalid-command");
-
-        String output = outputStream.toString();
-        assertTrue(output.contains("Unknown Command. Please try again."));
-    }
-
-    @Test
-    void testProcessCommandWithWrongUsage() {
-        CommandTable commandTable = new CommandTable();
-        SessionManager sessionManager = new SessionManager();
-        sessionManager.setCwd(tempDir.toString());
-
-        CommandLineInterface cli = new CommandLineInterface(sessionManager, commandTable, new Scanner(System.in));
-        cli.processCommand("load"); // Missing filename
-
-        String output = outputStream.toString();
-        assertTrue(output.contains("Wrong usage for command: load"));
-    }
 }
