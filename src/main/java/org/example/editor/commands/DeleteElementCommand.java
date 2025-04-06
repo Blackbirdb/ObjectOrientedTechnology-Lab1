@@ -1,8 +1,8 @@
 package org.example.editor.commands;
 
+import lombok.Getter;
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
-
 
 public class DeleteElementCommand implements Command {
     private final HtmlDocument document;
@@ -25,7 +25,7 @@ public class DeleteElementCommand implements Command {
         if (oldElement == null) {
             throw new IllegalArgumentException("Element with ID " + elementId + " does not exist.");
         }
-        else if (document.isSpecialTag(oldElement.getTagName())) {
+        else if (HtmlDocument.isSpecialTag(oldElement.getTagName())) {
             throw new IllegalArgumentException("Cannot delete special tag elements.");
         }
 

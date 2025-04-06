@@ -27,7 +27,7 @@ public class AppendElementCommand implements Command {
         else if (parent.getTagName().equals("html")) {
             throw new IllegalArgumentException("Can't append to html element.");
         }
-        else if (document.isSpecialTag(tagName)) {
+        else if (HtmlDocument.isSpecialTag(tagName)) {
             throw new IllegalArgumentException("Can't append special tag element.");
         }
         HtmlElement element = document.getFactory().createElement(tagName, idValue, textContent, parent);
@@ -39,7 +39,7 @@ public class AppendElementCommand implements Command {
         if (elementToRemove == null) {
             throw new IllegalArgumentException("Element with ID " + idValue + " does not exist.");
         }
-        else if (document.isSpecialTag(tagName)) {
+        else if (HtmlDocument.isSpecialTag(tagName)) {
             throw new IllegalArgumentException("Can't delete special tag element.");
         }
 
