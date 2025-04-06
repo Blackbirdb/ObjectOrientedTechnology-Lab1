@@ -21,15 +21,15 @@ public class EditorListCommand implements SessionCommand{
 
         StringBuilder sb = new StringBuilder();
 
-        for (Map.Entry<String, HtmlEditor> entry : session.getOpenEditors().entrySet()) {
+        for (String fileName : session.getOpenEditorNames()) {
 
-            if (entry.getValue() == session.getActiveEditor()) {
+            if (fileName.equals(session.getActiveEditorName())) {
                 sb.append("> ");
             } else {
                 sb.append("  ");
             }
-            sb.append(entry.getKey());
-            if (entry.getValue().isModified()) {
+            sb.append(fileName);
+            if (session.editorIsModified(fileName)) {
                 sb.append("*");
             }
             sb.append("\n");

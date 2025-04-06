@@ -1,6 +1,5 @@
 package org.example.cli;
 
-import org.example.editor.HtmlEditor;
 import org.example.session.SessionManager;
 import org.example.tools.utils.CommandTable;
 import org.example.tools.utils.PathUtils;
@@ -21,7 +20,6 @@ class CommandLineInterfaceTest {
     private CommandLineInterface cli;
     private SessionManager sessionManager;
     private CommandTable commandTable;
-    private HtmlEditor editor;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -29,11 +27,9 @@ class CommandLineInterfaceTest {
     void setUp() {
         sessionManager = mock(SessionManager.class);
         commandTable = mock(CommandTable.class);
-        editor = mock(HtmlEditor.class);
         cli = new CommandLineInterface(sessionManager, commandTable, new Scanner(System.in));
 
         when(sessionManager.isActive()).thenReturn(true);
-        when(sessionManager.getActiveEditor()).thenReturn(editor);
 
         System.setOut(new PrintStream(outContent));
     }
@@ -84,55 +80,55 @@ class CommandLineInterfaceTest {
     @Test
     void testInsertCommand() {
         cli.processCommand("insert div id1 root Hello");
-        verify(editor).insertElement("div", "id1", "root", "Hello");
+        verify(  sessionManager).insertElement("div", "id1", "root", "Hello");
     }
 
     @Test
     void testAppendCommand() {
         cli.processCommand("append span id2 body World");
-        verify(editor).appendElement("span", "id2", "body", "World");
+        verify(  sessionManager).appendElement("span", "id2", "body", "World");
     }
 
     @Test
     void testEditIdCommand() {
         cli.processCommand("edit-id oldId newId");
-        verify(editor).editId("oldId", "newId");
+        verify(  sessionManager).editId("oldId", "newId");
     }
 
     @Test
     void testEditTextCommand() {
         cli.processCommand("edit-text id3 New text content");
-        verify(editor).editText("id3", "New text content");
+        verify(  sessionManager).editText("id3", "New text content");
     }
 
     @Test
     void testDeleteCommand() {
         cli.processCommand("delete id4");
-        verify(editor).deleteElement("id4");
+        verify(  sessionManager).deleteElement("id4");
     }
 
     @Test
     void testUndoCommand() {
         cli.processCommand("undo");
-        verify(editor).undo();
+        verify(  sessionManager).undo();
     }
 
     @Test
     void testRedoCommand() {
         cli.processCommand("redo");
-        verify(editor).redo();
+        verify(  sessionManager).redo();
     }
 
     @Test
     void testPrintTreeCommand() {
         cli.processCommand("print-tree");
-        verify(editor).printTree();
+        verify(  sessionManager).printTree();
     }
 
     @Test
     void testSpellCheckCommand() {
         cli.processCommand("spell-check");
-        verify(editor).spellCheck();
+        verify(  sessionManager).spellCheck();
     }
 
     @Test

@@ -103,7 +103,7 @@ public class CommandLineInterface {
                 String idValue = parts[2];
                 String insertLocation = parts[3];
                 String textContent = parts.length > 4 ? command.substring(command.indexOf(insertLocation) + insertLocation.length()).trim() : null;
-                sessionManager.getActiveEditor().insertElement(tagName, idValue, insertLocation, textContent);
+                sessionManager.insertElement(tagName, idValue, insertLocation, textContent);
             }
             case "append" -> {
                 if (parts.length < 4) {
@@ -114,7 +114,7 @@ public class CommandLineInterface {
                 String idValue = parts[2];
                 String parentElement = parts[3];
                 String textContent = parts.length > 4 ? command.substring(command.indexOf(parentElement) + parentElement.length()).trim() : null;
-                sessionManager.getActiveEditor().appendElement(tagName, idValue, parentElement, textContent);
+                sessionManager.appendElement(tagName, idValue, parentElement, textContent);
             }
             case "edit-id" -> {
                 if (parts.length != 3) {
@@ -123,7 +123,7 @@ public class CommandLineInterface {
                 }
                 String oldId = parts[1];
                 String newId = parts[2];
-                sessionManager.getActiveEditor().editId(oldId, newId);
+                sessionManager.editId(oldId, newId);
             }
             case "edit-text" -> {
                 if (parts.length < 2) {
@@ -132,7 +132,7 @@ public class CommandLineInterface {
                 }
                 String element = parts[1];
                 String newTextContent = parts.length > 2 ? command.substring(command.indexOf(element) + element.length()).trim() : null;
-                sessionManager.getActiveEditor().editText(element, newTextContent);
+                sessionManager.editText(element, newTextContent);
             }
             case "delete" -> {
                 if (parts.length != 2) {
@@ -140,10 +140,10 @@ public class CommandLineInterface {
                     return;
                 }
                 String elementId = parts[1];
-                sessionManager.getActiveEditor().deleteElement(elementId);
+                sessionManager.deleteElement(elementId);
             }
-            case "undo" -> sessionManager.getActiveEditor().undo();
-            case "redo" -> sessionManager.getActiveEditor().redo();
+            case "undo" -> sessionManager.undo();
+            case "redo" -> sessionManager.redo();
             case "load" -> {        // loads file in cwd
                 if (parts.length != 2) {
                     printWrongUsage("load");
@@ -157,10 +157,10 @@ public class CommandLineInterface {
                 sessionManager.loadFile(fileName);
             }
             case "print-tree" -> {
-                sessionManager.getActiveEditor().printTree();
+                sessionManager.printTree();
             }
             case "spell-check" -> {
-                sessionManager.getActiveEditor().spellCheck();
+                sessionManager.spellCheck();
             }
             case "save" -> {
                 if (parts.length != 2) {

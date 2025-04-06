@@ -1,12 +1,9 @@
 package org.example.session.SessionStateSaver;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SessionState {
-    public List<String> openFiles = new ArrayList<>();
+    public Set<String> openFiles = new HashSet<>();
     public String activeEditorName;
     public Map<String, Boolean> showIdMap = new HashMap<>();
     public String cwd;

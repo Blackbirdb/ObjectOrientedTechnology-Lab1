@@ -8,15 +8,47 @@ import org.example.tools.utils.PathUtils;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-@Getter
 public class Session {
     private final Map<String, HtmlEditor> openEditors = new LinkedHashMap<>();
     @Setter private HtmlEditor activeEditor = null;
-    @Setter private String cwd = null;
+    @Getter @Setter private String cwd = null;
 
     public boolean isActive(){
         return activeEditor != null;
+    }
+
+    HtmlEditor getActiveEditor(){ return activeEditor; }
+
+    public Set<String> getOpenEditorNames() {
+        return openEditors.keySet();
+    }
+
+    public boolean openEditorIsEmpty() {
+        return openEditors.isEmpty();
+    }
+
+    public boolean editorIsModified(String fileName) {
+        HtmlEditor editor = openEditors.get(fileName);
+        if (editor != null) {
+            return editor.isModified();
+        }
+        return false;
+    }
+
+    public HtmlEditor getFirstOpenEditor() {
+        return openEditors.entrySet().iterator().next().getValue();
+    }
+
+    public Map<String, Boolean> getShowIdMap() {
+        Map<String, Boolean> showIdMap = new LinkedHashMap<>();
+        for (Map.Entry<String, HtmlEditor> entry : openEditors.entrySet()) {
+            String fileName = entry.getKey();
+            Boolean showId = entry.getValue().getShowId();
+            showIdMap.put(fileName, showId);
+        }
+        return showIdMap;
     }
 
     public boolean cwdIsSet() {
@@ -65,5 +97,11 @@ public class Session {
     }
 
     public void setShowId(boolean showId) { activeEditor.setShowId(showId); }
+
+    public void validateActiveEditor() {
+        if (activeEditor == null) {
+            throw new IllegalStateException("No active editor found.");
+        }
+    }
 
 }

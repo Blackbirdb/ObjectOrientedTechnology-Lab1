@@ -11,9 +11,10 @@ public class SessionManager {
         loadSession();
     }
 
-    /**
-     * prints the directory tree of the current working directory.
-     */
+
+/********************************* Session Level Operations *********************************/
+
+    // prints the directory tree of the current working directory.
     public void dirTree() {
         SessionCommand cmd = new DirTreeCommand(session);
         cmd.execute();
@@ -71,11 +72,55 @@ public class SessionManager {
         cmd.execute();
     }
 
+/********************************* Active Editor Operations *********************************/
+
+    public void insertElement(String tagName, String idValue, String insertLocation, String textContent) {
+        session.validateActiveEditor();
+        session.getActiveEditor().insertElement(tagName, idValue, insertLocation, textContent);
+    }
+
+    public void appendElement(String tagName, String idValue, String insertLocation, String textContent) {
+        session.validateActiveEditor();
+        session.getActiveEditor().appendElement(tagName, idValue, insertLocation, textContent);
+    }
+
+    public void editId(String oldId, String newId) {
+        session.validateActiveEditor();
+        session.getActiveEditor().editId(oldId, newId);
+    }
+
+    public void editText(String element, String newTextContent) {
+        session.validateActiveEditor();
+        session.getActiveEditor().editText(element, newTextContent);
+    }
+
+    public void deleteElement(String elementId) {
+        session.validateActiveEditor();
+        session.getActiveEditor().deleteElement(elementId);
+    }
+
+    public void undo() {
+        session.validateActiveEditor();
+        session.getActiveEditor().undo();
+    }
+
+    public void redo() {
+        session.validateActiveEditor();
+        session.getActiveEditor().redo();
+    }
+
+    public void printTree() {
+        session.validateActiveEditor();
+        session.getActiveEditor().printTree();
+    }
+
+    public void spellCheck() {
+        session.validateActiveEditor();
+        session.getActiveEditor().spellCheck();
+    }
+
 
 /********************************* Basic Session Operations *********************************/
-    public HtmlEditor getActiveEditor() {
-        return session.getActiveEditor();
-    }
 
     public boolean isActive(){
         return session.isActive();
