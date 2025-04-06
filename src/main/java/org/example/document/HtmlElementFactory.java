@@ -11,7 +11,7 @@ public class HtmlElementFactory {
 
     /**
      * create element is only responsible for creating the element and registering it in the document.
-     * it does not add the element to the parent.
+     * it does not add the element to the parent, because we don't know where to add it.
      */
     public HtmlElement createElement(String tagName, String id, String textContent, HtmlElement parent) {
 

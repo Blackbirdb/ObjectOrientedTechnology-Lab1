@@ -23,23 +23,19 @@ public class LoadFileCommand implements SessionCommand{
             throw new IllegalArgumentException(fileName + " is already opened");
         }
         String filePath = session.getPathFromName(fileName);
+
+        HtmlEditor editor;
+
         if (!PathUtils.fileExists(filePath)) {
-            initNewHtmlFileAt(filePath);
+            editor = new HtmlEditor();
+            editor.setFilePath(filePath);
+            editor.saveToFile(filePath);
         }
-        HtmlEditor editor = new HtmlEditor(filePath);
+        else {
+            editor = new HtmlEditor(filePath);
+        }
         session.addEditor(fileName, editor);
         session.setActiveEditor(editor);
     }
 
-    // TODO: generate template directly, independent from default.html
-    private static void initNewHtmlFileAt(String filePath) {
-        Path sourcePath = Paths.get("src/main/resources/default.html");
-        Path targetPath = Paths.get(filePath);
-
-        try {
-            Files.copy(sourcePath, targetPath);
-        } catch (Exception e) {
-            System.err.println("Failed to copy html file: " + filePath);
-        }
-    }
 }

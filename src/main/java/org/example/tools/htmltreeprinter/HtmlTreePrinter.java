@@ -5,13 +5,13 @@ import org.example.document.HtmlElement;
 
 public class HtmlTreePrinter {
 
-    public static void print(HtmlElement root, boolean showId) {
+    public void print(HtmlElement root, boolean showId) {
         TreePrintVisitor visitor = new TreePrintVisitor(showId);
         root.accept(visitor);
         System.out.println(visitor.getTreeOutput());
     }
 
-    public static String getTreeOutput(HtmlElement root, boolean showId) {
+    public String getTreeOutput(HtmlElement root, boolean showId) {
         TreePrintVisitor visitor = new TreePrintVisitor();
         root.accept(visitor);
         return visitor.getTreeOutput();

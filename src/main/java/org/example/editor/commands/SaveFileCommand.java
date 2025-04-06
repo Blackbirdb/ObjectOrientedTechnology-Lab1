@@ -7,6 +7,7 @@ import org.example.tools.htmlparser.HtmlParserUtils;
 public class SaveFileCommand implements IrrevocableCommand {
     private final HtmlDocument document;
     private final String filePath;
+    private final HtmlFileParser parser = new HtmlFileParser();
 
     public SaveFileCommand(HtmlDocument document, String filePath) {
         this.document = document;
@@ -14,6 +15,6 @@ public class SaveFileCommand implements IrrevocableCommand {
     }
 
     public void execute() {
-        HtmlFileParser.saveHtmlDocumentToFile(document, filePath);
+        parser.saveHtmlDocumentToFile(document, filePath);
     }
 }

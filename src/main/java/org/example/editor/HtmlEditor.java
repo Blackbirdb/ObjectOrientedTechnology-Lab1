@@ -12,14 +12,26 @@ import org.example.tools.htmlparser.HtmlParserUtils;
 public class HtmlEditor {
     @Getter @Setter private HtmlDocument document;
     private final CommandHistory history;
-    @Getter private final String filePath;
+    @Getter @Setter private String filePath;
     @Getter @Setter private Boolean showId;
+    private final HtmlFileParser parser;
 
     public HtmlEditor(String filePath) {
-        this.document = HtmlFileParser.readHtmlFromFile(filePath);
+        this.parser = new HtmlFileParser();
+        this.document = parser.readHtmlFromFile(filePath);
         this.filePath = filePath;
         this.history = new CommandHistory();
         this.showId = true;
+    }
+
+    public HtmlEditor() {
+        document = new HtmlDocument();
+        document.init();
+
+        this.filePath = null;
+        this.history = new CommandHistory();
+        this.showId = true;
+        this.parser = new HtmlFileParser();
     }
 
     public HtmlEditor(HtmlDocument document, CommandHistory history, String filePath, Boolean showId) {
@@ -27,6 +39,7 @@ public class HtmlEditor {
         this.history = history;
         this.filePath = filePath;
         this.showId = showId;
+        this.parser =  new HtmlFileParser();
     }
 
     public HtmlElement getElementById(String id) {

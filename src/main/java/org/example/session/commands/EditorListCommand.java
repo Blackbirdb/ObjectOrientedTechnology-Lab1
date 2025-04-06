@@ -19,6 +19,8 @@ public class EditorListCommand implements SessionCommand{
             return;
         }
 
+        assert !session.openEditorIsEmpty();
+
         StringBuilder sb = new StringBuilder();
 
         for (String fileName : session.getOpenEditorNames()) {

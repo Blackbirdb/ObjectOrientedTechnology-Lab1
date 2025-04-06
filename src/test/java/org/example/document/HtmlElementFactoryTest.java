@@ -71,12 +71,12 @@ class HtmlElementFactoryTest {
     }
 
     @Test
-    void createElement_nullParent_allowed() {
+    void createElement_nullParent_throwException() {
         when(document.getElementById("orphan")).thenReturn(null);
 
-        HtmlElement element = factory.createElement("div", "orphan", null);
-
-        assertNull(element.getParent());
+        assertThrows(IllegalArgumentException.class, () -> {
+            factory.createElement("div", "orphan", null);
+        });
     }
 
     @Test

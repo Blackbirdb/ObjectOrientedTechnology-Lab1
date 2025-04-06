@@ -37,6 +37,17 @@ public class HtmlDocument {
         idToElementMap.remove(element.getId());
     }
 
+    public void init(){
+        root = factory.createElement("html", "html", null);
+        HtmlElement head = factory.createElement("head", "head", root);
+        HtmlElement title = factory.createElement("title", "title", head);
+        HtmlElement body = factory.createElement("body", "body", root);
+
+        root.insertAtLast(head);
+        root.insertAtLast(body);
+        head.insertAtLast(title);
+    }
+
     public static boolean isSpecialTag(String tagName) {
         return tagName.equals("html") || tagName.equals("head")
                 || tagName.equals("title") || tagName.equals("body");

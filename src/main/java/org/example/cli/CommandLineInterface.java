@@ -65,7 +65,7 @@ public class CommandLineInterface {
                 break;
             }
             if (command.equals("exit")) {
-//                sessionManager.saveSession();
+                sessionManager.saveSession();
                 break;
             }
             processCommandWithExceptionHandling(command);

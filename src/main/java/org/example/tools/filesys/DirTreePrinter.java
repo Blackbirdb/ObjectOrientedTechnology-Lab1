@@ -24,7 +24,6 @@ public class DirTreePrinter {
                     root.addChild(buildFileTree(entry));
                 } else {
                     boolean isOpen = openFiles.contains(rootPath.relativize(entry));
-                    System.out.println(rootPath.relativize(entry) + " " + isOpen);
                     root.addChild(new FileNode(entry, isOpen));
                 }
             }
@@ -34,12 +33,11 @@ public class DirTreePrinter {
     public void print() {
         try {
             DirectoryNode root = buildFileTree(rootPath);
-            System.out.println(openFiles);
             DirectoryPrinterVisitor visitor = new DirectoryPrinterVisitor();
             root.accept(visitor);
             System.out.println(visitor.getOutput());
         } catch (IOException e) {
-            System.err.println("Error reading directory: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }

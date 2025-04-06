@@ -21,9 +21,11 @@ public class LoadSessionCommand implements SessionCommand{
                 session.setCwd(state.cwd);
                 for (String fileName : state.openFiles) {
                     String filePath = PathUtils.getPathFromName(fileName, state.cwd);
+
                     HtmlEditor editor = new HtmlEditor(filePath);
                     editor.setShowId(state.showIdMap.getOrDefault(fileName, true));
                     session.addEditor(fileName, editor);
+
                     if (fileName.equals(state.activeEditorName)){
                         session.setActiveEditor(editor);
                     }

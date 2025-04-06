@@ -9,13 +9,13 @@ import java.util.Map;
 
 public class SpellChecker {
 
-    public static Map<String, List<RuleMatch>> getErrorMap(HtmlElement root) {
+    public Map<String, List<RuleMatch>> getErrorMap(HtmlElement root) {
         SpellCheckVisitor visitor = new SpellCheckVisitor();
         root.accept(visitor);
         return visitor.getErrorMap();
     }
 
-    public static String getErrorMapAsString(HtmlElement root) {
+    public String getErrorMapAsString(HtmlElement root) {
         StringBuilder builder = new StringBuilder();
         Map<String, List<RuleMatch>> errorMap = getErrorMap(root);
         for (Map.Entry<String, List<RuleMatch>> entry : errorMap.entrySet()) {
@@ -31,7 +31,7 @@ public class SpellChecker {
         return builder.toString();
     }
 
-    public static void printErrorMap(HtmlElement root) {
+    public void printErrorMap(HtmlElement root) {
         String errors = getErrorMapAsString(root);
         if (!errors.isEmpty()) {
             System.out.println("Errors found:");
