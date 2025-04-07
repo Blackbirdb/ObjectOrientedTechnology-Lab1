@@ -4,6 +4,7 @@ import org.example.document.HtmlElement;
 import org.example.document.HtmlNode;
 import org.example.document.HtmlTextNode;
 import org.example.document.HtmlVisitor;
+import org.example.tools.utils.SpellCheckUtils;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.*;

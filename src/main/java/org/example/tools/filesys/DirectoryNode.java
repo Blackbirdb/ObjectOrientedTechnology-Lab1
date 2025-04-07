@@ -1,24 +1,23 @@
 package org.example.tools.filesys;
 
 import lombok.Getter;
+import org.example.treeprinter.InnerTreeNode;
+import org.example.treeprinter.TreePrintVisitor;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
-class DirectoryNode extends FileSystemNode {
-    private final List<FileSystemNode> children = new ArrayList<>();
+public class DirectoryNode extends InnerTreeNode {
+    private final Path path;
+
     public DirectoryNode(Path path) {
-        super(path);
-    }
-    public void addChild(FileSystemNode child) {
-        children.add(child);
-        child.setParent(this);
+        this.path = path;
     }
 
     @Override
-    public void accept(FileSystemVisitor visitor) {
-        visitor.visit(this);
+    public void accept(TreePrintVisitor visitor) {
+        String text = path.getFileName().toString() + "/";
+        visitor.visit(this, text);
     }
+
 }

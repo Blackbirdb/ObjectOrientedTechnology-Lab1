@@ -1,19 +1,28 @@
 package org.example.tools.filesys;
 
+import org.example.treeprinter.LeafTreeNode;
+import org.example.treeprinter.TreePrintVisitor;
+
 import java.nio.file.Path;
 
-class FileNode extends FileSystemNode {
-    private boolean isOpen;
+public class FileNode extends LeafTreeNode {
+    private final boolean isOpen;
+    private final Path path;
 
     public FileNode(Path path, boolean isOpen) {
-        super(path);
+        this.path = path;
         this.isOpen = isOpen;
     }
     public boolean isOpen() {
         return isOpen;
     }
+
     @Override
-    public void accept(FileSystemVisitor visitor) {
-        visitor.visit(this);
+    public void accept(TreePrintVisitor visitor) {
+        String text = path.getFileName().toString();
+        if (isOpen) {
+            text += "*";
+        }
+        visitor.visit(this, text);
     }
 }
