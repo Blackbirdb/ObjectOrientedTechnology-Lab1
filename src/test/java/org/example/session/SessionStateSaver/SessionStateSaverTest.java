@@ -1,6 +1,7 @@
 package org.example.session.SessionStateSaver;
 
-import org.example.session.SessionStateSaver.SessionState;
+import org.example.tools.SessionStateSaver.SessionState;
+import org.example.tools.SessionStateSaver.SessionStateSaver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import java.io.File;

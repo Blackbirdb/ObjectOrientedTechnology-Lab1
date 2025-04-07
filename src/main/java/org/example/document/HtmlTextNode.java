@@ -2,9 +2,8 @@ package org.example.document;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.treeprinter.LeafTreeNode;
-import org.example.treeprinter.TreePrintVisitor;
-import org.example.treeprinter.Visitor;
+import org.example.tools.treeprinter.LeafTreeNode;
+import org.example.tools.treeprinter.Visitor;
 
 @Setter
 @Getter

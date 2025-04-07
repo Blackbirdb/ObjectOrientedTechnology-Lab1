@@ -1,4 +1,4 @@
-package org.example.session.SessionStateSaver;
+package org.example.tools.SessionStateSaver;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

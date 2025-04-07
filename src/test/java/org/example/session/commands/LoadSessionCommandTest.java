@@ -2,23 +2,15 @@ package org.example.session.commands;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.example.editor.HtmlEditor;
 import org.example.session.Session;
-import org.example.session.SessionStateSaver.SessionState;
-import org.example.session.SessionStateSaver.SessionStateSaver;
-import org.example.tools.utils.PathUtils;
+import org.example.tools.SessionStateSaver.SessionState;
+import org.example.tools.SessionStateSaver.SessionStateSaver;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class LoadSessionCommandTest {

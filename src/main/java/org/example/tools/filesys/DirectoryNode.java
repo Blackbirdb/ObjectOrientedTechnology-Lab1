@@ -1,9 +1,8 @@
 package org.example.tools.filesys;
 
 import lombok.Getter;
-import org.example.treeprinter.InnerTreeNode;
-import org.example.treeprinter.TreePrintVisitor;
-import org.example.treeprinter.Visitor;
+import org.example.tools.treeprinter.InnerTreeNode;
+import org.example.tools.treeprinter.Visitor;
 
 import java.nio.file.Path;
 

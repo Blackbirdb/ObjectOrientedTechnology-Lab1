@@ -2,9 +2,9 @@ package org.example.document;
 
 import lombok.Getter;
 import org.example.tools.utils.SpellCheckUtils;
-import org.example.treeprinter.InnerTreeNode;
-import org.example.treeprinter.LeafTreeNode;
-import org.example.treeprinter.TreePrintVisitor;
+import org.example.tools.treeprinter.InnerTreeNode;
+import org.example.tools.treeprinter.LeafTreeNode;
+import org.example.tools.treeprinter.TreePrintVisitor;
 
 public class HtmlTreeVisitor extends TreePrintVisitor {
     @Getter

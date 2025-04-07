@@ -1,8 +1,7 @@
 package org.example.tools.htmlparser;
 
-import io.vavr.collection.Tree;
 import org.example.document.*;
-import org.example.treeprinter.TreeNode;
+import org.example.tools.treeprinter.TreeNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

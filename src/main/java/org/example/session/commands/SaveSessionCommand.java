@@ -1,11 +1,8 @@
 package org.example.session.commands;
 
-import org.example.session.SessionStateSaver.SessionState;
-import org.example.session.SessionStateSaver.SessionStateSaver;
-import org.example.editor.HtmlEditor;
+import org.example.tools.SessionStateSaver.SessionState;
+import org.example.tools.SessionStateSaver.SessionStateSaver;
 import org.example.session.Session;
-
-import java.util.Map;
 
 public class SaveSessionCommand implements SessionCommand {
     private final Session session;

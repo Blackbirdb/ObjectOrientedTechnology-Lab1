@@ -1,4 +1,4 @@
-package org.example.treeprinter;
+package org.example.tools.treeprinter;
 
 import lombok.Getter;
 

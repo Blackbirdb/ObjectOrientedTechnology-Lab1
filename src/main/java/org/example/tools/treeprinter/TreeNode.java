@@ -1,8 +1,7 @@
-package org.example.treeprinter;
+package org.example.tools.treeprinter;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.tools.filesys.DirectoryNode;
 
 import java.util.List;
 

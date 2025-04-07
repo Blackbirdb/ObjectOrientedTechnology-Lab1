@@ -1,8 +1,4 @@
-package org.example.treeprinter;
-
-import io.vavr.collection.Tree;
-import org.example.tools.filesys.DirectoryNode;
-import org.example.tools.filesys.FileNode;
+package org.example.tools.treeprinter;
 
 import java.util.List;
 import java.util.Stack;

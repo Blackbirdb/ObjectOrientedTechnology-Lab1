@@ -1,4 +1,4 @@
-package org.example.treeprinter;
+package org.example.tools.treeprinter;
 
 
 public abstract class LeafTreeNode extends TreeNode {

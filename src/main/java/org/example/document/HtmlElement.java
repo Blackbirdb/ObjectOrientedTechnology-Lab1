@@ -2,10 +2,9 @@ package org.example.document;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.treeprinter.InnerTreeNode;
-import org.example.treeprinter.TreeNode;
-import org.example.treeprinter.TreePrintVisitor;
-import org.example.treeprinter.Visitor;
+import org.example.tools.treeprinter.InnerTreeNode;
+import org.example.tools.treeprinter.TreeNode;
+import org.example.tools.treeprinter.Visitor;
 
 @Getter
 public class HtmlElement extends InnerTreeNode {

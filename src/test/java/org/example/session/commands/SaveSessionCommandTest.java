@@ -1,8 +1,8 @@
 package org.example.session.commands;
 
 import org.example.session.Session;
-import org.example.session.SessionStateSaver.SessionState;
-import org.example.session.SessionStateSaver.SessionStateSaver;
+import org.example.tools.SessionStateSaver.SessionState;
+import org.example.tools.SessionStateSaver.SessionStateSaver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

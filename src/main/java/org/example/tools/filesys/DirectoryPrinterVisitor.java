@@ -1,8 +1,8 @@
 package org.example.tools.filesys;
 
-import org.example.treeprinter.InnerTreeNode;
-import org.example.treeprinter.LeafTreeNode;
-import org.example.treeprinter.TreePrintVisitor;
+import org.example.tools.treeprinter.InnerTreeNode;
+import org.example.tools.treeprinter.LeafTreeNode;
+import org.example.tools.treeprinter.TreePrintVisitor;
 
 import java.nio.file.Path;
 
