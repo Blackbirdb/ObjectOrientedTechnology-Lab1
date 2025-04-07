@@ -6,8 +6,8 @@ import org.example.tools.treeprinter.InnerTreeNode;
 import org.example.tools.treeprinter.LeafTreeNode;
 import org.example.tools.treeprinter.TreePrintVisitor;
 
+@Getter
 public class HtmlTreeVisitor extends TreePrintVisitor {
-    @Getter
     private final boolean showId;
 
     public HtmlTreeVisitor(boolean showId) {
@@ -32,26 +32,6 @@ public class HtmlTreeVisitor extends TreePrintVisitor {
         visitLeafNode(textNode, text);
     }
 
-
-
-
-//    private final StringBuilder output = new StringBuilder();
-//    private int depth = 0;
-//    private final Stack<Boolean> isLastStack = new Stack<>();
-//    @Setter private boolean showId;
-//
-//    public HtmlTreeVisitor(){
-//        this.showId = true;
-//    }
-//
-//    public HtmlTreeVisitor(boolean showId) {
-//        this.showId = showId;
-//    }
-//
-//    public String getTreeOutput() {
-//        return output.toString();
-//    }
-//
     private String getTagLabel(HtmlElement element) {
         if (SpellCheckUtils.hasErrors(element.getTextContent()))
             return "[X]";
@@ -63,39 +43,5 @@ public class HtmlTreeVisitor extends TreePrintVisitor {
             return "#" + element.getId();
         else return "";
     }
-//
-//    @Override
-//    public void visit(HtmlElement element) {
-//
-//        output.append(getIndentString(isLastStack, depth))
-//                .append(getConnectorString(element.isLastChild(), depth))
-//                .append(getTagLabel(element))
-//                .append(element.getTagName())
-//                .append(getId(element))
-//                .append("\n");
-//
-//        List<HtmlNode> children = element.getChildren();
-//
-//        depth++;
-//        isLastStack.push(element.isLastChild());
-//        for (HtmlNode child : children) {
-//            child.accept(this);
-//        }
-//        isLastStack.pop();
-//        depth--;
-//    }
-//
-//    @Override
-//    public void visit(HtmlTextNode textNode) {
-//        String text = textNode.getText();
-//        if (text == null || text.isEmpty()) {
-//            return;
-//        }
-//
-//        output.append(getIndentString(isLastStack, depth))
-//                .append(getConnectorString(textNode.isLastChild(), depth))
-//                .append(text)
-//                .append("\n");
-//    }
 
 }
