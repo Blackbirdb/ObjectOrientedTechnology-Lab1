@@ -6,6 +6,7 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.Map;
 
+// receiver
 public class HtmlDocument {
     @Getter
     @Setter

@@ -5,8 +5,18 @@ import org.example.document.HtmlElement;
 
 public class HtmlTreePrinter {
 
+    private final TreePrintVisitor visitor;
+
+    public HtmlTreePrinter() {
+        this.visitor = new TreePrintVisitor();
+    }
+
+    public HtmlTreePrinter(TreePrintVisitor visitor) {
+        this.visitor = visitor;
+    }
+
     public void print(HtmlElement root, boolean showId) {
-        TreePrintVisitor visitor = new TreePrintVisitor(showId);
+        visitor.setShowId(showId);
         root.accept(visitor);
         System.out.println(visitor.getTreeOutput());
     }

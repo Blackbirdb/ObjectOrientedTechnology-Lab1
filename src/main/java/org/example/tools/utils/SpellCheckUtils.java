@@ -1,4 +1,4 @@
-package org.example.tools.spellcheck;
+package org.example.tools.utils;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;

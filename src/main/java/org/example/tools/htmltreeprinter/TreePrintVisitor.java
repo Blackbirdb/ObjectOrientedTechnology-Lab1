@@ -1,9 +1,10 @@
 package org.example.tools.htmltreeprinter;
 
+import lombok.Setter;
 import org.example.document.HtmlElement;
 import org.example.document.HtmlNode;
 import org.example.document.HtmlTextNode;
-import org.example.tools.spellcheck.SpellCheckUtils;
+import org.example.tools.utils.SpellCheckUtils;
 import org.example.document.HtmlVisitor;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class TreePrintVisitor implements HtmlVisitor {
     private final StringBuilder output = new StringBuilder();
     private int depth = 0;
     private final Stack<Boolean> isLastStack = new Stack<>();
-    private boolean showId;
+    @Setter private boolean showId;
 
     public TreePrintVisitor(){
         this.showId = true;

@@ -8,7 +8,7 @@ import org.example.editor.commands.*;
 import org.example.tools.htmlparser.HtmlFileParser;
 import org.example.tools.htmlparser.HtmlParserUtils;
 
-
+// invoker
 public class HtmlEditor {
     @Getter @Setter private HtmlDocument document;
     private final CommandHistory history;

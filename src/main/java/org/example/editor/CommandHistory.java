@@ -5,7 +5,7 @@ import org.example.editor.commands.IrrevocableCommand;
 
 import java.util.Stack;
 
-// 命令历史管理
+// invoker
 public class CommandHistory {
     private final Stack<Command> undoStack = new Stack<>();
     private final Stack<Command> redoStack = new Stack<>();
