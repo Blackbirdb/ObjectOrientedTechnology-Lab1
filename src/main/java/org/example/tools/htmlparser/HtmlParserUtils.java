@@ -1,6 +1,8 @@
 package org.example.tools.htmlparser;
 
+import io.vavr.collection.Tree;
 import org.example.document.*;
+import org.example.treeprinter.TreeNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -62,7 +64,7 @@ public class HtmlParserUtils {
 
         // 递归处理子元素
         for (Element child : jsoupElement.children()) {
-            HtmlNode childNode;
+            TreeNode childNode;
             if (child.tagName().equals("#text")) {
                 childNode = new HtmlTextNode(child.text(), element);
             } else {
@@ -96,7 +98,7 @@ public class HtmlParserUtils {
 
         jsoupElement.attr("id", myElement.getId());
 
-        for (HtmlNode child : myElement.getChildren()) {
+        for (TreeNode child : myElement.getChildren()) {
             if (child instanceof HtmlElement) {
                 jsoupElement.appendChild(rebuildElement((HtmlElement) child));
             } else if (child instanceof HtmlTextNode) {

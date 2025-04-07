@@ -11,9 +11,7 @@ import java.util.List;
 public abstract class TreeNode {
     protected InnerTreeNode parent;
 
-    public abstract void accept(TreePrintVisitor visitor, String text);
-
-    public abstract void accept(TreePrintVisitor visitor);
+    public abstract void accept(Visitor visitor);
 
     public boolean isLastChild() {
         InnerTreeNode parent = getParent();

@@ -1,26 +1,24 @@
     package org.example.editor.commands;
 
     import org.example.document.HtmlDocument;
-    import org.example.tools.htmltreeprinter.HtmlTreePrinter;
+    import org.example.document.HtmlTreeVisitor;
 
     public class PrintTreeCommand implements IrrevocableCommand {
         private final HtmlDocument document;
-        private final boolean showId;
-        private final HtmlTreePrinter printer;
+        private final HtmlTreeVisitor visitor;
 
         public PrintTreeCommand(HtmlDocument document, boolean showId) {
             this.document = document;
-            this.showId = showId;
-            this.printer = new HtmlTreePrinter();
-        }
-
-        public PrintTreeCommand(HtmlDocument document, boolean showId, HtmlTreePrinter printer) {
-            this.document = document;
-            this.showId = showId;
-            this.printer = printer;
+            this.visitor = new HtmlTreeVisitor(showId);
         }
 
         public void execute() {
-            printer.print(document.getRoot(), showId);
+            if (document.getRoot() == null) {
+                System.out.println("Document is empty.");
+                return;
+            }
+
+            document.getRoot().accept(visitor);
+            System.out.println(visitor.getOutput());
         }
     }

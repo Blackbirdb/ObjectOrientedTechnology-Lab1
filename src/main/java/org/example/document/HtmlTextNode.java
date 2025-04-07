@@ -2,10 +2,13 @@ package org.example.document;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.example.treeprinter.LeafTreeNode;
+import org.example.treeprinter.TreePrintVisitor;
+import org.example.treeprinter.Visitor;
 
 @Setter
 @Getter
-public class HtmlTextNode extends HtmlNode {
+public class HtmlTextNode extends LeafTreeNode {
     private String text;
 
     public HtmlTextNode(String text, HtmlElement parent) {
@@ -14,7 +17,7 @@ public class HtmlTextNode extends HtmlNode {
     }
 
     @Override
-    public void accept(HtmlVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 

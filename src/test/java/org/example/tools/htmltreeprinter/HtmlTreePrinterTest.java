@@ -1,12 +1,11 @@
 package org.example.tools.htmltreeprinter;
 
-import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
+import org.example.document.HtmlTreeVisitor;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class HtmlTreePrinterTest {
 
@@ -14,17 +13,15 @@ class HtmlTreePrinterTest {
     void print_withShowIdTrue_shouldPrintWithIds() {
         // 准备测试数据
         HtmlElement root = createTestTree();
-        HtmlTreePrinter printer = new HtmlTreePrinter();
+        HtmlTreeVisitor visitor = new HtmlTreeVisitor(true);
 
         // 捕获System.out输出
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
 
-        // 执行测试
-        printer.print(root, true);
+        root.accept(visitor);
+        String output = visitor.getOutput();
 
-        // 验证输出
-        String output = outContent.toString();
         assertEquals("""
                 html#container
                 ├── header#header
@@ -32,7 +29,6 @@ class HtmlTreePrinterTest {
                 │       └── Logo
                 └── body#content
                     └── Main content
-                
                 """, output);
 
         System.setOut(System.out);
@@ -42,17 +38,15 @@ class HtmlTreePrinterTest {
     void print_withShowIdFalse_shouldPrintWithoutIds() {
         // 准备测试数据
         HtmlElement root = createTestTree();
-        HtmlTreePrinter printer = new HtmlTreePrinter();
+        HtmlTreeVisitor visitor = new HtmlTreeVisitor(false);
 
         // 捕获System.out输出
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
 
-        // 执行测试
-        printer.print(root, false);
+        root.accept(visitor);
+        String output = visitor.getOutput();
 
-        // 验证输出
-        String output = outContent.toString();
         assertFalse(output.contains("id="));
 
         // 恢复System.out

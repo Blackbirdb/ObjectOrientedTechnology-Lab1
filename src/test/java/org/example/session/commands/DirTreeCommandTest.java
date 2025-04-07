@@ -1,7 +1,7 @@
 package org.example.session.commands;
 
-import org.example.tools.filesys.DirTreePrinter;
 import org.example.session.Session;
+import org.example.tools.filesys.Filesys;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -14,7 +14,7 @@ import static org.mockito.Mockito.*;
 class DirTreeCommandTest {
     private Session session;
     private DirTreeCommand command;
-    private DirTreePrinter dirTreePrinter;
+    private Filesys filesys;
 
     @TempDir
     Path tempDir;
@@ -22,7 +22,7 @@ class DirTreeCommandTest {
     @BeforeEach
     void setUp() {
         session = mock(Session.class);
-        dirTreePrinter = mock(DirTreePrinter.class);
+        filesys = mock(Filesys.class);
         command = new DirTreeCommand(session);
     }
 

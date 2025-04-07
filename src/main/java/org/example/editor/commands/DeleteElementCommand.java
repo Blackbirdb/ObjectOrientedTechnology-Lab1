@@ -30,7 +30,7 @@ public class DeleteElementCommand implements Command {
         }
 
         document.unregisterElement(oldElement);
-        parent = oldElement.getParent();
+        parent = (HtmlElement) oldElement.getParent();
         if (parent == null) {
             throw new IllegalArgumentException("Element with ID " + elementId + " does not exist.");
         }

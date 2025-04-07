@@ -1,7 +1,7 @@
 package org.example.session.commands;
 
-import org.example.tools.filesys.DirTreePrinter;
 import org.example.session.Session;
+import org.example.tools.filesys.Filesys;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,7 +25,7 @@ public class DirTreeCommand implements SessionCommand {
             openFiles.add(filePath);
         }
 
-        DirTreePrinter dirTreePrinter = new DirTreePrinter(rootPath, openFiles);
-        dirTreePrinter.print();
+        Filesys filesys = new Filesys(rootPath, openFiles);
+        filesys.print();
     }
 }

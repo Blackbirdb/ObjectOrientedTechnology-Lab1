@@ -31,7 +31,7 @@ public class InsertElementCommand implements Command {
             throw new IllegalArgumentException("Element with ID " + insertLocation + " does not exist.");
         }
 
-        HtmlElement parent = element.getParent();
+        HtmlElement parent = (HtmlElement) element.getParent();
         if (parent == null) {
             throw new NullPointerException("Parent element is null, can't insert into root element.");
         }
@@ -53,7 +53,7 @@ public class InsertElementCommand implements Command {
             throw new IllegalArgumentException("Can't delete special tag element.");
         }
 
-        HtmlElement parent = elementToRemove.getParent();
+        HtmlElement parent = (HtmlElement) elementToRemove.getParent();
         if (parent == null) {
             throw new IllegalArgumentException("Parent element is null, can't remove from root element.");
         }

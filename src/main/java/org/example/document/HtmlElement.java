@@ -2,21 +2,22 @@ package org.example.document;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.example.treeprinter.InnerTreeNode;
+import org.example.treeprinter.TreeNode;
+import org.example.treeprinter.TreePrintVisitor;
+import org.example.treeprinter.Visitor;
 
 @Getter
-public class HtmlElement extends HtmlNode {
+public class HtmlElement extends InnerTreeNode {
     private final String tagName;
     @Setter
     private String id;
-    private final List<HtmlNode> children;
+//    private final List<HtmlNode> children;
 
     public HtmlElement(String tagName, String id, HtmlElement parent) {
         this.tagName = tagName;
         this.id = id;
-        this.children = new ArrayList<>();
+//        this.children = new ArrayList<>();
         this.parent = parent;
     }
 
@@ -28,7 +29,7 @@ public class HtmlElement extends HtmlNode {
             sb.append(" id=\"").append(id).append("\"");
         }
         sb.append(">\n");
-        for (HtmlNode child : children) {
+        for (TreeNode child : children) {
             if (child instanceof HtmlTextNode) {
                 sb.append("text: ").append(((HtmlTextNode) child).getText()).append("\n");
             }
@@ -41,7 +42,7 @@ public class HtmlElement extends HtmlNode {
     }
 
     @Override
-    public void accept(HtmlVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
@@ -80,22 +81,22 @@ public class HtmlElement extends HtmlNode {
         newChild.setParent(this);
     }
 
-    public void insertAtLast(HtmlNode newChild) {
+    public void insertAtLast(TreeNode newChild) {
         children.add(newChild);
     }
 
-    public void insertAtIndex(int index, HtmlNode newChild) {
+    public void insertAtIndex(int index, TreeNode newChild) {
         if (index < 0 || index > children.size()) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + children.size());
         }
         children.add(index, newChild);
     }
 
-    public void removeChild(HtmlNode child) {
+    public void removeChild(TreeNode child) {
         children.remove(child);
     }
 
-    public int getChildIndex(HtmlNode child) {
+    public int getChildIndex(TreeNode child) {
         assert child.getParent() == this;
         return children.indexOf(child);
     }

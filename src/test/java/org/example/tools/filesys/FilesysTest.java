@@ -16,10 +16,10 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class DirTreePrinterTest {
+class FilesysTest {
     private Path rootPath;
     private Set<Path> openFiles;
-    private DirTreePrinter dirTreePrinter;
+    private Filesys filesys;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -32,7 +32,7 @@ class DirTreePrinterTest {
         Files.createFile(rootPath.resolve("file2.txt"));
         Files.createDirectory(rootPath.resolve("subdir"));
         Files.createFile(rootPath.resolve("subdir/file3.txt"));
-        dirTreePrinter = new DirTreePrinter(rootPath, new HashSet<>(openFiles));
+        filesys = new Filesys(rootPath, new HashSet<>(openFiles));
         System.setOut(new PrintStream(outContent));
     }
 
@@ -50,9 +50,9 @@ class DirTreePrinterTest {
     void printsDirectoryTreeWithOpenFiles() throws IOException {
         openFiles.add(rootPath.relativize(rootPath.resolve("file1.txt")));
         openFiles.add(rootPath.relativize(rootPath.resolve("subdir/file3.txt")));
-        dirTreePrinter = new DirTreePrinter(rootPath, new HashSet<>(openFiles));
+        filesys = new Filesys(rootPath, new HashSet<>(openFiles));
 
-        dirTreePrinter.print();
+        filesys.print();
         String expectedOutput = """
                 resources/
                 ├── file2.txt
@@ -66,9 +66,9 @@ class DirTreePrinterTest {
 
     @Test
     void printsDirectoryTreeWithoutOpenFiles() throws IOException {
-        dirTreePrinter = new DirTreePrinter(rootPath, new HashSet<>(openFiles));
+        filesys = new Filesys(rootPath, new HashSet<>(openFiles));
 
-        dirTreePrinter.print();
+        filesys.print();
         String expectedOutput = """
                 resources/
                 ├── file2.txt
@@ -83,8 +83,8 @@ class DirTreePrinterTest {
     @Test
     void handlesIOExceptionGracefully() throws IOException {
         Path invalidPath = Paths.get("invalid/path");
-        dirTreePrinter = new DirTreePrinter(invalidPath, new HashSet<>(openFiles));
+        filesys = new Filesys(invalidPath, new HashSet<>(openFiles));
 
-        assertThrows(RuntimeException.class, () -> dirTreePrinter.print());
+        assertThrows(RuntimeException.class, () -> filesys.print());
     }
 }

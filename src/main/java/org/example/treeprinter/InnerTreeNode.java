@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 public abstract class InnerTreeNode extends TreeNode {
-    private final List<TreeNode> children = new ArrayList<>();
+    protected final List<TreeNode> children = new ArrayList<>();
 
     public void addChild (TreeNode child) {
         children.add(child);
@@ -15,11 +15,6 @@ public abstract class InnerTreeNode extends TreeNode {
     }
 
     @Override
-    public void accept(TreePrintVisitor visitor, String text){
-        visitor.visit(this, text);
-    }
-
-    @Override
-    public abstract void accept(TreePrintVisitor visitor);
+    public abstract void accept(Visitor visitor);
 
 }

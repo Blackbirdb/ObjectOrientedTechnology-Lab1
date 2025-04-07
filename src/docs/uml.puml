@@ -55,7 +55,7 @@ class HtmlTextNode {
 '  + getErrorMap(HtmlElement): Map<String, List<RuleMatch>>
 '  + printErrorMap(HtmlElement): void
 '}
-'class TreePrintVisitor {
+'class HtmlTreeVisitor {
 '  + visit(HtmlElement): void
 '  + visit(HtmlTextNode): void
 '}
@@ -78,8 +78,8 @@ HtmlTextNode        -[#000082,plain]-^  HtmlNode
 'SpellCheckVisitor   -[#008200,dashed]-^  HtmlVisitor
 'SpellChecker       "1" *-[#595959,plain]-> "visitor\n1" SpellCheckVisitor
 'SpellCheckUtils        -[#000082,dashed]-   SpellCheckVisitor
-'SpellCheckUtils        -[#000082,dashed]-   TreePrintVisitor
-'TreePrintVisitor    -[#008200,dashed]-^  HtmlVisitor
-'PrintTreeUtils      -[#000082,dashed]-   TreePrintVisitor
-'HtmlTreePrinter    "1" *-[#595959,plain]-> "visitor\n1"  TreePrintVisitor
+'SpellCheckUtils        -[#000082,dashed]-   HtmlTreeVisitor
+'HtmlTreeVisitor    -[#008200,dashed]-^  HtmlVisitor
+'PrintTreeUtils      -[#000082,dashed]-   HtmlTreeVisitor
+'HtmlTreePrinter    "1" *-[#595959,plain]-> "visitor\n1"  HtmlTreeVisitor
 @enduml

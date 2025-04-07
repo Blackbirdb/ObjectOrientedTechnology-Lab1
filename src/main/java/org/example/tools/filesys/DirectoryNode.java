@@ -3,6 +3,7 @@ package org.example.tools.filesys;
 import lombok.Getter;
 import org.example.treeprinter.InnerTreeNode;
 import org.example.treeprinter.TreePrintVisitor;
+import org.example.treeprinter.Visitor;
 
 import java.nio.file.Path;
 
@@ -15,9 +16,8 @@ public class DirectoryNode extends InnerTreeNode {
     }
 
     @Override
-    public void accept(TreePrintVisitor visitor) {
-        String text = path.getFileName().toString() + "/";
-        visitor.visit(this, text);
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
 }

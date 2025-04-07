@@ -1,7 +1,5 @@
 package org.example.tools.filesys;
 
-import org.example.treeprinter.TreePrintVisitor;
-
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -9,11 +7,11 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DirTreePrinter {
+public class Filesys {
     private final Path rootPath;
     private final Set<Path> openFiles;
 
-    public DirTreePrinter(Path rootPath, HashSet<Path> openFiles) {
+    public Filesys(Path rootPath, HashSet<Path> openFiles) {
         this.rootPath = rootPath;
         this.openFiles = openFiles;
     }
@@ -32,6 +30,7 @@ public class DirTreePrinter {
         }
         return root;
     }
+
     public void print() {
         try {
             DirectoryNode root = buildFileTree(rootPath);
@@ -43,3 +42,4 @@ public class DirTreePrinter {
         }
     }
 }
+
