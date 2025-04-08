@@ -137,6 +137,8 @@ class IntegratedTest {
         cli.processCommand("redo");
 
         cli.processCommand("save default.html");
+        cli.processCommand("load spellcheck.html");
+        cli.processCommand("spell-check");
 
         cli.processCommand("load nested.html");
         cli.processCommand("editor-list");
@@ -182,7 +184,7 @@ class IntegratedTest {
         assertTrue(output.contains("""
                 testFiles/
                 ├── default.html*
-                ├── spellcheck.html
+                ├── spellcheck.html*
                 ├── nested.html*
                 ├── dumbFolder/
                 │   └── basics.html
@@ -200,9 +202,39 @@ class IntegratedTest {
 
         assertTrue(output.contains("""
                   default.html
+                  spellcheck.html
                   nested.html
                 > new.html
                 """));
+
+        assertTrue(output.contains("""
+                Errors found:
+                ElementId: footer
+                 - This sentence does not start with an uppercase letter. (0:5)
+                
+                ElementId: description
+                 - This sentence does not start with an uppercase letter. (0:4)
+                 - Possible spelling mistake found. (10:18)
+                 - Possible spelling mistake found. (30:36)
+                
+                ElementId: subtitle
+                 - Consider using either the past participle <suggestion>subtitled</suggestion> or the present participle <suggestion>subtitling</suggestion> here. (8:16)
+                
+                ElementId: header
+                 - This sentence does not start with an uppercase letter. (0:7)
+                
+                """));
+
+                assertTrue(output.contains("""
+                        testFiles/
+                        ├── default.html*
+                        ├── spellcheck.html*
+                        ├── nested.html*
+                        ├── dumbFolder/
+                        │   └── basics.html
+                        └── new.html
+                        
+                        """));
 
     }
 
