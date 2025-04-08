@@ -2,6 +2,7 @@ package org.example.document;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -15,7 +16,7 @@ class HtmlDocumentTest {
     void setUp() {
         rootElement = mock(HtmlElement.class);
         when(rootElement.getId()).thenReturn("root");
-        when(rootElement.getTagName()).thenReturn("html");
+        when(rootElement.getTagName()).thenReturn("parent");
 
         childElement = mock(HtmlElement.class);
         when(childElement.getId()).thenReturn("child");
@@ -25,93 +26,90 @@ class HtmlDocumentTest {
     }
 
     @Test
-    void constructor_withRootElement_setsRootAndInitializesMaps() {
-        assertNotNull(document);
-        assertEquals(rootElement, document.getRoot());
-        assertNotNull(document.getFactory());
+    void appendElement_successfullyAppendsElement() {
+        document.registerElement(rootElement);
+        when(rootElement.getTagName()).thenReturn("body");
+
+        document.appendElement("div", "child", "root", "Sample Text");
+
+        HtmlElement appendedElement = document.getElementById("child");
+        assertNotNull(appendedElement);
+        assertEquals("child", appendedElement.getId());
     }
 
     @Test
-    void constructor_withoutRootElement_initializesEmptyDocument() {
-        HtmlDocument emptyDoc = new HtmlDocument();
-        assertNull(emptyDoc.getRoot());
-        assertNotNull(emptyDoc.getFactory());
+    void appendElement_throwsWhenParentNotFound() {
+        assertThrows(IllegalArgumentException.class, () ->
+                document.appendElement("div", "child", "nonexistent", "Sample Text"));
     }
 
     @Test
-    void getElementById_returnsCorrectElement() {
+    void insertElement_successfullyInsertsElement() {
+        document.registerElement(rootElement);
+        when(rootElement.getTagName()).thenReturn("body");
+
+        document.insertElement("div", "child", "root", "Sample Text", 0);
+
+        HtmlElement insertedElement = document.getElementById("child");
+        assertNotNull(insertedElement);
+        assertEquals("child", insertedElement.getId());
+    }
+
+    @Test
+    void insertElement_throwsWhenParentNotFound() {
+        assertThrows(IllegalArgumentException.class, () ->
+                document.insertElement("div", "child", "nonexistent", "Sample Text", 0));
+    }
+
+    @Test
+    void removeElement_successfullyRemovesElement() {
         document.registerElement(childElement);
-        HtmlElement found = document.getElementById("child");
-        assertEquals(childElement, found);
-    }
+        when(rootElement.getTagName()).thenReturn("body");
+        when(childElement.getParent()).thenReturn(rootElement);
 
-    @Test
-    void getElementById_returnsNullForNonExistentId() {
-        assertNull(document.getElementById("nonexistent"));
-    }
+        document.removeElement("child");
 
-    @Test
-    void registerElement_addsElementToMap() {
-        document.registerElement(childElement);
-        assertTrue(document.getElementById("child") != null);
-    }
-
-    @Test
-    void registerElement_overwritesExistingId() {
-        HtmlElement newElement = mock(HtmlElement.class);
-        when(newElement.getId()).thenReturn("child");
-
-        document.registerElement(childElement);
-        document.registerElement(newElement);
-
-        assertEquals(newElement, document.getElementById("child"));
-    }
-
-    @Test
-    void unregisterElement_removesElementFromMap() {
-        document.registerElement(childElement);
-        document.unregisterElement(childElement);
         assertNull(document.getElementById("child"));
     }
 
     @Test
-    void unregisterElement_doesNothingForNonExistentElement() {
-        assertDoesNotThrow(() -> document.unregisterElement(childElement));
+    void removeElement_throwsWhenElementNotFound() {
+        assertThrows(IllegalArgumentException.class, () ->
+                document.removeElement("nonexistent"));
     }
 
     @Test
-    void isSpecialTag_identifiesSpecialTags() {
-        assertTrue(document.isSpecialTag("html"));
-        assertTrue(document.isSpecialTag("head"));
-        assertTrue(document.isSpecialTag("title"));
-        assertTrue(document.isSpecialTag("body"));
+    void editId_throwsWhenOldIdNotFound() {
+        assertThrows(IllegalArgumentException.class, () ->
+                document.editId("nonexistent", "newId"));
     }
 
     @Test
-    void isSpecialTag_returnsFalseForNormalTags() {
-        assertFalse(document.isSpecialTag("div"));
-        assertFalse(document.isSpecialTag("p"));
-        assertFalse(document.isSpecialTag("span"));
-        assertFalse(document.isSpecialTag("a"));
+    void editId_throwsWhenNewIdAlreadyExists() {
+        HtmlElement anotherElement = mock(HtmlElement.class);
+        when(anotherElement.getId()).thenReturn("newId");
+
+        document.registerElement(childElement);
+        document.registerElement(anotherElement);
+
+        assertThrows(IllegalArgumentException.class, () ->
+                document.editId("child", "newId"));
     }
 
     @Test
-    void isSpecialTag_isCaseSensitive() {
-        assertFalse(document.isSpecialTag("HTML"));
-        assertFalse(document.isSpecialTag("Head"));
+    void editText_successfullyEditsText() {
+        document.registerElement(childElement);
+        when(childElement.getTextContent()).thenReturn("Old Text");
+
+        String oldText = document.editText("child", "New Text");
+
+        assertEquals("Old Text", oldText);
+        verify(childElement).setTextContent("New Text");
     }
 
     @Test
-    void getFactory_returnsSameInstance() {
-        HtmlElementFactory factory1 = document.getFactory();
-        HtmlElementFactory factory2 = document.getFactory();
-        assertSame(factory1, factory2);
-    }
-
-    @Test
-    void setRoot_changesRootElement() {
-        HtmlElement newRoot = mock(HtmlElement.class);
-        document.setRoot(newRoot);
-        assertEquals(newRoot, document.getRoot());
+    void editText_throwsWhenElementNotFound() {
+        assertThrows(IllegalArgumentException.class, () ->
+                document.editText("nonexistent", "New Text"));
     }
 }

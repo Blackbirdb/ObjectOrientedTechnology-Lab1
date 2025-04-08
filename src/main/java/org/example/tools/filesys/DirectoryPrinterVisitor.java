@@ -8,10 +8,6 @@ import java.nio.file.Path;
 
 class DirectoryPrinterVisitor extends TreePrintVisitor {
 
-    public void visit(DirectoryNode node) {
-        node.accept(this);
-    }
-
     @Override
     public void visit(LeafTreeNode node) {
         Path path = ((FileNode) node).getPath();

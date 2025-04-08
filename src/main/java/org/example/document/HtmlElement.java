@@ -99,4 +99,5 @@ public class HtmlElement extends InnerTreeNode {
         assert child.getParent() == this;
         return children.indexOf(child);
     }
+
 }

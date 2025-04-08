@@ -55,10 +55,10 @@ public class HtmlParserUtils {
 
         HtmlElement element;
         if (!jsoupElement.ownText().isEmpty()) {
-            element = this.htmlDocument.getFactory().createElement(tagName, id, jsoupElement.ownText(), parent);
+            element = this.htmlDocument.createElement(tagName, id, jsoupElement.ownText(), parent);
         }
         else {
-            element = this.htmlDocument.getFactory().createElement(tagName, id, parent);
+            element = this.htmlDocument.createElement(tagName, id, parent);
         }
 
         // 递归处理子元素

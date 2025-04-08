@@ -18,20 +18,11 @@ public class EditTextCommand implements Command {
 
     @Override
     public void execute() {
-        HtmlElement element = document.getElementById(elementId);
-        if (element == null) {
-            throw new IllegalArgumentException("Element with ID " + elementId + " does not exist.");
-        }
-        oldTextContent = element.getTextContent();
-        element.setTextContent(newTextContent);
+        oldTextContent = document.editText(elementId, newTextContent);
     }
 
     @Override
     public void undo() {
-        HtmlElement element = document.getElementById(elementId);
-        if (element == null) {
-            throw new IllegalArgumentException("Element with ID " + elementId + " does not exist, undo failed.");
-        }
-        element.setTextContent(oldTextContent);
+        document.editText(elementId, oldTextContent);
     }
 }

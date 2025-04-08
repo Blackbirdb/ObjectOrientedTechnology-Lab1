@@ -1,4 +1,4 @@
-package org.example.tools.utils;
+package org.example.tools.spellchecker;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
@@ -7,7 +7,7 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.List;
 
-public class SpellChecker {
+public class SpellCheckUtils {
     private final JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
 
     public boolean hasErrors(String text) {
