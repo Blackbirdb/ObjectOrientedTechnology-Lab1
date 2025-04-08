@@ -1,9 +1,6 @@
 package org.example.session.commands;
 
-import org.example.editor.HtmlEditor;
 import org.example.session.Session;
-
-import java.util.Map;
 
 public class EditorListCommand implements SessionCommand{
     private final Session session;

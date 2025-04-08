@@ -1,8 +1,8 @@
 package org.example.session.commands;
 
+import org.example.session.Session;
 import org.example.tools.SessionStateSaver.SessionState;
 import org.example.tools.SessionStateSaver.SessionStateSaver;
-import org.example.session.Session;
 
 public class SaveSessionCommand implements SessionCommand {
     private final Session session;

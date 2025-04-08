@@ -1,6 +1,5 @@
 package org.example.session;
 
-import org.example.editor.HtmlEditor;
 import org.example.session.commands.*;
 
 public class SessionManager {

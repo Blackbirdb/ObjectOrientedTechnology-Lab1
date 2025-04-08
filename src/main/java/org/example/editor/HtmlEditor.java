@@ -6,7 +6,6 @@ import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 import org.example.editor.commands.*;
 import org.example.tools.htmlparser.HtmlFileParser;
-import org.example.tools.htmlparser.HtmlParserUtils;
 
 // invoker
 public class HtmlEditor {

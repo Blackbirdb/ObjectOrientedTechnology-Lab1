@@ -1,6 +1,8 @@
 package org.example.tools.htmlparser;
 
-import org.example.document.*;
+import org.example.document.HtmlDocument;
+import org.example.document.HtmlElement;
+import org.example.document.HtmlTextNode;
 import org.example.tools.treeprinter.TreeNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

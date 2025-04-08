@@ -1,12 +1,6 @@
 package org.example.session.commands;
 
-import org.example.editor.HtmlEditor;
 import org.example.session.Session;
-import org.example.tools.utils.PathUtils;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class LoadFileCommand implements SessionCommand{
     private final Session session;

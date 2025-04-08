@@ -8,7 +8,6 @@ import org.example.tools.utils.PathUtils;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Session {
     private final Map<String, HtmlEditor> openEditors = new LinkedHashMap<>();
