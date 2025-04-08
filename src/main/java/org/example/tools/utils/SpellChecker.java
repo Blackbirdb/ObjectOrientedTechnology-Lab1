@@ -7,10 +7,10 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.List;
 
-public class SpellCheckUtils {
-    private static final JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
+public class SpellChecker {
+    private final JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
 
-    public static boolean hasErrors(String text) {
+    public boolean hasErrors(String text) {
         if (text == null || text.trim().isEmpty()) {
             return false;
         }
@@ -21,7 +21,7 @@ public class SpellCheckUtils {
         }
     }
 
-    public static List<RuleMatch> checkText(String text) {
+    public List<RuleMatch> checkText(String text) {
         try {
             return langTool.check(text);
 

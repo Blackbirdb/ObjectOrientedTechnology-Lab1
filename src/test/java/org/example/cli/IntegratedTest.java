@@ -113,7 +113,7 @@ class IntegratedTest {
 
     @Test
     void testProcessCommandLoadWithValidFile() throws IOException {
-
+        Files.deleteIfExists(Paths.get("session.json"));
         CommandTable commandTable = new CommandTable();
         SessionManager sessionManager = new SessionManager();
         sessionManager.setCwd(tempDir.toString()+"/testFiles");
@@ -225,16 +225,16 @@ class IntegratedTest {
                 
                 """));
 
-                assertTrue(output.contains("""
-                        testFiles/
-                        ├── default.html*
-                        ├── spellcheck.html*
-                        ├── nested.html*
-                        ├── dumbFolder/
-                        │   └── basics.html
-                        └── new.html
-                        
-                        """));
+            assertTrue(output.contains("""
+                    testFiles/
+                    ├── default.html*
+                    ├── spellcheck.html*
+                    ├── nested.html*
+                    ├── dumbFolder/
+                    │   └── basics.html
+                    └── new.html
+                    
+                    """));
 
     }
 
