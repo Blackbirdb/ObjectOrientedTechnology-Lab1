@@ -82,6 +82,8 @@ public class CommandLineInterface {
             System.out.println("Null pointer exception: " + e.getMessage());
         } catch (IllegalStateException e) {
             System.out.println("Illegal State Exception: " + e.getMessage());
+        } catch (RuntimeException e) {
+            System.out.println("Exception: " + e.getMessage());
         }
     }
 
@@ -142,8 +144,20 @@ public class CommandLineInterface {
                 String elementId = parts[1];
                 sessionManager.deleteElement(elementId);
             }
-            case "undo" -> sessionManager.undo();
-            case "redo" -> sessionManager.redo();
+            case "undo" -> {
+                if (parts.length != 1) {
+                    printWrongUsage("undo");
+                    return;
+                }
+                sessionManager.undo();
+            }
+            case "redo" -> {
+                if (parts.length != 1) {
+                    printWrongUsage("redo");
+                    return;
+                }
+                sessionManager.redo();
+            }
             case "load" -> {        // loads file in cwd
                 if (parts.length != 2) {
                     printWrongUsage("load");
@@ -157,9 +171,17 @@ public class CommandLineInterface {
                 sessionManager.loadFile(fileName);
             }
             case "print-tree" -> {
+                if (parts.length != 1) {
+                    printWrongUsage("print-tree");
+                    return;
+                }
                 sessionManager.printTree();
             }
             case "spell-check" -> {
+                if (parts.length != 1) {
+                    printWrongUsage("spell-check");
+                    return;
+                }
                 sessionManager.spellCheck();
             }
             case "save" -> {
@@ -175,9 +197,17 @@ public class CommandLineInterface {
                 sessionManager.saveFile(fileName);
             }
             case "close" -> {
+                if (parts.length != 1) {
+                    printWrongUsage("close");
+                    return;
+                }
                 sessionManager.close();
             }
             case "editor-list" -> {
+                if (parts.length != 1) {
+                    printWrongUsage("editor-list");
+                    return;
+                }
                 sessionManager.editorList();
             }
             case "edit" -> {
@@ -205,9 +235,17 @@ public class CommandLineInterface {
                 sessionManager.setShowId(Boolean.parseBoolean(showId));
             }
             case "dir-tree" -> {
+                if (parts.length != 1) {
+                    printWrongUsage("dir-tree");
+                    return;
+                }
                 sessionManager.dirTree();
             }
             case "help" -> {
+                if (parts.length != 1) {
+                    printWrongUsage("help");
+                    return;
+                }
                 commandTable.printCommands();
             }
             default -> {

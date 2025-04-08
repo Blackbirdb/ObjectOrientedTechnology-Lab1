@@ -104,6 +104,22 @@ public class Session {
         }
     }
 
+    public void loadEditor(String filePath, String fileName, boolean showId){
+        HtmlEditor editor;
+
+        if (!PathUtils.fileExists(filePath)) {
+            editor = new HtmlEditor();
+            editor.setFilePath(filePath);
+            editor.saveToFile(filePath);
+        }
+        else {
+            editor = new HtmlEditor(filePath);
+        }
+        editor.setShowId(showId);
+        addEditor(fileName, editor);
+    }
+
+
 /************************************* Active Editor Operations ************************************/
 
     void insertElement(String tagName, String idValue, String insertLocation, String textContent) {

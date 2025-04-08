@@ -24,18 +24,9 @@ public class LoadFileCommand implements SessionCommand{
         }
         String filePath = session.getPathFromName(fileName);
 
-        HtmlEditor editor;
+        session.loadEditor(filePath, fileName, true);
 
-        if (!PathUtils.fileExists(filePath)) {
-            editor = new HtmlEditor();
-            editor.setFilePath(filePath);
-            editor.saveToFile(filePath);
-        }
-        else {
-            editor = new HtmlEditor(filePath);
-        }
-        session.addEditor(fileName, editor);
-        session.setActiveEditor(editor);
+        session.setActiveEditorByName(fileName);
     }
 
 }
