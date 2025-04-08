@@ -1,8 +1,6 @@
 # Lab1 实验报告
 
 > 黄宝岱 22307130480
-
-
 ## 一、项目介绍
 
 本项目实现了一个命令行交互式 HTML 编辑器，支持 HTML 文件的加载、编辑、结构展示与拼写检查，同时支持多文件会话管理。项目采用模块化设计，使用命令模式、工厂模式与访问者模式组织结构，具备良好的可扩展性。
@@ -44,11 +42,7 @@ exit
 - 要求进入程序后先使用`load`命令装入文件。
 - 可使用`help`命令在程序中查看所有可用命令。
 
-
-
----
-
-
+<div style="page-break-after: always;"></div>
 
 ## 二、运行与测试说明
 
@@ -87,8 +81,6 @@ exit
       ```
       mvn test
       ```
-
----
 
 ## 三、项目结构
 
@@ -160,8 +152,6 @@ exit
         └── PrintTreeUtils.java
 ```
 
----
-
 
 
 ### 2. 外部依赖
@@ -189,6 +179,8 @@ exit
 ![diagram](pic/diagram.png)
 
 
+
+<div style="page-break-after: always;"></div>
 
 仅包含继承关系的图：
 
@@ -270,7 +262,7 @@ exit
   - **SessionStateSaver**：依赖Gson，将程序状态保存成json文件，实现持久化。
   - **SpellChecker**：依赖 JLanguageTool，进行文本的语法检查。
 
-
+<div style="page-break-after: always;"></div>
 
 ## 五、设计决策
 
