@@ -33,7 +33,7 @@ class IntegratedTest {
         System.setOut(new PrintStream(outputStream));
 
         // 源目录路径
-        Path sourceDir = Paths.get("src/main/resources/testFiles");
+        Path sourceDir = Paths.get("src/test/resources/testFiles");
         // 目标目录路径
         Path targetDir = tempDir.resolve("testFiles");
 

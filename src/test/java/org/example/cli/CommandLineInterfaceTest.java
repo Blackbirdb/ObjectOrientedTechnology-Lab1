@@ -52,7 +52,7 @@ class CommandLineInterfaceTest {
 
     @Test
     void start_setsCwdWhenValidPathProvided() {
-        String validPath = "src/main/resources/testFiles";
+        String validPath = "src/test/resources/testFiles";
         String command = validPath + "\nexit\n";
         Scanner scanner = new Scanner(new ByteArrayInputStream(validPath.getBytes()));
         cli = new CommandLineInterface(sessionManager, commandTable, scanner);

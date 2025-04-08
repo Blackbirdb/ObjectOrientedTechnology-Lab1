@@ -28,7 +28,7 @@ class LoadSessionCommandTest {
     @Test
     void executeLoadsSessionStateWhenFileExists() throws Exception {
         SessionState state = new SessionState();
-        state.cwd = "src/main/resources/testFiles";
+        state.cwd = "src/test/resources/testFiles";
         state.openFiles = Set.of("nested.html", "spellcheck.html");
         state.showIdMap = Map.of("nested.html", true, "spellcheck.html", false);
         state.activeEditorName = "spellcheck.html";
@@ -38,10 +38,10 @@ class LoadSessionCommandTest {
 
         command.execute();
 
-        verify(session).setCwd("src/main/resources/testFiles");
-        verify(session).addEditor(eq("nested.html"), any(HtmlEditor.class));
-        verify(session).addEditor(eq("spellcheck.html"), any(HtmlEditor.class));
-        verify(session).setActiveEditor(any(HtmlEditor.class));
+        verify(session).setCwd("src/test/resources/testFiles");
+        verify(session).loadEditor("src/test/resources/testFiles/nested.html", "nested.html", true);
+        verify(session).loadEditor("src/test/resources/testFiles/spellcheck.html", "spellcheck.html", false);
+        verify(session).setActiveEditorByName("spellcheck.html");
     }
 
     @Test

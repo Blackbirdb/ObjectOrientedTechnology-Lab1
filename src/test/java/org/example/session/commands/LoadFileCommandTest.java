@@ -5,11 +5,13 @@ import org.example.session.Session;
 import org.example.tools.utils.PathUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.PrintStream;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -18,10 +20,14 @@ class LoadFileCommandTest {
     private Session session;
     private LoadFileCommand command;
 
+    @TempDir
+    Path tempDir;
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         session = mock(Session.class);
     }
+
 
     @Test
     void executeThrowsExceptionWhenFileAlreadyOpened() {
@@ -33,30 +39,18 @@ class LoadFileCommandTest {
 
     @Test
     void executeCreatesNewHtmlFileWhenFileDoesNotExist() throws IOException {
-        when(session.existEditorByName("mytest.html")).thenReturn(false);
-        when(session.getPathFromName("mytest.html")).thenReturn("src/main/resources/mytest.html");
-        command = new LoadFileCommand(session, "mytest.html");
+        String fileName = "newFile.html";
+        Path filePath = tempDir.resolve(fileName);
 
+        when(session.existEditorByName(fileName)).thenReturn(false);
+        when(session.getPathFromName(fileName)).thenReturn(filePath.toString());
+
+        command = new LoadFileCommand(session, fileName);
         command.execute();
 
-        assert PathUtils.fileExists("src/main/resources/mytest.html");
-        verify(session).addEditor(eq("mytest.html"), any(HtmlEditor.class));
-        verify(session).setActiveEditor(any(HtmlEditor.class));
-
-        Files.deleteIfExists(Paths.get("src/main/resources/mytest.html"));
+        verify(session).loadEditor(filePath.toString(), fileName, true);
+        verify(session).setActiveEditorByName(fileName);
     }
 
-    @Test
-    void executeAddsExistingHtmlFileToSession() {
-        when(session.existEditorByName("default.html")).thenReturn(false);
-        when(session.getPathFromName("default.html")).thenReturn("src/main/resources/testFiles/default.html");
-        command = new LoadFileCommand(session, "default.html");
-
-        command.execute();
-
-        assert PathUtils.fileExists("src/main/resources/testFiles/default.html");
-        verify(session).addEditor(eq("default.html"), any(HtmlEditor.class));
-        verify(session).setActiveEditor(any(HtmlEditor.class));
-    }
 
 }
