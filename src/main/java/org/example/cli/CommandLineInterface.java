@@ -3,11 +3,11 @@ package org.example.cli;
 import org.example.session.SessionManager;
 import org.example.tools.utils.CommandTable;
 import org.example.tools.utils.PathUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 
 public class CommandLineInterface {
     private final CommandTable commandTable;

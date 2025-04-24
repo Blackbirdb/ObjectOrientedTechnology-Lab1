@@ -4,11 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.editor.HtmlEditor;
 import org.example.tools.utils.PathUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+@Component
 public class Session {
     private final Map<String, HtmlEditor> openEditors = new LinkedHashMap<>();
     @Setter private HtmlEditor activeEditor = null;

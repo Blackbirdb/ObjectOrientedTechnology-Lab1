@@ -1,15 +1,19 @@
 package org.example.session;
 
+import org.example.AppConfig;
 import org.example.session.commands.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class SessionManager {
     private final Session session;
+    private final ApplicationContext context;
 
     public SessionManager() {
-        this.session = new Session();
+        this.context = new AnnotationConfigApplicationContext(AppConfig.class);
+        this.session = context.getBean(Session.class);
         loadSession();
     }
-
 
 /********************************* Session Level Operations *********************************/
 
@@ -24,7 +28,8 @@ public class SessionManager {
      * If fileName does not exist, create one and init with default.html
      */
     public void loadFile(String fileName) {
-        SessionCommand cmd = new LoadFileCommand(session, fileName);
+        LoadFileCommand cmd = context.getBean(LoadFileCommand.class);
+        cmd.setFileName(fileName);
         cmd.execute();
     }
 

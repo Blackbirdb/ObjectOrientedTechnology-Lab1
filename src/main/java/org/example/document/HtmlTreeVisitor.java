@@ -1,7 +1,7 @@
 package org.example.document;
 
 import lombok.Getter;
-import org.example.tools.spellchecker.SpellCheckUtils;
+import org.example.tools.spellchecker.JLanguageChecker;
 import org.example.tools.treeprinter.InnerTreeNode;
 import org.example.tools.treeprinter.LeafTreeNode;
 import org.example.tools.treeprinter.TreePrintVisitor;
@@ -9,16 +9,16 @@ import org.example.tools.treeprinter.TreePrintVisitor;
 @Getter
 public class HtmlTreeVisitor extends TreePrintVisitor {
     private final boolean showId;
-    private final SpellCheckUtils spellCheckUtils;
+    private final JLanguageChecker JLanguageChecker;
 
     public HtmlTreeVisitor(boolean showId) {
         this.showId = showId;
-        this.spellCheckUtils = new SpellCheckUtils();
+        this.JLanguageChecker = new JLanguageChecker();
     }
 
-    public HtmlTreeVisitor(boolean showId, SpellCheckUtils spellCheckUtils) {
+    public HtmlTreeVisitor(boolean showId, JLanguageChecker JLanguageChecker) {
         this.showId = showId;
-        this.spellCheckUtils = spellCheckUtils;
+        this.JLanguageChecker = JLanguageChecker;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class HtmlTreeVisitor extends TreePrintVisitor {
     }
 
     private String getTagLabel(HtmlElement element) {
-        if (spellCheckUtils.hasErrors(element.getTextContent()))
+        if (JLanguageChecker.hasErrors(element.getTextContent()))
             return "[X]";
         else return "";
     }
