@@ -5,20 +5,15 @@ import org.example.tools.spellchecker.SpellChecker;
 
 public class SpellCheckCommand implements IrrevocableCommand {
     private final HtmlDocument document;
-//    private final SpellChecker spellChecker;
-
-    public SpellCheckCommand(HtmlDocument document) {
-        this.document = document;
-//        this.spellChecker = new SpellChecker(document);
-    }
+    private final SpellChecker spellChecker;
 
     public SpellCheckCommand(HtmlDocument document, SpellChecker spellChecker) {
         this.document = document;
-//        this.spellChecker = spellChecker;
+        this.spellChecker = spellChecker;
     }
 
     public void execute() {
-//        spellChecker.checkSpelling();
+        spellChecker.checkSpelling(document);
     }
 
 }

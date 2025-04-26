@@ -1,6 +1,7 @@
 package org.example.editor.commands;
 
 import org.example.document.HtmlDocument;
+import org.example.document.HtmlElement;
 
 public class EditTextCommand implements Command {
     private final HtmlDocument document;

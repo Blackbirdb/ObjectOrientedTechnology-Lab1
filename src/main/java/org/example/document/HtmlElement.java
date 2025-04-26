@@ -11,10 +11,12 @@ public class HtmlElement extends InnerTreeNode {
     private final String tagName;
     @Setter
     private String id;
+//    private final List<HtmlNode> children;
 
     public HtmlElement(String tagName, String id, HtmlElement parent) {
         this.tagName = tagName;
         this.id = id;
+//        this.children = new ArrayList<>();
         this.parent = parent;
     }
 

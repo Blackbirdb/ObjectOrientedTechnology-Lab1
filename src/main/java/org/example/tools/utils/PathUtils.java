@@ -1,8 +1,6 @@
 package org.example.tools.utils;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
 public class PathUtils {
 

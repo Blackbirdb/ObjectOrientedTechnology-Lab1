@@ -1,18 +1,14 @@
 package org.example.session.commands;
 
-import lombok.Setter;
 import org.example.session.Session;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 public class LoadFileCommand implements SessionCommand{
     private final Session session;
-    @Setter private String fileName;
+    private final String fileName;
 
-    @Autowired
-    public LoadFileCommand(Session session) {
+    public LoadFileCommand(Session session, String fileName) {
         this.session = session;
+        this.fileName = fileName;
     }
 
     @Override

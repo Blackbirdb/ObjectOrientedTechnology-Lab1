@@ -1,28 +1,23 @@
 package org.example.session.commands;
 
-import org.example.session.Session;
 import org.example.tools.SessionStateSaver.SessionState;
-import org.example.tools.SessionStateSaver.SessionStateSaver;
+import org.example.session.Session;
+import org.example.tools.SessionStateSaver.SessionStateService;
 import org.example.tools.utils.PathUtils;
 
 public class LoadSessionCommand implements SessionCommand{
     private final Session session;
-    private final SessionStateSaver sessionStateSaver;
+    private final SessionStateService sessionStateService;
 
-    public LoadSessionCommand(Session session) {
+    public LoadSessionCommand(Session session, SessionStateService sessionStateService) {
         this.session = session;
-        this.sessionStateSaver = new SessionStateSaver();
-    }
-
-    public LoadSessionCommand(Session session, SessionStateSaver sessionStateSaver) {
-        this.session = session;
-        this.sessionStateSaver = sessionStateSaver;
+        this.sessionStateService = sessionStateService;
     }
 
     @Override
     public void execute() {
-        if (sessionStateSaver.sessionFileExists()) {
-            SessionState state = sessionStateSaver.loadSession();
+        if (sessionStateService.sessionFileExists()) {
+            SessionState state = sessionStateService.loadSession();
             if (state != null) {
                 session.setCwd(state.cwd);
                 for (String fileName : state.openFiles) {

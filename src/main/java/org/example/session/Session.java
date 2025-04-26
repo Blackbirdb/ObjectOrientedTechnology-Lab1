@@ -2,19 +2,28 @@ package org.example.session;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.example.editor.EditorFactory;
 import org.example.editor.HtmlEditor;
 import org.example.tools.utils.PathUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class Session {
     private final Map<String, HtmlEditor> openEditors = new LinkedHashMap<>();
     @Setter private HtmlEditor activeEditor = null;
     @Getter @Setter private String cwd = null;
+    private final EditorFactory editorFactory;
+
+    @Autowired
+    public Session(EditorFactory editorFactory) {
+        this.editorFactory = editorFactory;
+    }
 
     public boolean isActive(){
         return activeEditor != null;
@@ -109,14 +118,10 @@ public class Session {
         HtmlEditor editor;
 
         if (!PathUtils.fileExists(filePath)) {
-            editor = new HtmlEditor();
-            editor.setFilePath(filePath);
-            editor.saveToFile(filePath);
+            throw new IllegalArgumentException("File not found: " + filePath);
         }
-        else {
-            editor = new HtmlEditor(filePath);
-        }
-        editor.setShowId(showId);
+
+        editor = editorFactory.createEditor(filePath, showId);
         addEditor(fileName, editor);
     }
 

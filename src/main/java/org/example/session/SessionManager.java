@@ -1,17 +1,25 @@
 package org.example.session;
 
-import org.example.AppConfig;
+import jakarta.annotation.PostConstruct;
+import org.example.editor.HtmlEditor;
 import org.example.session.commands.*;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.example.tools.SessionStateSaver.SessionStateService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SessionManager {
     private final Session session;
-    private final ApplicationContext context;
+    private final SessionStateService sessionStateService;
 
-    public SessionManager() {
-        this.context = new AnnotationConfigApplicationContext(AppConfig.class);
-        this.session = context.getBean(Session.class);
+    @Autowired
+    public SessionManager(Session session, SessionStateService sessionStateService) {
+        this.session = session;
+        this.sessionStateService = sessionStateService;
+    }
+
+    @PostConstruct
+    public void init() {
         loadSession();
     }
 
@@ -28,8 +36,7 @@ public class SessionManager {
      * If fileName does not exist, create one and init with default.html
      */
     public void loadFile(String fileName) {
-        LoadFileCommand cmd = context.getBean(LoadFileCommand.class);
-        cmd.setFileName(fileName);
+        SessionCommand cmd = new LoadFileCommand(session, fileName);
         cmd.execute();
     }
 
@@ -67,12 +74,12 @@ public class SessionManager {
     }
 
     public void saveSession() {
-        SessionCommand cmd = new SaveSessionCommand(session);
+        SessionCommand cmd = new SaveSessionCommand(session, sessionStateService);
         cmd.execute();
     }
 
     public void loadSession() {
-        SessionCommand cmd = new LoadSessionCommand(session);
+        SessionCommand cmd = new LoadSessionCommand(session, sessionStateService);
         cmd.execute();
     }
 

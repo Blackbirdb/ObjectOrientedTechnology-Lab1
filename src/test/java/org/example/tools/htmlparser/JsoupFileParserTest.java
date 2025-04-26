@@ -4,16 +4,14 @@ import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-class HtmlFileParserTest {
+class JsoupFileParserTest {
 
     @TempDir
     Path tempDir;
@@ -34,7 +32,7 @@ class HtmlFileParserTest {
         Files.writeString(testFile, htmlContent);
 
         // 创建测试对象（使用真实实现）
-        HtmlFileParser parser = new HtmlFileParser();
+        JsoupFileParser parser = new JsoupFileParser();
 
         // 执行测试
         HtmlDocument result = parser.readHtmlFromFile(String.valueOf(testFile));
@@ -47,7 +45,7 @@ class HtmlFileParserTest {
     @Test
     void readHtmlFromFile_throwsExceptionWhenFileNotFound() {
         String nonExistentPath = tempDir.resolve("nonexistent.html").toString();
-        HtmlFileParser parser = new HtmlFileParser();
+        JsoupFileParser parser = new JsoupFileParser();
 
         assertThrows(RuntimeException.class, () -> {
             parser.readHtmlFromFile(nonExistentPath);
@@ -64,7 +62,7 @@ class HtmlFileParserTest {
         document.registerElement(element);
 
         // 创建测试对象
-        HtmlFileParser parser = new HtmlFileParser();
+        JsoupFileParser parser = new JsoupFileParser();
 
         // 执行测试
         parser.saveHtmlDocumentToFile(document, outputFile.toString());
@@ -85,7 +83,7 @@ class HtmlFileParserTest {
         Path unwritableFile = readOnlyDir.resolve("output.html");
         HtmlDocument document = new HtmlDocument();
 
-        HtmlFileParser parser = new HtmlFileParser();
+        JsoupFileParser parser = new JsoupFileParser();
 
         assertThrows(RuntimeException.class, () -> {
             parser.saveHtmlDocumentToFile(document, unwritableFile.toString());

@@ -3,29 +3,32 @@ package org.example.cli;
 import org.example.session.SessionManager;
 import org.example.tools.utils.CommandTable;
 import org.example.tools.utils.PathUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Service
 public class CommandLineInterface {
     private final CommandTable commandTable;
     private final SessionManager sessionManager;
     private final Scanner scanner;
     private final List<String> initCommands = new ArrayList<>(List.of("init", "read", "load", "dir-tree","help"));
 
-    public CommandLineInterface() {
+    @Autowired
+    public CommandLineInterface(SessionManager sessionManager) {
         this.commandTable = new CommandTable();
-        this.sessionManager = new SessionManager();
+        this.sessionManager = sessionManager;
         this.scanner = new Scanner(System.in);
     }
 
-    public CommandLineInterface(SessionManager sessionManager,CommandTable commandTable, Scanner scanner) {
-        this.sessionManager = sessionManager;
-        this.commandTable = commandTable;
-        this.scanner = scanner;
-    }
+//    public CommandLineInterface(SessionManager sessionManager,CommandTable commandTable, Scanner scanner) {
+//        this.sessionManager = sessionManager;
+//        this.commandTable = commandTable;
+//        this.scanner = scanner;
+//    }
 
     public void start() {
         System.out.println("=========================================================================================");

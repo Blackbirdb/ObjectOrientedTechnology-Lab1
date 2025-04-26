@@ -2,7 +2,7 @@ package org.example.session.commands;
 
 import org.example.session.Session;
 import org.example.tools.SessionStateSaver.SessionState;
-import org.example.tools.SessionStateSaver.SessionStateSaver;
+import org.example.tools.SessionStateSaver.GsonStateService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,14 +17,14 @@ import static org.mockito.Mockito.*;
 
 class SaveSessionCommandTest {
     private Session session;
-    private SessionStateSaver sessionStateSaver;
+    private GsonStateService gsonStateService;
     private SaveSessionCommand command;
 
     @BeforeEach
     void setUp() {
         session = mock(Session.class);
-        sessionStateSaver = mock(SessionStateSaver.class);
-        command = new SaveSessionCommand(session, sessionStateSaver);
+        gsonStateService = mock(GsonStateService.class);
+        command = new SaveSessionCommand(session, gsonStateService);
     }
 
     @AfterEach
@@ -42,7 +42,7 @@ class SaveSessionCommandTest {
 
         command.execute();
 
-        verify(sessionStateSaver).saveSession(any(SessionState.class));
+        verify(gsonStateService).saveSession(any(SessionState.class));
     }
 
     @Test
@@ -51,7 +51,7 @@ class SaveSessionCommandTest {
 
         command.execute();
 
-        verify(sessionStateSaver, never()).saveSession(any(SessionState.class));
+        verify(gsonStateService, never()).saveSession(any(SessionState.class));
     }
 
     @Test
@@ -64,7 +64,7 @@ class SaveSessionCommandTest {
 
         command.execute();
 
-        verify(sessionStateSaver).saveSession(any(SessionState.class));
+        verify(gsonStateService).saveSession(any(SessionState.class));
     }
 
     @Test
@@ -77,6 +77,6 @@ class SaveSessionCommandTest {
 
         command.execute();
 
-        verify(sessionStateSaver).saveSession(any(SessionState.class));
+        verify(gsonStateService).saveSession(any(SessionState.class));
     }
 }

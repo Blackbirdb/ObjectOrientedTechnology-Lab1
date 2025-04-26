@@ -1,21 +1,17 @@
 package org.example.session.commands;
 
-import org.example.session.Session;
 import org.example.tools.SessionStateSaver.SessionState;
-import org.example.tools.SessionStateSaver.SessionStateSaver;
+import org.example.tools.SessionStateSaver.GsonStateService;
+import org.example.session.Session;
+import org.example.tools.SessionStateSaver.SessionStateService;
 
 public class SaveSessionCommand implements SessionCommand {
     private final Session session;
-    private final SessionStateSaver sessionStateSaver;
+    private final SessionStateService sessionStateService;
 
-    public SaveSessionCommand(Session session) {
+    public SaveSessionCommand(Session session, SessionStateService sessionStateService) {
         this.session = session;
-        sessionStateSaver = new SessionStateSaver();
-    }
-
-    public SaveSessionCommand(Session session, SessionStateSaver sessionStateSaver) {
-        this.session = session;
-        this.sessionStateSaver = sessionStateSaver;
+        this.sessionStateService = sessionStateService;
     }
 
     @Override
@@ -26,6 +22,6 @@ public class SaveSessionCommand implements SessionCommand {
         state.showIdMap = session.getShowIdMap();
         state.activeEditorName = session.getActiveEditorName();
         state.cwd = session.getCwd();
-        sessionStateSaver.saveSession(state);
+        sessionStateService.saveSession(state);
     }
 }

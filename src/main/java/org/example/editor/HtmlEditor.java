@@ -6,6 +6,8 @@ import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 import org.example.editor.commands.*;
 import org.example.tools.htmlparser.HtmlFileParser;
+import org.example.tools.htmlparser.JsoupFileParser;
+import org.example.tools.spellchecker.SpellChecker;
 
 // invoker
 public class HtmlEditor {
@@ -14,31 +16,44 @@ public class HtmlEditor {
     @Getter @Setter private String filePath;
     @Getter @Setter private Boolean showId;
     private final HtmlFileParser parser;
+    private final SpellChecker spellChecker;
 
-    public HtmlEditor(String filePath) {
-        this.parser = new HtmlFileParser();
+//    public HtmlEditor(String filePath, SpellChecker spellChecker) {
+//        this.spellChecker = spellChecker;
+//        this.parser = new JsoupFileParser();
+//        this.document = parser.readHtmlFromFile(filePath);
+//        this.filePath = filePath;
+//        this.history = new CommandHistory();
+//        this.showId = true;
+//    }
+
+//    public HtmlEditor(SpellChecker spellChecker) {
+//        this.spellChecker = spellChecker;
+//        document = new HtmlDocument();
+//        document.init();
+//
+//        this.filePath = null;
+//        this.history = new CommandHistory();
+//        this.showId = true;
+//        this.parser = new JsoupFileParser();
+//    }
+//
+//    public HtmlEditor(HtmlDocument document, CommandHistory history, String filePath, Boolean showId, SpellChecker spellChecker) {
+//        this.document = document;
+//        this.history = history;
+//        this.filePath = filePath;
+//        this.showId = showId;
+//        this.spellChecker = spellChecker;
+//        this.parser =  new JsoupFileParser();
+//    }
+//
+    public HtmlEditor(SpellChecker spellChecker, HtmlFileParser fileParser, String filePath, Boolean showId) {
+        this.spellChecker = spellChecker;
+        this.parser = fileParser;
+        this.filePath = filePath;
         this.document = parser.readHtmlFromFile(filePath);
-        this.filePath = filePath;
         this.history = new CommandHistory();
-        this.showId = true;
-    }
-
-    public HtmlEditor() {
-        document = new HtmlDocument();
-        document.init();
-
-        this.filePath = null;
-        this.history = new CommandHistory();
-        this.showId = true;
-        this.parser = new HtmlFileParser();
-    }
-
-    public HtmlEditor(HtmlDocument document, CommandHistory history, String filePath, Boolean showId) {
-        this.document = document;
-        this.history = history;
-        this.filePath = filePath;
         this.showId = showId;
-        this.parser =  new HtmlFileParser();
     }
 
     public HtmlElement getElementById(String id) {
@@ -86,13 +101,13 @@ public class HtmlEditor {
     /************************** Irrevocable Commands **************************/
 
     public void saveToFile(String filePath) {
-        IrrevocableCommand cmd = new SaveFileCommand(document, filePath);
+        IrrevocableCommand cmd = new SaveFileCommand(document, filePath, parser);
         history.executeCommand(cmd);
         history.resetModified();
     }
 
     public void save() {
-        SaveFileCommand cmd = new SaveFileCommand(document, this.filePath);
+        SaveFileCommand cmd = new SaveFileCommand(document, this.filePath, parser);
         history.executeCommand(cmd);
         history.resetModified();
     }
@@ -103,7 +118,7 @@ public class HtmlEditor {
     }
 
     public void spellCheck() {
-        IrrevocableCommand cmd = new SpellCheckCommand(document);
+        IrrevocableCommand cmd = new SpellCheckCommand(document, spellChecker);
         history.executeCommand(cmd);
     }
 }

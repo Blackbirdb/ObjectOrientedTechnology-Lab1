@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.example.editor.HtmlEditor;
 import org.example.session.Session;
 import org.example.tools.SessionStateSaver.SessionState;
-import org.example.tools.SessionStateSaver.SessionStateSaver;
+import org.example.tools.SessionStateSaver.GsonStateService;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Map;
@@ -15,14 +15,14 @@ import static org.mockito.Mockito.*;
 
 class LoadSessionCommandTest {
     private Session session;
-    private SessionStateSaver sessionStateSaver;
+    private GsonStateService gsonStateService;
     private LoadSessionCommand command;
 
     @BeforeEach
     void setUp() {
         session = mock(Session.class);
-        sessionStateSaver = mock(SessionStateSaver.class);
-        command = new LoadSessionCommand(session, sessionStateSaver);
+        gsonStateService = mock(GsonStateService.class);
+        command = new LoadSessionCommand(session, gsonStateService);
     }
 
     @Test
@@ -33,8 +33,8 @@ class LoadSessionCommandTest {
         state.showIdMap = Map.of("nested.html", true, "spellcheck.html", false);
         state.activeEditorName = "spellcheck.html";
 
-        when(sessionStateSaver.sessionFileExists()).thenReturn(true);
-        when(sessionStateSaver.loadSession()).thenReturn(state);
+        when(gsonStateService.sessionFileExists()).thenReturn(true);
+        when(gsonStateService.loadSession()).thenReturn(state);
 
         command.execute();
 
@@ -46,7 +46,7 @@ class LoadSessionCommandTest {
 
     @Test
     void executeDoesNothingWhenSessionFileDoesNotExist() {
-        when(sessionStateSaver.sessionFileExists()).thenReturn(false);
+        when(gsonStateService.sessionFileExists()).thenReturn(false);
 
         command.execute();
 
@@ -57,8 +57,8 @@ class LoadSessionCommandTest {
 
     @Test
     void executeDoesNothingWhenSessionStateIsNull() {
-        when(sessionStateSaver.sessionFileExists()).thenReturn(true);
-        when(sessionStateSaver.loadSession()).thenReturn(null);
+        when(gsonStateService.sessionFileExists()).thenReturn(true);
+        when(gsonStateService.loadSession()).thenReturn(null);
 
         command.execute();
 

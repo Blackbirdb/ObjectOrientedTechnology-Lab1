@@ -1,7 +1,7 @@
 package org.example.session.SessionStateSaver;
 
 import org.example.tools.SessionStateSaver.SessionState;
-import org.example.tools.SessionStateSaver.SessionStateSaver;
+import org.example.tools.SessionStateSaver.GsonStateService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import java.io.File;
@@ -15,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 
-class SessionStateSaverTest {
+class GsonStateServiceTest {
 
-    private final SessionStateSaver saver = new SessionStateSaver();
+    private final GsonStateService saver = new GsonStateService();
 
     @AfterEach
     void tearDown() {
