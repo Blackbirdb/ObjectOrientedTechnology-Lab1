@@ -1,56 +1,136 @@
 package org.example.tools.htmlparser;
 
-import org.example.document.HtmlDocument;
-import org.example.tools.SessionStateSaver.SessionStateService;
+import org.example.document.*;
+import org.example.tools.treeprinter.TreeNode;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
+import static org.example.document.HtmlDocument.isSpecialTag;
 
 @Component
 public class JsoupFileParser implements HtmlFileParser {
+
     /**
-     * reads an HTML file from given path and returns an HtmlDocument object
-     * @return HtmlDocument
+     * Parses the given HTML string and returns an HtmlDocument object.
+     * @return htmlDocument
      */
     @Override
-    public HtmlDocument readHtmlFromFile(String filePath) {
-        HtmlParserUtils parserUtils = new HtmlParserUtils();
-        String htmlContent = readFileToString(filePath);
-        return parserUtils.parse(htmlContent);
+    public HtmlDocument parse(String html, HtmlDocument htmlDocument) {
+        Document jsoupDoc = Jsoup.parse(html, "", Parser.xmlParser());
+
+        validateDocumentStructure(jsoupDoc);
+
+        Element jsoupRootElement = jsoupDoc.select("html").first();
+        assert jsoupRootElement != null;
+        HtmlElement htmlRootElement = parseElement(jsoupRootElement, null, htmlDocument);
+        htmlDocument.setRoot(htmlRootElement);
+
+        return htmlDocument;
     }
 
-    private String readFileToString(String filePath) {
-        try {
-            byte[] bytes = Files.readAllBytes(Paths.get(filePath));
-            return new String(bytes, StandardCharsets.UTF_8);  // 指定编码为UTF-8
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+    /**
+     * Parses a Jsoup Element(and its children, recurrently), and creates an HtmlElement.
+     * @return HtmlElement
+     */
+    private HtmlElement parseElement(Element jsoupElement, HtmlElement parent, HtmlDocument htmlDocument) {
+        // 获取标签名和ID
+        String tagName = jsoupElement.tagName();
+        String id = jsoupElement.id();
+
+        if (id.isEmpty() && !isSpecialTag(tagName)) {
+            throw new IllegalArgumentException("Tag <" + tagName + "> is not a special tag, and no id is given.");
         }
+
+        HtmlElement element;
+        if (!jsoupElement.ownText().isEmpty()) {
+            element = htmlDocument.createElement(tagName, id, jsoupElement.ownText(), parent);
+        }
+        else {
+            element = htmlDocument.createElement(tagName, id, parent);
+        }
+
+        // 递归处理子元素
+        for (Element child : jsoupElement.children()) {
+            TreeNode childNode;
+            if (child.tagName().equals("#text")) {
+                childNode = new HtmlTextNode(child.text(), element);
+            } else {
+                childNode = parseElement(child, element, htmlDocument);
+            }
+            element.insertAtLast(childNode);
+        }
+
+        return element;
     }
 
+    /**
+     * Rebuilds a Jsoup Document from an HtmlDocument.
+     * @return String
+     */
     @Override
-    public void saveHtmlDocumentToFile(HtmlDocument document, String filePath) {
-        HtmlParserUtils parserUtils = new HtmlParserUtils();
-        Document jsoupDoc = parserUtils.rebuild(document);
+    public String rebuild(HtmlDocument myDocument) {
+        Document jsoupDoc = new Document("");
+
+        Element htmlElement = rebuildElement(myDocument.getRoot());
+        jsoupDoc.appendChild(htmlElement);
+
         Document.OutputSettings settings = new Document.OutputSettings();
         settings.indentAmount(4);  // 设置缩进值为4
         settings.prettyPrint(true);  // 启用格式化输出
         jsoupDoc.outputSettings(settings);
-        String htmlContent = jsoupDoc.html();
 
-        Path path = Paths.get(filePath);
-        try {
-            if (Files.notExists(path)) {
-                Files.createFile(path);
+        return jsoupDoc.html();
+    }
+
+    /**
+     * Rebuilds a Jsoup Element from an HtmlElement.
+     * @return Element
+     */
+    private static Element rebuildElement(HtmlElement myElement) {
+        Element jsoupElement = new Element(myElement.getTagName());
+
+        jsoupElement.attr("id", myElement.getId());
+
+        for (TreeNode child : myElement.getChildren()) {
+            if (child instanceof HtmlElement) {
+                jsoupElement.appendChild(rebuildElement((HtmlElement) child));
+            } else if (child instanceof HtmlTextNode) {
+                String text = ((HtmlTextNode) child).getText();
+                if (text != null && !text.isEmpty()) {
+                    jsoupElement.appendText(text);
+                }
             }
-            Files.writeString(path, htmlContent);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }
+
+        return jsoupElement;
+    }
+
+    /**
+     * checks if a document has the correct structure.
+     */
+    private void validateDocumentStructure(Document jsoupDoc) {
+        if (jsoupDoc.select("html").size() != 1) {
+            throw new IllegalArgumentException("Document must have exactly one html element");
+        }
+
+        Element html = jsoupDoc.select("html").first();
+        assert html != null;
+        if (html.children().select("head").size() != 1) {
+            throw new IllegalArgumentException("html must have exactly one head child");
+        }
+        else if (html.children().select("body").size() != 1) {
+            throw new IllegalArgumentException("html must have exactly one body child");
+        }
+
+        Element head = html.children().select("head").first();
+        assert head != null;
+        if (head.children().select("title").size() != 1) {
+            throw new IllegalArgumentException("head must have exactly one title child");
         }
     }
 }

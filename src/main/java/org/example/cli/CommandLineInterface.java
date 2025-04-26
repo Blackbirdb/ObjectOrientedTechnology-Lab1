@@ -24,11 +24,11 @@ public class CommandLineInterface {
         this.scanner = new Scanner(System.in);
     }
 
-//    public CommandLineInterface(SessionManager sessionManager,CommandTable commandTable, Scanner scanner) {
-//        this.sessionManager = sessionManager;
-//        this.commandTable = commandTable;
-//        this.scanner = scanner;
-//    }
+    public CommandLineInterface(SessionManager sessionManager,CommandTable commandTable, Scanner scanner) {
+        this.sessionManager = sessionManager;
+        this.commandTable = commandTable;
+        this.scanner = scanner;
+    }
 
     public void start() {
         System.out.println("=========================================================================================");

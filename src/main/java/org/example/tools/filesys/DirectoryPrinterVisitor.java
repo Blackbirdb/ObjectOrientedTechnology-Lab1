@@ -10,7 +10,6 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Component
 public class DirectoryPrinterVisitor extends TreePrintVisitor {
 
     @Override
@@ -33,19 +32,4 @@ public class DirectoryPrinterVisitor extends TreePrintVisitor {
 
         visitInnerNode(node, text);
     }
-
-//    private DirectoryNode buildFileTree(Path path) throws IOException {
-//        DirectoryNode root = new DirectoryNode(path);
-//        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
-//            for (Path entry : stream) {
-//                if (Files.isDirectory(entry)) {
-//                    root.addChild(buildFileTree(entry));
-//                } else {
-//                    boolean isOpen = openFiles.contains(rootPath.relativize(entry));
-//                    root.addChild(new FileNode(entry, isOpen));
-//                }
-//            }
-//        }
-//        return root;
-//    }
 }

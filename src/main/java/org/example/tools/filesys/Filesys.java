@@ -15,17 +15,6 @@ import java.util.Set;
 public class Filesys {
     @Setter private Path rootPath;
     @Setter private Set<Path> openFiles;
-    private final DirectoryPrinterVisitor visitor;
-
-//    public Filesys(Path rootPath, HashSet<Path> openFiles) {
-//        this.rootPath = rootPath;
-//        this.openFiles = openFiles;
-//    }
-
-    @Autowired
-    public Filesys(DirectoryPrinterVisitor visitor) {
-        this.visitor = visitor;
-    }
 
     private DirectoryNode buildFileTree(Path path) throws IOException {
         DirectoryNode root = new DirectoryNode(path);
@@ -45,6 +34,7 @@ public class Filesys {
     public void print() {
         try {
             DirectoryNode root = buildFileTree(rootPath);
+            DirectoryPrinterVisitor visitor = new DirectoryPrinterVisitor();
             root.accept(visitor);
             System.out.println(visitor.getOutput());
         } catch (IOException e) {

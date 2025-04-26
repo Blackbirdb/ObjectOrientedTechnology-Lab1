@@ -2,7 +2,12 @@ package org.example.editor;
 
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
+import org.example.document.HtmlTreeVisitor;
 import org.example.editor.commands.*;
+import org.example.tools.htmlparser.FileParserService;
+import org.example.tools.htmlparser.HtmlFileParser;
+import org.example.tools.spellchecker.SpellChecker;
+import org.example.tools.spellchecker.SpellCheckerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,9 +26,14 @@ class HtmlEditorTest {
         mockDocument = mock(HtmlDocument.class);
         mockHistory = mock(CommandHistory.class);
         mockElement = mock(HtmlElement.class);
+        SpellCheckerService mockSpellChecker = mock(SpellCheckerService.class);
+        FileParserService mockFileParser = mock(FileParserService.class);
+        HtmlTreeVisitor mockVisitor = mock(HtmlTreeVisitor.class);
 
-        // 使用新的测试构造函数
-        editor = new HtmlEditor(mockDocument, mockHistory, TEST_FILE_PATH, true);
+        when(mockFileParser.readHtmlFromFile(TEST_FILE_PATH)).thenReturn(mockDocument);
+
+        editor = new HtmlEditor(mockSpellChecker, mockFileParser, TEST_FILE_PATH,
+                true, mockVisitor, mockHistory);
     }
 
     @Test
@@ -143,7 +153,6 @@ class HtmlEditorTest {
     @Test
     void filePath_isImmutable() {
         assertEquals(TEST_FILE_PATH, editor.getFilePath());
-        // 没有setter方法，无法修改
     }
 
 }

@@ -2,11 +2,15 @@ package org.example.document;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 // receiver
+@Component
+@Scope("prototype")
 public class HtmlDocument {
     @Getter
     @Setter
@@ -36,17 +40,6 @@ public class HtmlDocument {
 
     public void unregisterElement(HtmlElement element) {
         idToElementMap.remove(element.getId());
-    }
-
-    public void init(){
-        root = createElement("html", "html", null);
-        HtmlElement head = createElement("head", "head", root);
-        HtmlElement title = createElement("title", "title", head);
-        HtmlElement body = createElement("body", "body", root);
-
-        root.insertAtLast(head);
-        root.insertAtLast(body);
-        head.insertAtLast(title);
     }
 
     public static boolean isSpecialTag(String tagName) {

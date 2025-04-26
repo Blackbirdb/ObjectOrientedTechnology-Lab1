@@ -1,10 +1,8 @@
 package org.example.session;
 
 import jakarta.annotation.PostConstruct;
-import org.example.editor.HtmlEditor;
 import org.example.session.commands.*;
 import org.example.tools.SessionStateSaver.SessionStateService;
-import org.example.tools.filesys.DirectoryPrinterVisitor;
 import org.example.tools.filesys.Filesys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

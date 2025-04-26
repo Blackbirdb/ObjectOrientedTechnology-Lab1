@@ -2,10 +2,15 @@ package org.example.editor;
 
 import org.example.editor.commands.Command;
 import org.example.editor.commands.IrrevocableCommand;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.Stack;
 
 // invoker
+@Component
+@Scope("prototype")
 public class CommandHistory {
     private final Stack<Command> undoStack = new Stack<>();
     private final Stack<Command> redoStack = new Stack<>();

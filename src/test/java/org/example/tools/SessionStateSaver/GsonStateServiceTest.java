@@ -1,4 +1,4 @@
-package org.example.session.SessionStateSaver;
+package org.example.tools.SessionStateSaver;
 
 import org.example.tools.SessionStateSaver.SessionState;
 import org.example.tools.SessionStateSaver.GsonStateService;

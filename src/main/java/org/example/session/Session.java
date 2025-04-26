@@ -24,7 +24,7 @@ public class Session {
     private final EditorFactory editorFactory;
 
     @Autowired
-    public Session(EditorFactory editorFactory, Filesys filesys, DirectoryPrinterVisitor directoryPrinterVisitor) {
+    public Session(EditorFactory editorFactory) {
         this.editorFactory = editorFactory;
     }
 

@@ -23,7 +23,7 @@ class DirTreeCommandTest {
     void setUp() {
         session = mock(Session.class);
         filesys = mock(Filesys.class);
-        command = new DirTreeCommand(session);
+        command = new DirTreeCommand(session, filesys);
     }
 
     @Test

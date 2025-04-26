@@ -66,7 +66,9 @@ class FilesysTest {
     void printsDirectoryTreeWithOpenFiles() throws IOException {
         openFiles.add(rootPath.relativize(rootPath.resolve("default.html")));
         openFiles.add(rootPath.relativize(rootPath.resolve("dumbFolder/basics.html")));
-        filesys = new Filesys(rootPath, new HashSet<>(openFiles));
+        filesys = new Filesys();
+        filesys.setOpenFiles(openFiles);
+        filesys.setRootPath(rootPath);
 
         filesys.print();
         String expectedOutput = """
@@ -83,7 +85,9 @@ class FilesysTest {
 
     @Test
     void printsDirectoryTreeWithoutOpenFiles() throws IOException {
-        filesys = new Filesys(rootPath, new HashSet<>(openFiles));
+        filesys = new Filesys();
+        filesys.setOpenFiles(openFiles);
+        filesys.setRootPath(rootPath);
 
         filesys.print();
         String expectedOutput = """
@@ -101,7 +105,9 @@ class FilesysTest {
     @Test
     void handlesIOExceptionGracefully() throws IOException {
         Path invalidPath = Paths.get("invalid/path");
-        filesys = new Filesys(invalidPath, new HashSet<>(openFiles));
+        filesys = new Filesys();
+        filesys.setOpenFiles(openFiles);
+        filesys.setRootPath(invalidPath);
 
         assertThrows(RuntimeException.class, () -> filesys.print());
     }

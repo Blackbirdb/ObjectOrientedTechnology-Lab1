@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.tools.spellchecker.JLanguageChecker;
 import org.example.tools.spellchecker.SpellChecker;
+import org.example.tools.spellchecker.SpellCheckerService;
 import org.example.tools.treeprinter.InnerTreeNode;
 import org.example.tools.treeprinter.LeafTreeNode;
 import org.example.tools.treeprinter.TreePrintVisitor;
@@ -13,10 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class HtmlTreeVisitor extends TreePrintVisitor {
     @Setter private boolean showId;
-    private final SpellChecker spellChecker;
+    private final SpellCheckerService spellChecker;
 
     @Autowired
-    public HtmlTreeVisitor(SpellChecker spellChecker) {
+    public HtmlTreeVisitor(SpellCheckerService spellChecker) {
         this.spellChecker = spellChecker;
         this.showId = true;
     }

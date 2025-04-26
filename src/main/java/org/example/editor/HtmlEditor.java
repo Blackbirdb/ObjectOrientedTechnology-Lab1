@@ -6,9 +6,11 @@ import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 import org.example.document.HtmlTreeVisitor;
 import org.example.editor.commands.*;
+import org.example.tools.htmlparser.FileParserService;
 import org.example.tools.htmlparser.HtmlFileParser;
 import org.example.tools.htmlparser.JsoupFileParser;
 import org.example.tools.spellchecker.SpellChecker;
+import org.example.tools.spellchecker.SpellCheckerService;
 import org.example.tools.treeprinter.Visitor;
 
 // invoker
@@ -17,19 +19,21 @@ public class HtmlEditor {
     private final CommandHistory history;
     @Getter @Setter private String filePath;
     @Getter @Setter private Boolean showId;
-    private final HtmlFileParser parser;
-    private final SpellChecker spellChecker;
+    private final FileParserService parser;
+    private final SpellCheckerService spellChecker;
     private final HtmlTreeVisitor visitor;
 
-    public HtmlEditor(SpellChecker spellChecker, HtmlFileParser fileParser, String filePath, Boolean showId, HtmlTreeVisitor visitor) {
+    public HtmlEditor(SpellCheckerService spellChecker, FileParserService fileParser, String filePath,
+                      Boolean showId, HtmlTreeVisitor visitor, CommandHistory history) {
         this.spellChecker = spellChecker;
         this.parser = fileParser;
         this.filePath = filePath;
         this.document = parser.readHtmlFromFile(filePath);
-        this.history = new CommandHistory();
+        this.history = history;
         this.showId = showId;
         this.visitor = visitor;
     }
+
 
     public HtmlElement getElementById(String id) {
         return document.getElementById(id);

@@ -70,14 +70,6 @@ public class HtmlElement extends InnerTreeNode {
         }
     }
 
-    public void insertBefore(HtmlElement newChild, HtmlElement refChild) {
-        assert refChild.getParent() == this;
-
-        int index = children.indexOf(refChild);
-        children.add(index, newChild);
-        newChild.setParent(this);
-    }
-
     public void insertAtLast(TreeNode newChild) {
         children.add(newChild);
     }

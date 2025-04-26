@@ -1,5 +1,6 @@
 package org.example.session;
 
+import org.example.editor.EditorFactory;
 import org.example.editor.HtmlEditor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,10 @@ class SessionTest {
 
     @BeforeEach
     void setUp() {
-        session = new Session();
-        editor = mock(HtmlEditor.class);
+        EditorFactory factory = mock(EditorFactory.class);
+        editor = Mockito.mock(HtmlEditor.class);
+
+        session = new Session(factory);
     }
 
     @Test

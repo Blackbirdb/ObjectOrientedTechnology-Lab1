@@ -1,13 +1,13 @@
 package org.example.editor.commands;
 
 import org.example.document.HtmlDocument;
-import org.example.tools.spellchecker.SpellChecker;
+import org.example.tools.spellchecker.SpellCheckerService;
 
 public class SpellCheckCommand implements IrrevocableCommand {
     private final HtmlDocument document;
-    private final SpellChecker spellChecker;
+    private final SpellCheckerService spellChecker;
 
-    public SpellCheckCommand(HtmlDocument document, SpellChecker spellChecker) {
+    public SpellCheckCommand(HtmlDocument document, SpellCheckerService spellChecker) {
         this.document = document;
         this.spellChecker = spellChecker;
     }

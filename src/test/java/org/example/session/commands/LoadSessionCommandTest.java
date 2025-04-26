@@ -1,11 +1,11 @@
 package org.example.session.commands;
 
+import org.example.tools.SessionStateSaver.SessionStateService;
 import org.junit.jupiter.api.Test;
 
 import org.example.editor.HtmlEditor;
 import org.example.session.Session;
 import org.example.tools.SessionStateSaver.SessionState;
-import org.example.tools.SessionStateSaver.GsonStateService;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Map;
@@ -15,14 +15,14 @@ import static org.mockito.Mockito.*;
 
 class LoadSessionCommandTest {
     private Session session;
-    private GsonStateService gsonStateService;
+    private SessionStateService service;
     private LoadSessionCommand command;
 
     @BeforeEach
     void setUp() {
         session = mock(Session.class);
-        gsonStateService = mock(GsonStateService.class);
-        command = new LoadSessionCommand(session, gsonStateService);
+        service = mock(SessionStateService.class);
+        command = new LoadSessionCommand(session, service);
     }
 
     @Test
@@ -33,8 +33,8 @@ class LoadSessionCommandTest {
         state.showIdMap = Map.of("nested.html", true, "spellcheck.html", false);
         state.activeEditorName = "spellcheck.html";
 
-        when(gsonStateService.sessionFileExists()).thenReturn(true);
-        when(gsonStateService.loadSession()).thenReturn(state);
+        when(service.sessionFileExists()).thenReturn(true);
+        when(service.loadSession()).thenReturn(state);
 
         command.execute();
 
@@ -46,7 +46,7 @@ class LoadSessionCommandTest {
 
     @Test
     void executeDoesNothingWhenSessionFileDoesNotExist() {
-        when(gsonStateService.sessionFileExists()).thenReturn(false);
+        when(service.sessionFileExists()).thenReturn(false);
 
         command.execute();
 
@@ -57,8 +57,8 @@ class LoadSessionCommandTest {
 
     @Test
     void executeDoesNothingWhenSessionStateIsNull() {
-        when(gsonStateService.sessionFileExists()).thenReturn(true);
-        when(gsonStateService.loadSession()).thenReturn(null);
+        when(service.sessionFileExists()).thenReturn(true);
+        when(service.loadSession()).thenReturn(null);
 
         command.execute();
 
