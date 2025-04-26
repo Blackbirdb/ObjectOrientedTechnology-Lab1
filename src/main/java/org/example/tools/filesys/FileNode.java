@@ -21,10 +21,6 @@ public class FileNode extends LeafTreeNode {
 
     @Override
     public void accept(Visitor visitor) {
-        String text = path.getFileName().toString();
-        if (isOpen) {
-            text += "*";
-        }
         visitor.visit(this);
     }
 }

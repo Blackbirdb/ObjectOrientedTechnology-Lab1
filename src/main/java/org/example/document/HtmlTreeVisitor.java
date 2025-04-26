@@ -1,24 +1,24 @@
 package org.example.document;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.example.tools.spellchecker.JLanguageChecker;
+import org.example.tools.spellchecker.SpellChecker;
 import org.example.tools.treeprinter.InnerTreeNode;
 import org.example.tools.treeprinter.LeafTreeNode;
 import org.example.tools.treeprinter.TreePrintVisitor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@Getter
+@Component
 public class HtmlTreeVisitor extends TreePrintVisitor {
-    private final boolean showId;
-    private final JLanguageChecker JLanguageChecker;
+    @Setter private boolean showId;
+    private final SpellChecker spellChecker;
 
-    public HtmlTreeVisitor(boolean showId) {
-        this.showId = showId;
-        this.JLanguageChecker = new JLanguageChecker();
-    }
-
-    public HtmlTreeVisitor(boolean showId, JLanguageChecker JLanguageChecker) {
-        this.showId = showId;
-        this.JLanguageChecker = JLanguageChecker;
+    @Autowired
+    public HtmlTreeVisitor(SpellChecker spellChecker) {
+        this.spellChecker = spellChecker;
+        this.showId = true;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class HtmlTreeVisitor extends TreePrintVisitor {
     }
 
     private String getTagLabel(HtmlElement element) {
-        if (JLanguageChecker.hasErrors(element.getTextContent()))
+        if (spellChecker.hasErrors(element.getTextContent()))
             return "[X]";
         else return "";
     }

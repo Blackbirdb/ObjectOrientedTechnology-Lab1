@@ -4,6 +4,8 @@ import jakarta.annotation.PostConstruct;
 import org.example.editor.HtmlEditor;
 import org.example.session.commands.*;
 import org.example.tools.SessionStateSaver.SessionStateService;
+import org.example.tools.filesys.DirectoryPrinterVisitor;
+import org.example.tools.filesys.Filesys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +13,13 @@ import org.springframework.stereotype.Component;
 public class SessionManager {
     private final Session session;
     private final SessionStateService sessionStateService;
+    private final Filesys filesys;
 
     @Autowired
-    public SessionManager(Session session, SessionStateService sessionStateService) {
+    public SessionManager(Session session, SessionStateService sessionStateService, Filesys filesys) {
         this.session = session;
         this.sessionStateService = sessionStateService;
+        this.filesys = filesys;
     }
 
     @PostConstruct
@@ -27,7 +31,7 @@ public class SessionManager {
 
     // prints the directory tree of the current working directory.
     public void dirTree() {
-        SessionCommand cmd = new DirTreeCommand(session);
+        SessionCommand cmd = new DirTreeCommand(session, filesys);
         cmd.execute();
     }
 

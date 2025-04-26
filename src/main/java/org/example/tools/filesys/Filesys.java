@@ -1,5 +1,9 @@
 package org.example.tools.filesys;
 
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -7,13 +11,20 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
+@Component
 public class Filesys {
-    private final Path rootPath;
-    private final Set<Path> openFiles;
+    @Setter private Path rootPath;
+    @Setter private Set<Path> openFiles;
+    private final DirectoryPrinterVisitor visitor;
 
-    public Filesys(Path rootPath, HashSet<Path> openFiles) {
-        this.rootPath = rootPath;
-        this.openFiles = openFiles;
+//    public Filesys(Path rootPath, HashSet<Path> openFiles) {
+//        this.rootPath = rootPath;
+//        this.openFiles = openFiles;
+//    }
+
+    @Autowired
+    public Filesys(DirectoryPrinterVisitor visitor) {
+        this.visitor = visitor;
     }
 
     private DirectoryNode buildFileTree(Path path) throws IOException {
@@ -34,7 +45,6 @@ public class Filesys {
     public void print() {
         try {
             DirectoryNode root = buildFileTree(rootPath);
-            DirectoryPrinterVisitor visitor = new DirectoryPrinterVisitor();
             root.accept(visitor);
             System.out.println(visitor.getOutput());
         } catch (IOException e) {

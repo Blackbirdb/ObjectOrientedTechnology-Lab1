@@ -38,15 +38,17 @@ public class PathUtils {
         return cwd + "/" + fileName;
     }
 
-    public static String getNameFromPath(String filePath, String cwd) {
+    public static String getRelativePath(String filePath, String cwd) {
         if (filePath == null || filePath.isEmpty()) {
             return null;
         }
-        if (isPathInCwd(cwd, filePath)) {
-            String[] parts = filePath.split("/");
-            return parts[parts.length - 1];
+        try {
+            Path cwdPath = Paths.get(cwd).toAbsolutePath().normalize();
+            Path targetPath = Paths.get(filePath).toAbsolutePath().normalize();
+            return cwdPath.relativize(targetPath).toString();
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid cwd: " + cwd);
         }
-        return filePath;
     }
 
     public static boolean isPathInCwd(String cwd, String path) {

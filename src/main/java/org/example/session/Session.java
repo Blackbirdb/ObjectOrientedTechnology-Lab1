@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.editor.EditorFactory;
 import org.example.editor.HtmlEditor;
+import org.example.tools.filesys.DirectoryNode;
+import org.example.tools.filesys.DirectoryPrinterVisitor;
+import org.example.tools.filesys.Filesys;
 import org.example.tools.utils.PathUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,7 +24,7 @@ public class Session {
     private final EditorFactory editorFactory;
 
     @Autowired
-    public Session(EditorFactory editorFactory) {
+    public Session(EditorFactory editorFactory, Filesys filesys, DirectoryPrinterVisitor directoryPrinterVisitor) {
         this.editorFactory = editorFactory;
     }
 
@@ -86,7 +89,7 @@ public class Session {
     }
 
     public String getActiveEditorName() {
-        return PathUtils.getNameFromPath(activeEditor.getFilePath(), cwd);
+        return PathUtils.getRelativePath(activeEditor.getFilePath(), cwd);
     }
 
     public void saveActiveEditor() { activeEditor.save(); }

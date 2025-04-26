@@ -12,17 +12,13 @@ public class HtmlDocument {
     @Setter
     private HtmlElement root;
     @Getter private final Map<String, HtmlElement> idToElementMap;
-//    @Getter
-//    private final HtmlElementFactory factory;
 
     public HtmlDocument() {
-//        this.factory = new HtmlElementFactory(this);
         this.idToElementMap = new HashMap<>();
     }
 
     public HtmlDocument(HtmlElement root) {
         this.root = root;
-//        this.factory = new HtmlElementFactory(this);
         this.idToElementMap = new HashMap<>();
     }
 

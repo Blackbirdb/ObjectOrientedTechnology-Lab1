@@ -9,9 +9,11 @@ import java.util.HashSet;
 
 public class DirTreeCommand implements SessionCommand {
     private final Session session;
+    private final Filesys filesys;
 
-    public DirTreeCommand(Session session) {
+    public DirTreeCommand(Session session, Filesys filesys) {
         this.session = session;
+        this.filesys = filesys;
     }
 
     @Override
@@ -25,7 +27,9 @@ public class DirTreeCommand implements SessionCommand {
             openFiles.add(filePath);
         }
 
-        Filesys filesys = new Filesys(rootPath, openFiles);
+        filesys.setOpenFiles(openFiles);
+        filesys.setRootPath(rootPath);
+
         filesys.print();
     }
 }

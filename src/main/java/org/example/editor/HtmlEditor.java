@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
+import org.example.document.HtmlTreeVisitor;
 import org.example.editor.commands.*;
 import org.example.tools.htmlparser.HtmlFileParser;
 import org.example.tools.htmlparser.JsoupFileParser;
 import org.example.tools.spellchecker.SpellChecker;
+import org.example.tools.treeprinter.Visitor;
 
 // invoker
 public class HtmlEditor {
@@ -17,43 +19,16 @@ public class HtmlEditor {
     @Getter @Setter private Boolean showId;
     private final HtmlFileParser parser;
     private final SpellChecker spellChecker;
+    private final HtmlTreeVisitor visitor;
 
-//    public HtmlEditor(String filePath, SpellChecker spellChecker) {
-//        this.spellChecker = spellChecker;
-//        this.parser = new JsoupFileParser();
-//        this.document = parser.readHtmlFromFile(filePath);
-//        this.filePath = filePath;
-//        this.history = new CommandHistory();
-//        this.showId = true;
-//    }
-
-//    public HtmlEditor(SpellChecker spellChecker) {
-//        this.spellChecker = spellChecker;
-//        document = new HtmlDocument();
-//        document.init();
-//
-//        this.filePath = null;
-//        this.history = new CommandHistory();
-//        this.showId = true;
-//        this.parser = new JsoupFileParser();
-//    }
-//
-//    public HtmlEditor(HtmlDocument document, CommandHistory history, String filePath, Boolean showId, SpellChecker spellChecker) {
-//        this.document = document;
-//        this.history = history;
-//        this.filePath = filePath;
-//        this.showId = showId;
-//        this.spellChecker = spellChecker;
-//        this.parser =  new JsoupFileParser();
-//    }
-//
-    public HtmlEditor(SpellChecker spellChecker, HtmlFileParser fileParser, String filePath, Boolean showId) {
+    public HtmlEditor(SpellChecker spellChecker, HtmlFileParser fileParser, String filePath, Boolean showId, HtmlTreeVisitor visitor) {
         this.spellChecker = spellChecker;
         this.parser = fileParser;
         this.filePath = filePath;
         this.document = parser.readHtmlFromFile(filePath);
         this.history = new CommandHistory();
         this.showId = showId;
+        this.visitor = visitor;
     }
 
     public HtmlElement getElementById(String id) {
@@ -113,7 +88,7 @@ public class HtmlEditor {
     }
 
     public void printTree() {
-        IrrevocableCommand cmd = new PrintTreeCommand(document, showId);
+        IrrevocableCommand cmd = new PrintTreeCommand(document, showId, visitor);
         history.executeCommand(cmd);
     }
 
