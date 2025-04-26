@@ -40,6 +40,10 @@ public abstract class TreePrintVisitor implements Visitor {
         return output.toString();
     }
 
+    public void clearOutput() {
+        output.setLength(0);
+    }
+
     @Override
     public abstract void visit(LeafTreeNode node);
 

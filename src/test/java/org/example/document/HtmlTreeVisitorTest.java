@@ -36,9 +36,9 @@ class HtmlTreeVisitorTest {
         // 执行测试
         visitor.visit(element);
 
-        // 验证输出 (假设TreePrintVisitor有获取结果的方法)
         String result = visitor.getOutput();
-        assertEquals("html#container", result.trim());
+        assertEquals("html#container\n" +
+                "└── Sample content", result.trim());
     }
 
     @Test

@@ -19,13 +19,15 @@ public class JsoupFileParser implements HtmlFileParser {
      * @return htmlDocument
      */
     @Override
-    public HtmlDocument parse(String html, HtmlDocument htmlDocument) {
+    public HtmlDocument parse(String html) {
         Document jsoupDoc = Jsoup.parse(html, "", Parser.xmlParser());
 
         validateDocumentStructure(jsoupDoc);
 
         Element jsoupRootElement = jsoupDoc.select("html").first();
         assert jsoupRootElement != null;
+
+        HtmlDocument htmlDocument = new HtmlDocument();
         HtmlElement htmlRootElement = parseElement(jsoupRootElement, null, htmlDocument);
         htmlDocument.setRoot(htmlRootElement);
 

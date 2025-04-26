@@ -1,5 +1,6 @@
 package org.example.editor;
 
+import org.example.document.HtmlDocument;
 import org.example.document.HtmlTreeVisitor;
 import org.example.tools.htmlparser.FileParserService;
 import org.example.tools.htmlparser.HtmlFileParser;
@@ -26,6 +27,7 @@ public class EditorFactory {
     }
 
     public HtmlEditor createEditor(String filePath, Boolean showId) {
-        return new HtmlEditor(spellChecker, fileParser, filePath, showId, visitor, commandHistory);
+        HtmlDocument document = fileParser.readHtmlFromFile(filePath);
+        return new HtmlEditor(spellChecker, fileParser, filePath, showId, visitor, commandHistory, document);
     }
 }

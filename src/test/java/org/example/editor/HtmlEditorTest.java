@@ -30,10 +30,8 @@ class HtmlEditorTest {
         FileParserService mockFileParser = mock(FileParserService.class);
         HtmlTreeVisitor mockVisitor = mock(HtmlTreeVisitor.class);
 
-        when(mockFileParser.readHtmlFromFile(TEST_FILE_PATH)).thenReturn(mockDocument);
-
         editor = new HtmlEditor(mockSpellChecker, mockFileParser, TEST_FILE_PATH,
-                true, mockVisitor, mockHistory);
+                true, mockVisitor, mockHistory, mockDocument);
     }
 
     @Test

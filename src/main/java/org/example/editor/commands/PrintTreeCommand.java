@@ -24,5 +24,6 @@ public class PrintTreeCommand implements IrrevocableCommand {
 
         document.getRoot().accept(visitor);
         System.out.println(visitor.getOutput());
+        visitor.clearOutput();
     }
 }

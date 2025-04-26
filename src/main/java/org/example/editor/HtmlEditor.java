@@ -24,11 +24,11 @@ public class HtmlEditor {
     private final HtmlTreeVisitor visitor;
 
     public HtmlEditor(SpellCheckerService spellChecker, FileParserService fileParser, String filePath,
-                      Boolean showId, HtmlTreeVisitor visitor, CommandHistory history) {
+                      Boolean showId, HtmlTreeVisitor visitor, CommandHistory history, HtmlDocument document) {
         this.spellChecker = spellChecker;
         this.parser = fileParser;
         this.filePath = filePath;
-        this.document = parser.readHtmlFromFile(filePath);
+        this.document = document;
         this.history = history;
         this.showId = showId;
         this.visitor = visitor;

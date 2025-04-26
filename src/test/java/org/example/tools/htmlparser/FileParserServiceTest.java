@@ -31,7 +31,7 @@ class FileParserServiceTest {
     void setUp() {
         mockParser = mock(HtmlFileParser.class);
         mockHtmlDocument = mock(HtmlDocument.class);
-        this.fileParserService = new FileParserService(mockParser, mockHtmlDocument);
+        this.fileParserService = new FileParserService(mockParser);
     }
 
     @TempDir
@@ -53,14 +53,14 @@ class FileParserServiceTest {
         Files.writeString(testFile, htmlContent);
 
         // 设置mock行为
-        when(mockParser.parse(htmlContent, mockHtmlDocument)).thenReturn(mockHtmlDocument);
+        when(mockParser.parse(htmlContent)).thenReturn(mockHtmlDocument);
 
         // 执行测试
         HtmlDocument result = fileParserService.readHtmlFromFile(testFile.toString());
 
         // 验证
         assertSame(mockHtmlDocument, result);
-        verify(mockParser).parse(htmlContent, mockHtmlDocument);
+        verify(mockParser).parse(htmlContent);
     }
 
     @Test

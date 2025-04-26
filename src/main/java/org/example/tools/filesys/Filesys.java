@@ -37,6 +37,7 @@ public class Filesys {
             DirectoryPrinterVisitor visitor = new DirectoryPrinterVisitor();
             root.accept(visitor);
             System.out.println(visitor.getOutput());
+            visitor.clearOutput();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

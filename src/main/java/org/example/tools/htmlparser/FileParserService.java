@@ -14,17 +14,15 @@ import java.nio.file.Paths;
 @Component
 public class FileParserService {
     private final HtmlFileParser parser;
-    private final HtmlDocument htmlDocument;
 
     @Autowired
-    public FileParserService(HtmlFileParser parser, HtmlDocument htmlDocument) {
+    public FileParserService(HtmlFileParser parser) {
         this.parser = parser;
-        this.htmlDocument = htmlDocument;
     }
 
     public HtmlDocument readHtmlFromFile(String filePath) {
         String htmlContent = readFileToString(filePath);
-        return parser.parse(htmlContent, this.htmlDocument);
+        return parser.parse(htmlContent);
     }
 
     public void saveHtmlDocumentToFile(HtmlDocument document, String filePath) {
