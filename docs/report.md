@@ -82,6 +82,10 @@ exit
       mvn test
       ```
 
+
+
+
+
 ## 三、项目结构
 
 ### 1. 文件结构
@@ -163,15 +167,18 @@ exit
 
 项目中使用了以下外部依赖：
 
-| **依赖名称**                                                 | **用途**            | **Scope**              |
-| ------------------------------------------------------------ | ------------------- | ---------------------- |
-| **jsoup** <br />(org.jsoup:jsoup:1.16.1)                     | 解析Html文档        | Runtime                |
-| **LanguageTool English module** (org.languagetool:language-en:6.6) | 实现拼写检查功能    | Runtime                |
-| **logback-classic**<br /> (ch.qos.logback:logback-classic:1.4.14) | 记录运行时日志      | Runtime                |
-| **Gson**<br /> (com.google.code.gson:gson:2.10.1)            | 解析/保存编辑器状态 | Runtime                |
-| **JUnit** <br />(junit:junit 和 org.junit.jupiter:junit-jupiter) | 自动化测试          | Test                   |
-| **Mockito**<br /> (org.mockito:mockito-core, mockito-junit-jupiter) | 测试中模拟组件行为  | Test                   |
-| **Lombok**<br /> (org.projectlombok:lombok:1.18.30)          | 提高代码简洁性      | 编译期依赖，不参与打包 |
+| **依赖名称**                                                 | **用途**                                                     | **Scope**                    |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------------- |
+| **jsoup** <br />(org.jsoup:jsoup:1.16.1)                     | 解析Html文档                                                 | Runtime                      |
+| **LanguageTool English module** (org.languagetool:language-en:6.6) | 实现拼写检查功能                                             | Runtime                      |
+| **logback-classic**<br /> (ch.qos.logback:logback-classic:1.4.14) | 记录运行时日志                                               | Runtime                      |
+| **Gson**<br /> (com.google.code.gson:gson:2.10.1)            | 解析/保存编辑器状态                                          | Runtime                      |
+| **JUnit** <br />(junit:junit 和 org.junit.jupiter:junit-jupiter) | 自动化测试                                                   | Test                         |
+| **Mockito**<br /> (org.mockito:mockito-core, mockito-junit-jupiter) | 测试中模拟组件行为                                           | Test                         |
+| **Lombok**<br /> (org.projectlombok:lombok:1.18.30)          | 提高代码简洁性                                               | 编译期依赖，不参与打包       |
+| **Spring Boot Starter Parent** (org.springframework.boot:spring-boot-starter-parent:3.4.4) | 提供 Spring Boot 核心依赖管理（含自动配置、日志、内嵌容器等） | 编译期依赖管理（Parent POM） |
+| **Spring Boot Starter Test** (org.springframework.boot:spring-boot-starter-test) | 集成测试支持（含 JUnit 5、Mockito、Spring TestContext 等）   | Test                         |
+| **Spring Boot Actuator** (org.springframework.boot:spring-boot-starter-actuator) | 提供应用监控端点（如健康检查、指标收集）                     | Runtime                      |
 
 
 
@@ -179,11 +186,11 @@ exit
 
 ### 1. UML类图
 
-使用IDEA生成项目的UML类图，如图所示（请查看原图）：
+使用IDEA生成项目的主要结构的UML类图（去除了Command部分，其依赖全部由HtmlEditor类和SessionManager类注入），如图所示：
 
 ![diagram](pic/diagram.png)
 
-<div style="page-break-after: always;"></div>
+
 
 仅包含继承关系的图：
 
@@ -195,7 +202,7 @@ exit
 
 ![beanDI](pic/beanDI.png)
 
-
+<div style="page-break-after: always;"></div>
 
 ### 2. 文字说明
 
@@ -267,18 +274,19 @@ exit
     - 具体继承关系请见前面的图。
   - **filesys**：支持工作目录树形结构打印。
     - 继承treeprinter的类。
-  - **htmlparser**：进行html文件和自定义的document数据结构之间的转换。
+  - htmlparser：进行html文件和自定义的document数据结构之间的转换。
     - **HtmlFileParser**：接口类，定义 `parser` 和 `rebuild` 两个方法。
     - **JsoupFileParser**：用Jsoup实现HtmlFileParser
     - **FileParserService**：调用HtmlFileParser的接口，处理文件IO和具体逻辑。
-  - **SessionStateSaver**：将程序状态保存成json文件，实现持久化。
-    - **SessionStateService**：接口类
-    - **GsonStateService**：用Gson实现SessionStateService
+  - SessionStateSaver：将程序状态保存成json文件，实现持久化。
+    - **JsonParser**：接口类，定义 `toJson` 和 `fromJson` 方法。
+    - **GsonParser**：用Gson实现 JsonParser
     - **SessionState**：SessionState的数据结构
-  - **SpellChecker**：进行文本的语法检查。
+    - **SessionStateService**：调用JsonParser接口，处理文件IO和保存逻辑。
+  - SpellChecker：进行文本的语法检查。
     - **SpellChecker**：接口类，定义`checkText` 接口
     - **JLanguageChecker**：用JLanguageChecker实现SpellChecker.
-    - 
+    - **SpellCheckerService**：调用SpellChecker接口，处理具体逻辑。
 
 <div style="page-break-after: always;"></div>
 
@@ -323,10 +331,10 @@ exit
 
 ##### 模式结构：
 
-- **Command 接口**：定义了三种不同的命令接口：Command、IrrevocableCommand、SessionCommand
+- **Command 接口**：定义了两种不同的命令接口：Command和IrrevocableCommand
+  
   - Command：可撤回的Editor层命令接口
-  - IrrevocableCommand：不可撤回的Editor层命令接口
-  - SessionCommand：不可撤回的Session层接口
+  - IrrevocableCommand：不可撤回的命令接口，其中既有Editor相关命令，也有SessionManager处理的命令。
 
 - **ConcreteCommand（具体命令类）**：如图所示：
 
@@ -341,10 +349,67 @@ exit
   - Session层：SessionManager
 
 - **Client（客户端）**：
+  
   - Editor层：Editor
   - Session层：SessionManager（Session层不需要管理命令的redo和undo，因此简化逻辑，合并Client和Invoker）
 
----
+
+
+#### 工厂模式
+
+为了管理 HtmlEditor 的创建过程，并解耦对象的构建逻辑与使用逻辑，我采用了 **Factory 模式**。该模式通过将 HtmlEditor 的创建封装在 EditorFactory 中，避免了客户端代码直接依赖复杂的初始化细节，从而提高了代码的可维护性与扩展性。
+
+**模式结构：**
+
+- **Factory 类**：由 EditorFactory 负责实现。
+
+- 功能说明：
+  - EditorFactory 作为组件类（使用 @Component 标注），通过依赖注入（@Autowired）持有 SpellCheckerService、FileParserService、HtmlTreeVisitor 等必要依赖。
+  - EditorFactory 在 createEditor 方法中，根据给定的文件路径和是否显示 ID 的选项，组装并返回一个新的 HtmlEditor 对象。
+  - 通过使用 Spring 的 ObjectProvider，在每次创建新的 HtmlEditor 时动态地提供新的 HtmlDocument 和 CommandHistory 实例，避免了状态共享导致的污染问题。
+
+![factory](pic/factory.png)
+
+**优点总结：**
+
+- **简化调用**：调用者无需关心 HtmlEditor 初始化时需要准备哪些依赖，只需调用 createEditor 并传入必要参数即可。
+
+- **增强可扩展性**：如果未来需要更换 HtmlEditor 的依赖组件或初始化流程，只需修改 EditorFactory，而不需要修改所有创建 HtmlEditor 的地方。
+
+- **提高模块化程度**：通过工厂方法隐藏了对象构建的细节，使得代码符合单一职责原则（SRP）。
+
+- **统一依赖管理**：由于 EditorFactory 自身作为 Spring Bean，可以通过自动注入的方式获得外部依赖（如 SpellCheckerService、FileParserService），从而避免了在创建 HtmlEditor 时手动 new 各种依赖的繁琐过程，使得依赖关系清晰且易于维护。
+
+<div style="page-break-after: always;"></div>
+
+#### 接口管理与依赖注入
+
+为了提高系统的模块化与扩展性，我通过设计接口的方式隔离了具体实现，并结合 Spring 的自动注入机制，简化了依赖管理与具体实现的替换过程。
+
+这里以HtmlFileParser进行介绍，实际上SpellCheck、SessionStateSaver等模块也使用了这种模式。
+
+**模式结构：**
+
+- 接口定义：**HtmlFileParser**
+  - 统一定义了解析 HTML 字符串到 HtmlDocument 对象，以及从 HtmlDocument 重建 HTML 字符串的标准操作。
+
+- 具体实现类：**JsoupFileParser**
+  - 基于 Jsoup 库，提供了具体的解析与重建逻辑，并符合接口规范。
+
+- 服务封装类：**FileParserService**
+  - 通过组合 HtmlFileParser 接口，封装了文件 IO 与解析重建操作，将文件操作与 HTML 结构操作解耦。
+
+<img src="pic/DI.png" alt="DI" style="zoom:30%;" />
+
+**优点总结：**
+
+- **解耦调用与实现**：在业务代码中，只依赖 HtmlFileParser 接口，不关心其具体实现。未来如果需要更换解析器（如换用其他 HTML 解析库），只需新增一个实现类并修改注入配置，无需改动调用逻辑。
+
+- **方便扩展与替换**：接口提供了统一的调用标准，可以轻松扩展新的实现。例如，可以添加一个简化版的解析器用于测试或处理特殊场景。
+
+- **统一依赖管理**：通过将 HtmlFileParser 实现为 Spring Bean（@Component），并在 FileParserService 中使用 @Autowired 自动注入，避免了手动 new 对象的繁琐，增强了依赖关系的可维护性。
+
+-  **职责清晰**：接口专注于定义功能规范，实现类专注于具体逻辑，而服务类（FileParserService）专注于对外提供稳定统一的功能接口，符合单一职责原则（SRP）。
 
 ### 2. 其他设计决策
 
