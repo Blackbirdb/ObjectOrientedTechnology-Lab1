@@ -20,9 +20,9 @@ public class FileParserService {
         this.parser = parser;
     }
 
-    public HtmlDocument readHtmlFromFile(String filePath) {
+    public void readHtmlFromFile(String filePath, HtmlDocument document) {
         String htmlContent = readFileToString(filePath);
-        return parser.parse(htmlContent);
+        parser.parse(htmlContent, document);
     }
 
     public void saveHtmlDocumentToFile(HtmlDocument document, String filePath) {

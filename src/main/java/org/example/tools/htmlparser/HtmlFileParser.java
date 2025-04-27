@@ -4,5 +4,5 @@ import org.example.document.HtmlDocument;
 
 public interface HtmlFileParser {
     String rebuild(HtmlDocument myDocument);
-    HtmlDocument parse(String html);
+    void parse(String html, HtmlDocument document);
 }

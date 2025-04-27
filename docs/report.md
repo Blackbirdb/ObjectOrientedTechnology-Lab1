@@ -63,7 +63,7 @@ exit
 - **运行程序**：
 
     - 通过IDE直接运行，或：
-        
+      
     - 在命令行中运行 `Main.java`：
 
         ```bash
@@ -89,67 +89,72 @@ exit
 项目结构如下：
 
 ```
-├── Main.java 											// 程序运行入口
-├── cli															// 命令行界面
-│   └── CommandLineInterface.java	
-├── document												// Html文档模型。包含Html文档、两种节点、工厂和访问者。
-│   ├── HtmlDocument.java
-│   ├── HtmlElement.java
-│   ├── HtmlTextNode.java	
-│   └── HtmlTreeVisitor.java
+.
+├── AppConfig.java	// 配置
+├── Main.java				// 运行入口
+├── cli							// 命令行界面
+│   └── CommandLineInterface.java
+├── commands				// Command接口和具体实现。
+│   ├── AppendElementCommand.java
+│   ├── CloseCommand.java
+│   ├── Command.java								// 可撤回的命令(interface)
+│   ├── DeleteElementCommand.java
+│   ├── DirTreeCommand.java
+│   ├── EditIdCommand.java
+│   ├── EditTextCommand.java
+│   ├── EditorListCommand.java
+│   ├── InsertElementCommand.java
+│   ├── IrrevocableCommand.java			// 不可撤回的命令(interface)
+│   ├── LoadFileCommand.java
+│   ├── LoadSessionCommand.java
+│   ├── PrintTreeCommand.java
+│   ├── SaveActiveEditor.java
+│   ├── SaveFileCommand.java
+│   ├── SaveSessionCommand.java
+│   ├── SetShowIdCommand.java
+│   ├── SpellCheckCommand.java
+│   └── SwitchEditorCommand.java
+├── document												// Html文档模型。包含Html文档、两种节点和访问者。
+│   ├── HtmlDocument.java
+│   ├── HtmlElement.java
+│   ├── HtmlTextNode.java
+│   └── HtmlTreeVisitor.java
 ├── editor													// editor包实现了命令模式，对document(Receiver)进行操作。
-│   ├── CommandHistory.java					// Invoker，持有命令对象，并维护undo/redo stack实现相关操作。
-│   ├── HtmlEditor.java							// Client，组装对象，向外提供不同方法的接口。
-│   └── commands										// Command接口和具体实现。
-│       ├── AppendElementCommand.java
-│       ├── Command.java						// 普通命令(interface)
-│       ├── DeleteElementCommand.java
-│       ├── EditIdCommand.java
-│       ├── EditTextCommand.java
-│       ├── InsertElementCommand.java
-│       ├── IrrevocableCommand.java	// 不可撤回的命令(interface)
-│       ├── PrintTreeCommand.java
-│       ├── SaveFileCommand.java
-│       └── SpellCheckCommand.java
+│   ├── CommandHistory.java					// Invoker，持有命令对象，并维护undo/redo stack实现相关操作。
+│   ├── EditorFactory.java					// Editor的工厂类，用于装配Editor与通过Bean注入的外部服务。
+│   └── HtmlEditor.java							// Client，组装对象，向外提供不同方法的接口。
 ├── session													// session管理
-│   ├── Session.java								// Receiver，储存openEditors、activeEditor等信息
-│   ├── SessionManager.java					// Invoker，调用command执行命令
-│   └── commands
-│       ├── CloseCommand.java
-│       ├── DirTreeCommand.java
-│       ├── EditorListCommand.java
-│       ├── LoadFileCommand.java
-│       ├── LoadSessionCommand.java
-│       ├── SaveFileCommand.java
-│       ├── SaveSessionCommand.java
-│       ├── SessionCommand.java			// abstract command
-│       ├── SetShowIdCommand.java
-│       └── SwitchEditorCommand.java
-└── tools														// 支持command的具体实现
+│   ├── Session.java								// Receiver，储存openEditors、activeEditor等信息
+│   └── SessionManager.java					// Invoker，调用command执行命令
+└── tools
     ├── SessionStateSaver						// 用于在进入时加载状态、退出时保存状态
+    │   ├── GsonStateService.java			// 使用Gson的接口实现
     │   ├── SessionState.java
-    │   └── SessionStateSaver.java
-    ├── filesys											// 用于打印当前工作目录的树形结构
+    │   └── SessionStateService.java	// 接口
+    ├── filesys											// 用于dir-tree命令，没有依赖外部服务
     │   ├── DirectoryNode.java
     │   ├── DirectoryPrinterVisitor.java
     │   ├── FileNode.java
     │   └── Filesys.java
     ├── htmlparser									// 用于读入和保存html文档
-    │   ├── HtmlFileParser.java
-    │   └── HtmlParserUtils.java
-    ├── spellchecker
-    │   ├── SpellCheckUtils.java
-    │   └── SpellChecker.java
-    ├── treeprinter									// 定义可复用的树形结构打印器。dir-tree和print-tree的实现
-    │   ├── InnerTreeNode.java			// 都是对这里定义的数据结构的继承。
+    │   ├── FileParserService.java	// 调用接口，实现保存/读入文件的逻辑
+    │   ├── HtmlFileParser.java			// 接口
+    │   └── JsoupFileParser.java		// 使用Jsoup的接口实现
+    ├── spellchecker								// 拼写检查
+    │   ├── JLanguageChecker.java		// 使用JLanguageChecker的接口实现
+    │   ├── SpellChecker.java				// 接口
+    │   └── SpellCheckerService.java	// 调用接口，实现拼写检查逻辑
+    ├── treeprinter									// 定义可复用的树形结构打印器，具体打印逻辑由HtmlTreeVisitor和
+    │   ├── InnerTreeNode.java			// DirectoryPrinterVisitor 实现
     │   ├── LeafTreeNode.java
     │   ├── TreeNode.java
-    │   ├── TreePrintVisitor.java		
-    │   └── Visitor.java						// visitor interface
+    │   ├── TreePrintVisitor.java
+    │   └── Visitor.java
     └── utils
         ├── CommandTable.java
         ├── PathUtils.java
         └── PrintTreeUtils.java
+
 ```
 
 
@@ -178,13 +183,17 @@ exit
 
 ![diagram](pic/diagram.png)
 
-
-
 <div style="page-break-after: always;"></div>
 
 仅包含继承关系的图：
 
 ![inherit](pic/inherit.png)
+
+
+
+使用Spring Bean管理的依赖：
+
+![beanDI](pic/beanDI.png)
 
 
 
@@ -194,60 +203,60 @@ exit
 
   - **Main**：启动类，初始化 CommandLineInterface 并启动程序。
 
-  - **CommandLineInterface**：负责读取、解析用户命令，并委托执行。
-
-    依赖：
-
-    - SessionManager
-
+  - **CommandLineInterface**：负责读取、解析用户命令，并委托执行。依赖：
     - CommandTable
+    - 由Bean管理的依赖：
+      - SessionManager
 
 - Session管理
   - **SessionManager**：操作Session模块，管理当前会话。依赖：
-    - Session
-    - （Session模块下的）*Command
+    - *Command
+    - 由bean管理的依赖：
+      - SessionStateService
+      - Session
+      - Filesys
+      - SessionState
   - **Session**：管理当前Session中所有打开的编辑器。依赖：
     - HtmlEditor
-  - **SessionCommand*(Interface)***：所有session层面操作的接口。
-  - 具体SessionCommand的实现中，除了依赖Session本身以外，还有以下依赖关系：
-    - **SaveSessionCommand/LoadSessionCommand**：依赖SessionState、SessionStateSaver，进行Session的持久化。
-    - **DirTreeCommand**：依赖`FileSys`实现文件夹结构打印。
+    - 由Bean管理的依赖：
+      - EditorFactory
 
 - Html文件管理：
 
-  - **HtmlEditor**：操作`document`，管理当前文件内的操作。依赖：
-
-    - Document
-    - （Editor模块下的）*Command
+  - **HtmlEditor**：操作`document`，管理当前文件内的操作。由HtmlFactory创建并注入依赖。依赖：
+  - SpellCheckerService
+    - FileParserService
+    - HtmlTreeVisitor
     - CommandHistory：管理Command的redo/undo stack
-    - FileParser：用于从文件中读入document
+    - HtmlDocument
+  - **CommandHistory**：
+    - 管理Command的redo/undo stack，不依赖任何具体命令的实现。为Command和IrrevocableCommand两个接口提供了重载的`excecute`方法，以适应不同的命令要求。
+    - CommandHistory是`prototype`的Bean，在HtmlFactory装配Editor时进行依赖注入。
+  - **EditorFactory**：由Bean管理的工厂类，用于装配Editor。其依赖全部由Bean注入：
+    - SpellCheckerService
+    - FileParserService
+    - HtmlTreeVisitor
+    - ObjectProvider\<CommandHistory> （为每个editor获取单独的history）
+    - ObjectProvider\<HtmlDocument> （为每个editor获取单独的document）
 
-  - **CommandHistory**：管理Command的redo/undo stack，不依赖任何具体命令的实现。为Command和IrrevocableCommand两个接口提供了重载的`excecute`方法，以适应不同的命令要求。
+- Command
 
   - **Command*(Interface)* **：为所有可撤回的命令提供接口
-
   - **IrrevocableCommand*(Interface)* **：为所有不可撤回的命令提供接口
 
-  - 具体*Command的实现中，除了依赖Document本身以外，还有以下依赖关系：
-
-    - **SaveFileCommand**：依赖FileParser进行文件保存
-
-    - **PrintTreeCommand**：依赖HtmlTreeVisitor进行树形结构打印
-
-    - **SpellCheckCommand**：依赖SpellCheckUtils进行语法检查
-
-      
+  - Command包下的其他命令都继承自这两个接口；其依赖全部由Editor/SessionManager进行注入。
 
 - Html文件类：
 
   - **HtmlDocument**：管理整个Html文件的节点。依赖：
     - HtmlElement
-    - HtmlElementFactory
   - **HtmlElement**：Html节点。继承自InnerTreeNode，以实现树形结构的打印。依赖：
     - HtmlTextNode
     - InnerTreeNode
   - **HtmlTextNode**：HtmlElement下储存文本的节点。继承自LeafTreeNode，以实现树形结构打印。依赖：
     - LeafTreeNode
+  - **HtmlTreeVisitor**：定义访问HtmlTree的具体逻辑。
+    - 依赖SpellCheckService，由Bean注入。
 
 - 其他：
 
@@ -258,9 +267,18 @@ exit
     - 具体继承关系请见前面的图。
   - **filesys**：支持工作目录树形结构打印。
     - 继承treeprinter的类。
-  - **htmlparser**：依赖 Jsoup 进行html文件和自定义的document数据结构之间的转换。
-  - **SessionStateSaver**：依赖Gson，将程序状态保存成json文件，实现持久化。
-  - **SpellChecker**：依赖 JLanguageTool，进行文本的语法检查。
+  - **htmlparser**：进行html文件和自定义的document数据结构之间的转换。
+    - **HtmlFileParser**：接口类，定义 `parser` 和 `rebuild` 两个方法。
+    - **JsoupFileParser**：用Jsoup实现HtmlFileParser
+    - **FileParserService**：调用HtmlFileParser的接口，处理文件IO和具体逻辑。
+  - **SessionStateSaver**：将程序状态保存成json文件，实现持久化。
+    - **SessionStateService**：接口类
+    - **GsonStateService**：用Gson实现SessionStateService
+    - **SessionState**：SessionState的数据结构
+  - **SpellChecker**：进行文本的语法检查。
+    - **SpellChecker**：接口类，定义`checkText` 接口
+    - **JLanguageChecker**：用JLanguageChecker实现SpellChecker.
+    - 
 
 <div style="page-break-after: always;"></div>
 

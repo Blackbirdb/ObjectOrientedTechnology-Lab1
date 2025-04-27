@@ -1,25 +1,13 @@
 package org.example.cli;
 
-import org.example.document.HtmlDocument;
-import org.example.document.HtmlTreeVisitor;
-import org.example.editor.CommandHistory;
-import org.example.editor.EditorFactory;
-import org.example.editor.HtmlEditor;
-import org.example.session.Session;
 import org.example.session.SessionManager;
-import org.example.tools.SessionStateSaver.GsonStateService;
-import org.example.tools.SessionStateSaver.SessionState;
-import org.example.tools.SessionStateSaver.SessionStateService;
-import org.example.tools.filesys.Filesys;
-import org.example.tools.htmlparser.FileParserService;
-import org.example.tools.htmlparser.JsoupFileParser;
-import org.example.tools.spellchecker.JLanguageChecker;
-import org.example.tools.spellchecker.SpellCheckerService;
 import org.example.tools.utils.CommandTable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,22 +20,14 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class IntegratedTest {
 
     private final InputStream originalIn = System.in;
     private final PrintStream originalOut = System.out;
     private ByteArrayOutputStream outputStream;
-    private final JsoupFileParser jsoupFileParser = new JsoupFileParser();
-    private final FileParserService fileParserService = new FileParserService(jsoupFileParser);
-    private final JLanguageChecker jLanguageChecker = new JLanguageChecker();
-    private final SpellCheckerService spellCheckerService = new SpellCheckerService(jLanguageChecker);
-    private final HtmlTreeVisitor htmlTreeVisitor = new HtmlTreeVisitor(spellCheckerService);
-    private final SessionStateService service = new GsonStateService();
-    private final Filesys filesys = new Filesys();
-    private final SessionState state = new SessionState();
-    private final SessionManager sessionManager = new SessionManager(
-            new Session(new EditorFactory(spellCheckerService, fileParserService, htmlTreeVisitor,new CommandHistory())),
-            service, filesys, state);
+
+    @Autowired private SessionManager sessionManager;
 
     @TempDir
     Path tempDir;
@@ -87,6 +67,7 @@ class IntegratedTest {
         // Reset System.in and System.out
         System.setIn(originalIn);
         System.setOut(originalOut);
+        sessionManager.setCwd(null);
     }
 
     @Test
@@ -102,12 +83,13 @@ class IntegratedTest {
         cli.start();
 
         assertTrue(sessionManager.cwdIsSet());
-        assertTrue(outputStream.toString().contains("Current working directory"));
+        System.out.println(System.getProperty("user.dir"));
         assertTrue(outputStream.toString().contains(System.getProperty("user.dir")));
     }
 
     @Test
-    void testStartWithCustomDirectory() {
+    void testStartWithCustomDirectory() throws IOException {
+        Files.deleteIfExists(Paths.get("session.json"));
         String testDir = tempDir.toString();
         String input = testDir + "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));

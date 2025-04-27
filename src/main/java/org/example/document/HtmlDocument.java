@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 // receiver
+@Component
+@Scope("prototype")
 public class HtmlDocument {
     @Getter
     @Setter

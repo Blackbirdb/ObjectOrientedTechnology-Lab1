@@ -52,15 +52,9 @@ class FileParserServiceTest {
                 """;
         Files.writeString(testFile, htmlContent);
 
-        // 设置mock行为
-        when(mockParser.parse(htmlContent)).thenReturn(mockHtmlDocument);
+        fileParserService.readHtmlFromFile(testFile.toString(), mockHtmlDocument);
 
-        // 执行测试
-        HtmlDocument result = fileParserService.readHtmlFromFile(testFile.toString());
-
-        // 验证
-        assertSame(mockHtmlDocument, result);
-        verify(mockParser).parse(htmlContent);
+        verify(mockParser).parse(htmlContent, mockHtmlDocument);
     }
 
     @Test
@@ -68,7 +62,7 @@ class FileParserServiceTest {
         String nonExistPath = tempDir.resolve("nonexist.html").toString();
 
         RuntimeException exception = assertThrows(RuntimeException.class,
-                () -> fileParserService.readHtmlFromFile(nonExistPath));
+                () -> fileParserService.readHtmlFromFile(nonExistPath, mockHtmlDocument));
 
         assertTrue(exception.getCause() instanceof IOException);
     }
