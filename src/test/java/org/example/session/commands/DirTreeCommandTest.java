@@ -1,5 +1,6 @@
 package org.example.session.commands;
 
+import org.example.commands.DirTreeCommand;
 import org.example.session.Session;
 import org.example.tools.filesys.Filesys;
 import org.junit.jupiter.api.BeforeEach;

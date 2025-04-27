@@ -1,8 +1,5 @@
 package org.example.tools.spellchecker;
 
-import org.example.document.HtmlDocument;
-import org.example.document.HtmlElement;
-import org.example.editor.commands.SpellCheckCommand;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;

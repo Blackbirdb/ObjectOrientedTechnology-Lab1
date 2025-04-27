@@ -1,7 +1,9 @@
 package org.example.session;
 
 import jakarta.annotation.PostConstruct;
-import org.example.session.commands.*;
+import org.example.commands.*;
+import org.example.commands.SaveActiveEditor;
+import org.example.tools.SessionStateSaver.SessionState;
 import org.example.tools.SessionStateSaver.SessionStateService;
 import org.example.tools.filesys.Filesys;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +14,14 @@ public class SessionManager {
     private final Session session;
     private final SessionStateService sessionStateService;
     private final Filesys filesys;
+    private final SessionState state;
 
     @Autowired
-    public SessionManager(Session session, SessionStateService sessionStateService, Filesys filesys) {
+    public SessionManager(Session session, SessionStateService sessionStateService, Filesys filesys, SessionState state) {
         this.session = session;
         this.sessionStateService = sessionStateService;
         this.filesys = filesys;
+        this.state = state;
     }
 
     @PostConstruct
@@ -29,7 +33,7 @@ public class SessionManager {
 
     // prints the directory tree of the current working directory.
     public void dirTree() {
-        SessionCommand cmd = new DirTreeCommand(session, filesys);
+        IrrevocableCommand cmd = new DirTreeCommand(session, filesys);
         cmd.execute();
     }
 
@@ -38,7 +42,7 @@ public class SessionManager {
      * If fileName does not exist, create one and init with default.html
      */
     public void loadFile(String fileName) {
-        SessionCommand cmd = new LoadFileCommand(session, fileName);
+        IrrevocableCommand cmd = new LoadFileCommand(session, fileName);
         cmd.execute();
     }
 
@@ -47,7 +51,7 @@ public class SessionManager {
      * saves active file to the file specified by fileName
      */
     public void saveFile(String fileName) {
-        SessionCommand cmd = new SaveFileCommand(session, fileName);
+        IrrevocableCommand cmd = new SaveActiveEditor(session, fileName);
         cmd.execute();
     }
 
@@ -56,32 +60,32 @@ public class SessionManager {
      * saves to the same file as opened.
      */
     public void close() {
-        SessionCommand cmd = new CloseCommand(session);
+        IrrevocableCommand cmd = new CloseCommand(session);
         cmd.execute();
     }
 
     public void editorList() {
-        SessionCommand cmd = new EditorListCommand(session);
+        IrrevocableCommand cmd = new EditorListCommand(session);
         cmd.execute();
     }
 
     public void switchEditor(String fileName) {
-        SessionCommand cmd = new SwitchEditorCommand(session, fileName);
+        IrrevocableCommand cmd = new SwitchEditorCommand(session, fileName);
         cmd.execute();
     }
 
     public void setShowId(boolean showId) {
-        SessionCommand cmd = new SetShowIdCommand(session, showId);
+        IrrevocableCommand cmd = new SetShowIdCommand(session, showId);
         cmd.execute();
     }
 
     public void saveSession() {
-        SessionCommand cmd = new SaveSessionCommand(session, sessionStateService);
+        IrrevocableCommand cmd = new SaveSessionCommand(session, sessionStateService, state);
         cmd.execute();
     }
 
     public void loadSession() {
-        SessionCommand cmd = new LoadSessionCommand(session, sessionStateService);
+        IrrevocableCommand cmd = new LoadSessionCommand(session, sessionStateService);
         cmd.execute();
     }
 

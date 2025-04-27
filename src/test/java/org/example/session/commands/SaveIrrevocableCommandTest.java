@@ -1,8 +1,8 @@
 package org.example.session.commands;
 
+import org.example.commands.SaveSessionCommand;
 import org.example.session.Session;
 import org.example.tools.SessionStateSaver.SessionState;
-import org.example.tools.SessionStateSaver.GsonStateService;
 import org.example.tools.SessionStateSaver.SessionStateService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,16 +16,18 @@ import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
-class SaveSessionCommandTest {
+class SaveIrrevocableCommandTest {
     private Session session;
     private SessionStateService service;
     private SaveSessionCommand command;
+    private SessionState state;
 
     @BeforeEach
     void setUp() {
         session = mock(Session.class);
         service = mock(SessionStateService.class);
-        command = new SaveSessionCommand(session, service);
+        state = mock(SessionState.class);
+        command = new SaveSessionCommand(session, service, state);
     }
 
     @AfterEach

@@ -1,5 +1,6 @@
 package org.example.editor.commands;
 
+import org.example.commands.DeleteElementCommand;
 import org.example.document.HtmlDocument;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -8,6 +8,7 @@ import org.example.editor.HtmlEditor;
 import org.example.session.Session;
 import org.example.session.SessionManager;
 import org.example.tools.SessionStateSaver.GsonStateService;
+import org.example.tools.SessionStateSaver.SessionState;
 import org.example.tools.SessionStateSaver.SessionStateService;
 import org.example.tools.filesys.Filesys;
 import org.example.tools.htmlparser.FileParserService;
@@ -43,9 +44,10 @@ class IntegratedTest {
     private final HtmlTreeVisitor htmlTreeVisitor = new HtmlTreeVisitor(spellCheckerService);
     private final SessionStateService service = new GsonStateService();
     private final Filesys filesys = new Filesys();
+    private final SessionState state = new SessionState();
     private final SessionManager sessionManager = new SessionManager(
             new Session(new EditorFactory(spellCheckerService, fileParserService, htmlTreeVisitor,new CommandHistory())),
-            service, filesys);
+            service, filesys, state);
 
     @TempDir
     Path tempDir;

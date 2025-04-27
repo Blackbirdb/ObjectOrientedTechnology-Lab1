@@ -1,10 +1,10 @@
-package org.example.session.commands;
+package org.example.commands;
 
 import org.example.session.Session;
 
 import java.util.Scanner;
 
-public class CloseCommand implements SessionCommand {
+public class CloseCommand implements IrrevocableCommand {
     private final Session session;
 
     public CloseCommand(Session session) {

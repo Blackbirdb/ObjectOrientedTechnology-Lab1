@@ -1,11 +1,8 @@
-package org.example.session.commands;
+package org.example.commands;
 
-import org.example.editor.HtmlEditor;
 import org.example.session.Session;
 
-import java.util.Map;
-
-public class EditorListCommand implements SessionCommand{
+public class EditorListCommand implements IrrevocableCommand {
     private final Session session;
 
     public EditorListCommand(Session session) {

@@ -1,8 +1,7 @@
-package org.example.editor.commands;
+package org.example.commands;
 
 import lombok.NonNull;
 import org.example.document.HtmlDocument;
-import org.example.document.HtmlElement;
 
 public class InsertElementCommand implements Command {
     private final HtmlDocument document;

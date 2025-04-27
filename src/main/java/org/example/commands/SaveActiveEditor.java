@@ -1,12 +1,12 @@
-package org.example.session.commands;
+package org.example.commands;
 
 import org.example.session.Session;
 
-public class SaveFileCommand implements SessionCommand{
+public class SaveActiveEditor implements IrrevocableCommand {
     private final Session session;
     private final String fileName;
 
-    public SaveFileCommand(Session session, String fileName) {
+    public SaveActiveEditor(Session session, String fileName) {
         this.session = session;
         this.fileName = fileName;
     }

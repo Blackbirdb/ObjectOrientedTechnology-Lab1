@@ -1,5 +1,6 @@
 package org.example.session.commands;
 
+import org.example.commands.LoadSessionCommand;
 import org.example.tools.SessionStateSaver.SessionStateService;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
-class LoadSessionCommandTest {
+class LoadIrrevocableCommandTest {
     private Session session;
     private SessionStateService service;
     private LoadSessionCommand command;

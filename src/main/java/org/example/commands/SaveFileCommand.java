@@ -1,9 +1,7 @@
-package org.example.editor.commands;
+package org.example.commands;
 
 import org.example.document.HtmlDocument;
 import org.example.tools.htmlparser.FileParserService;
-import org.example.tools.htmlparser.HtmlFileParser;
-import org.example.tools.htmlparser.JsoupFileParser;
 
 public class SaveFileCommand implements IrrevocableCommand {
     private final HtmlDocument document;

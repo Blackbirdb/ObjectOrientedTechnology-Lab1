@@ -1,13 +1,12 @@
 package org.example.session.commands;
 
+import org.example.commands.CloseCommand;
 import org.example.session.Session;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
-import java.util.Collections;
-import java.util.Scanner;
-import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.*;
 
 class CloseCommandTest {

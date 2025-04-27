@@ -1,8 +1,8 @@
-package org.example.session.commands;
+package org.example.commands;
 
 import org.example.session.Session;
 
-public class SwitchEditorCommand implements SessionCommand{
+public class SwitchEditorCommand implements IrrevocableCommand {
     private final Session session;
     private final String fileName;
 

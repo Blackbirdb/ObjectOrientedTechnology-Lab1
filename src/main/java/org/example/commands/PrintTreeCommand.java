@@ -1,9 +1,7 @@
-package org.example.editor.commands;
+package org.example.commands;
 
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlTreeVisitor;
-import org.example.tools.spellchecker.SpellChecker;
-import org.example.tools.treeprinter.Visitor;
 
 
 public class PrintTreeCommand implements IrrevocableCommand {

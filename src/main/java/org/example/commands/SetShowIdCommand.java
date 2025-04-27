@@ -1,8 +1,8 @@
-package org.example.session.commands;
+package org.example.commands;
 
 import org.example.session.Session;
 
-public class SetShowIdCommand implements SessionCommand{
+public class SetShowIdCommand implements IrrevocableCommand {
     private final Session session;
     private final boolean showId;
 

@@ -1,17 +1,13 @@
 package org.example.session.commands;
 
-import org.example.editor.HtmlEditor;
+import org.example.commands.LoadFileCommand;
 import org.example.session.Session;
-import org.example.tools.utils.PathUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

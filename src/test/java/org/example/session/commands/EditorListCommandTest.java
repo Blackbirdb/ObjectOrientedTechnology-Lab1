@@ -1,5 +1,6 @@
 package org.example.session.commands;
 
+import org.example.commands.EditorListCommand;
 import org.example.session.Session;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

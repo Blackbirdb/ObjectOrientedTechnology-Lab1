@@ -1,8 +1,7 @@
 package org.example.editor;
 
-import org.example.editor.commands.Command;
-import org.example.editor.commands.IrrevocableCommand;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.example.commands.Command;
+import org.example.commands.IrrevocableCommand;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 

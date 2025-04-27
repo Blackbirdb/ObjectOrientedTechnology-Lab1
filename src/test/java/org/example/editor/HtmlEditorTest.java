@@ -1,12 +1,10 @@
 package org.example.editor;
 
+import org.example.commands.*;
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 import org.example.document.HtmlTreeVisitor;
-import org.example.editor.commands.*;
 import org.example.tools.htmlparser.FileParserService;
-import org.example.tools.htmlparser.HtmlFileParser;
-import org.example.tools.spellchecker.SpellChecker;
 import org.example.tools.spellchecker.SpellCheckerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

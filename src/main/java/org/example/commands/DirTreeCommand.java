@@ -1,4 +1,4 @@
-package org.example.session.commands;
+package org.example.commands;
 
 import org.example.session.Session;
 import org.example.tools.filesys.Filesys;
@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 
-public class DirTreeCommand implements SessionCommand {
+public class DirTreeCommand implements IrrevocableCommand {
     private final Session session;
     private final Filesys filesys;
 

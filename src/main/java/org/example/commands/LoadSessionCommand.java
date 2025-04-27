@@ -1,11 +1,11 @@
-package org.example.session.commands;
+package org.example.commands;
 
 import org.example.tools.SessionStateSaver.SessionState;
 import org.example.session.Session;
 import org.example.tools.SessionStateSaver.SessionStateService;
 import org.example.tools.utils.PathUtils;
 
-public class LoadSessionCommand implements SessionCommand{
+public class LoadSessionCommand implements IrrevocableCommand {
     private final Session session;
     private final SessionStateService sessionStateService;
 

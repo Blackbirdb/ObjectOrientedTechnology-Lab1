@@ -1,5 +1,6 @@
 package org.example.editor.commands;
 
+import org.example.commands.EditIdCommand;
 import org.example.document.HtmlDocument;
 import org.example.document.HtmlElement;
 import org.junit.jupiter.api.BeforeEach;

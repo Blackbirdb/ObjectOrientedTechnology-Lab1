@@ -1,7 +1,7 @@
 package org.example.editor;
 
-import org.example.editor.commands.Command;
-import org.example.editor.commands.IrrevocableCommand;
+import org.example.commands.Command;
+import org.example.commands.IrrevocableCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
