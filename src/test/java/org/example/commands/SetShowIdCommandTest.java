@@ -1,4 +1,4 @@
-package org.example.session.commands;
+package org.example.commands;
 
 import org.example.commands.SetShowIdCommand;
 import org.example.session.Session;

@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 // receiver
+@Getter
 @Component
 @Scope("prototype")
 public class HtmlDocument {
-    @Getter
     @Setter
     private HtmlElement root;
-    @Getter private final Map<String, HtmlElement> idToElementMap;
+    private final Map<String, HtmlElement> idToElementMap;
 
     public HtmlDocument() {
         this.idToElementMap = new HashMap<>();

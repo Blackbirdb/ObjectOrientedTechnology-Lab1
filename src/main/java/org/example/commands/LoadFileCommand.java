@@ -1,6 +1,7 @@
 package org.example.commands;
 
 import org.example.session.Session;
+import org.example.tools.utils.PathUtils;
 
 public class LoadFileCommand implements IrrevocableCommand {
     private final Session session;
@@ -17,6 +18,10 @@ public class LoadFileCommand implements IrrevocableCommand {
             throw new IllegalArgumentException(fileName + " is already opened");
         }
         String filePath = session.getPathFromName(fileName);
+
+        if (!PathUtils.fileExists(filePath)) {
+            throw new IllegalArgumentException("File not found: " + filePath);
+        }
 
         session.loadEditor(filePath, fileName, true);
 

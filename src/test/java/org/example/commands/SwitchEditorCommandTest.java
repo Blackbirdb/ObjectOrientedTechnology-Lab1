@@ -1,4 +1,4 @@
-package org.example.session.commands;
+package org.example.commands;
 
 import org.example.commands.SwitchEditorCommand;
 import org.example.session.Session;

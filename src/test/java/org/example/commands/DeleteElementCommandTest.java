@@ -1,4 +1,4 @@
-package org.example.editor.commands;
+package org.example.commands;
 
 import org.example.commands.DeleteElementCommand;
 import org.example.document.HtmlDocument;

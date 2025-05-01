@@ -120,10 +120,6 @@ public class Session {
     public void loadEditor(String filePath, String fileName, boolean showId){
         HtmlEditor editor;
 
-        if (!PathUtils.fileExists(filePath)) {
-            throw new IllegalArgumentException("File not found: " + filePath);
-        }
-
         editor = editorFactory.createEditor(filePath, showId);
         addEditor(fileName, editor);
     }
